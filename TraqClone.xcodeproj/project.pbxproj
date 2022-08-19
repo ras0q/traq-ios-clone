@@ -35,6 +35,9 @@
 
 /* Begin PBXFileReference section */
 		4F1ED01C28AEBE87001411F7 /* Content */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Content; sourceTree = "<group>"; };
+		4F1ED02928AF3115001411F7 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
+		4F1ED02C28AF313E001411F7 /* Channel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Channel; sourceTree = "<group>"; };
+		4F1ED02D28AF32E0001411F7 /* Activity */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Activity; sourceTree = "<group>"; };
 		4F3EA78228AEA59E00720993 /* TraqClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraqClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3EA78528AEA59E00720993 /* TraqCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraqCloneApp.swift; sourceTree = "<group>"; };
 		4F3EA78928AEA59E00720993 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +47,9 @@
 		4F3EA79C28AEA59E00720993 /* TraqCloneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraqCloneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3EA7A028AEA59E00720993 /* TraqCloneUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraqCloneUITests.swift; sourceTree = "<group>"; };
 		4F3EA7A228AEA59E00720993 /* TraqCloneUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraqCloneUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4F67761728AF3422001313B4 /* User */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = User; sourceTree = "<group>"; };
+		4F67761828AF343C001313B4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4F67761928AF38A0001313B4 /* Clip */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Clip; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,7 @@
 		4F3EA77928AEA59E00720993 = {
 			isa = PBXGroup;
 			children = (
+				4F67761828AF343C001313B4 /* README.md */,
 				4F3EA78428AEA59E00720993 /* App */,
 				4F3EA78328AEA59E00720993 /* Products */,
 				4F3EA79528AEA59E00720993 /* TraqCloneTests */,
@@ -131,7 +138,12 @@
 		4F7BBD9428AEB34A00B6AA36 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4F1ED02D28AF32E0001411F7 /* Activity */,
+				4F1ED02C28AF313E001411F7 /* Channel */,
+				4F67761928AF38A0001313B4 /* Clip */,
 				4F1ED01C28AEBE87001411F7 /* Content */,
+				4F1ED02928AF3115001411F7 /* Home */,
+				4F67761728AF3422001313B4 /* User */,
 			);
 			path = Views;
 			sourceTree = "<group>";
