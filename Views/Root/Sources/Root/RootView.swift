@@ -1,9 +1,3 @@
-//
-//  RootView.swift
-//  TraqClone
-//
-//  Created by Kira Kawai on 2022/08/19.
-//
 import Activity
 import Channel
 import Clip
