@@ -83,11 +83,11 @@
 			children = (
 				4F67761828AF343C001313B4 /* README.md */,
 				4F3EA78428AEA59E00720993 /* App */,
+				4F67761B28AF3A56001313B4 /* Frameworks */,
 				4F3EA78328AEA59E00720993 /* Products */,
 				4F3EA79528AEA59E00720993 /* TraqCloneTests */,
 				4F3EA79F28AEA59E00720993 /* TraqCloneUITests */,
 				4F7BBD9428AEB34A00B6AA36 /* Views */,
-				4F67761B28AF3A56001313B4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
