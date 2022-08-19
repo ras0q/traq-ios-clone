@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  RootView.swift
 //  TraqClone
 //
 //  Created by Kira Kawai on 2022/08/19.
@@ -11,7 +11,7 @@ import Home
 import SwiftUI
 import User
 
-public struct ContentView: View {
+public struct RootView: View {
     public init() {}
     public var body: some View {
         TabView {
@@ -44,8 +44,8 @@ public struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        RootView()
     }
 }
