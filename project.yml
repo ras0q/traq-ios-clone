@@ -14,26 +14,6 @@ settingGroups:
       INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: 'YES'
       INFOPLIST_KEY_UILaunchScreen_Generation: 'YES'
 
-packages:
-  Activity:
-    path: ./Views/Activity
-    group: ./Views
-  Channel:
-    path: ./Views/Channel
-    group: ./Views
-  Clip:
-    path: ./Views/Clip
-    group: ./Views
-  Home:
-    path: ./Views/Home
-    group: ./Views
-  Root:
-    path: ./Views/Root
-    group: ./Views
-  User:
-    path: ./Views/User
-    group: ./Views
-
 targets:
   TraqClone:
     type: application
@@ -75,3 +55,23 @@ targets:
     settings:
       groups:
         - commonSettings
+
+packages:
+  Activity:
+    path: ./Views/Activity
+    group: ./Views
+  Channel:
+    path: ./Views/Channel
+    group: ./Views
+  Clip:
+    path: ./Views/Clip
+    group: ./Views
+  Home:
+    path: ./Views/Home
+    group: ./Views
+  Root:
+    path: ./Views/Root
+    group: ./Views
+  User:
+    path: ./Views/User
+    group: ./Views
