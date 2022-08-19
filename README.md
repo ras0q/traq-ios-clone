@@ -4,15 +4,15 @@
 
 ### モジュールの追加方法
 
-`Views`ディレクトリ下に作成する場合を仮定
+`Views`ディレクトリ下にパッケージ`Hoge`を作成する場合を仮定
 
 ```sh
-./scripts/add_view.sh
+./scripts/add_view.sh Hoge
 ```
 
 手動で設定する場合は
 
-1. `Views`にカーソルを当て、File→New→Package(もしくはcontrol+shift+command+N)からパッケージ(`Hoge`とする)を作成
+1. `Views`にカーソルを当て、File→New→Package(もしくはcontrol+shift+command+N)から`Hoge`パッケージを作成
     - 作成場所が`Views`下になっていることを確認
     - Git repositoryを作成しない設定になっていることを確認
 1. `project.yml`にパッケージを追記
