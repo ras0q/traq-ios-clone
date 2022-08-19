@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1ED02228AEC1C6001411F7 /* Content in Frameworks */ = {isa = PBXBuildFile; productRef = 4F1ED02128AEC1C6001411F7 /* Content */; };
 		4F3EA78628AEA59E00720993 /* TraqCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3EA78528AEA59E00720993 /* TraqCloneApp.swift */; };
-		4F3EA78828AEA59E00720993 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3EA78728AEA59E00720993 /* ContentView.swift */; };
 		4F3EA78A28AEA59E00720993 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3EA78928AEA59E00720993 /* Assets.xcassets */; };
 		4F3EA78D28AEA59E00720993 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3EA78C28AEA59E00720993 /* Preview Assets.xcassets */; };
 		4F3EA79728AEA59E00720993 /* TraqCloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3EA79628AEA59E00720993 /* TraqCloneTests.swift */; };
@@ -34,9 +34,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F1ED01C28AEBE87001411F7 /* Content */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Content; sourceTree = "<group>"; };
 		4F3EA78228AEA59E00720993 /* TraqClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraqClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3EA78528AEA59E00720993 /* TraqCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraqCloneApp.swift; sourceTree = "<group>"; };
-		4F3EA78728AEA59E00720993 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4F3EA78928AEA59E00720993 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F3EA78C28AEA59E00720993 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4F3EA79228AEA59E00720993 /* TraqCloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TraqCloneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F1ED02228AEC1C6001411F7 /* Content in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,10 +75,11 @@
 		4F3EA77928AEA59E00720993 = {
 			isa = PBXGroup;
 			children = (
-				4F3EA78428AEA59E00720993 /* TraqClone */,
+				4F3EA78428AEA59E00720993 /* App */,
+				4F3EA78328AEA59E00720993 /* Products */,
 				4F3EA79528AEA59E00720993 /* TraqCloneTests */,
 				4F3EA79F28AEA59E00720993 /* TraqCloneUITests */,
-				4F3EA78328AEA59E00720993 /* Products */,
+				4F7BBD9428AEB34A00B6AA36 /* Views */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,15 +93,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4F3EA78428AEA59E00720993 /* TraqClone */ = {
+		4F3EA78428AEA59E00720993 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				4F3EA78528AEA59E00720993 /* TraqCloneApp.swift */,
-				4F3EA78728AEA59E00720993 /* ContentView.swift */,
 				4F3EA78928AEA59E00720993 /* Assets.xcassets */,
 				4F3EA78B28AEA59E00720993 /* Preview Content */,
 			);
-			path = TraqClone;
+			path = App;
 			sourceTree = "<group>";
 		};
 		4F3EA78B28AEA59E00720993 /* Preview Content */ = {
@@ -127,6 +128,14 @@
 			path = TraqCloneUITests;
 			sourceTree = "<group>";
 		};
+		4F7BBD9428AEB34A00B6AA36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4F1ED01C28AEBE87001411F7 /* Content */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,6 +153,9 @@
 			dependencies = (
 			);
 			name = TraqClone;
+			packageProductDependencies = (
+				4F1ED02128AEC1C6001411F7 /* Content */,
+			);
 			productName = TraqClone;
 			productReference = 4F3EA78228AEA59E00720993 /* TraqClone.app */;
 			productType = "com.apple.product-type.application";
@@ -279,7 +291,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F3EA78828AEA59E00720993 /* ContentView.swift in Sources */,
 				4F3EA78628AEA59E00720993 /* TraqCloneApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,7 +449,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"TraqClone/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -446,6 +457,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -466,7 +478,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"TraqClone/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -474,6 +486,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -599,6 +612,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4F1ED02128AEC1C6001411F7 /* Content */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Content;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4F3EA77A28AEA59E00720993 /* Project object */;
 }
