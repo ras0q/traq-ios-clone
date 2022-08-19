@@ -1,9 +1,11 @@
 name: TraqClone
+
 options:
   bundleIdPrefix: net.ras0q
   defaultConfig: Release
   groupSortPosition: bottom
   transitivelyLinkDependencies: false
+
 settingGroups:
   commonSettings:
     base:
