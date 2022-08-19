@@ -22,6 +22,7 @@ targets:
     platform: iOS
     sources:
       - App
+      - Modules
       - project.yml
       - README.md
     dependencies:

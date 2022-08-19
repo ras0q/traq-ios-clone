@@ -1,14 +1,23 @@
+import ChannelTree
 import SwiftUI
 
 public struct ChannelView: View {
-    public init() {}
+    private let channelTree: ChannelTree
+
+    public init(channelTree: ChannelTree) {
+        self.channelTree = channelTree
+    }
+
     public var body: some View {
-        Text("Hello Channel!")
+        List(channelTree.children ?? [], id: \.id, children: \.children) {
+            Image(systemName: "number")
+            Text($0.name)
+        }.listStyle(SidebarListStyle())
     }
 }
 
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView()
+        ChannelView(channelTree: .sampleChannelTree)
     }
 }
