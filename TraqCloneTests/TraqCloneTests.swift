@@ -1,10 +1,3 @@
-//
-//  TraqCloneTests.swift
-//  TraqCloneTests
-//
-//  Created by Kira Kawai on 2022/08/19.
-//
-
 @testable import TraqClone
 import XCTest
 

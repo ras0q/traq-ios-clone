@@ -1,10 +1,3 @@
-//
-//  TraqCloneUITests.swift
-//  TraqCloneUITests
-//
-//  Created by Kira Kawai on 2022/08/19.
-//
-
 import XCTest
 
 class TraqCloneUITests: XCTestCase {

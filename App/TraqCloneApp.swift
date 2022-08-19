@@ -1,10 +1,3 @@
-//
-//  TraqCloneApp.swift
-//  TraqClone
-//
-//  Created by Kira Kawai on 2022/08/19.
-//
-
 import Root // NOTE: available by configuring this package as a framework
 import SwiftUI
 

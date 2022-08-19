@@ -1,10 +1,3 @@
-//
-//  UserView.swift
-//
-//
-//  Created by Kira Kawai on 2022/08/19.
-//
-
 import SwiftUI
 
 public struct UserView: View {
