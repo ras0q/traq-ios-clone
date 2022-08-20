@@ -22,7 +22,6 @@ targets:
     platform: iOS
     sources:
       - App
-      - Modules
       - project.yml
       - README.md
     dependencies:
@@ -78,3 +77,6 @@ packages:
   User:
     path: ./Views/User
     group: ./Views
+  ChannelTree:
+    path: ./Modules/ChannelTree
+    group: ./Modules
