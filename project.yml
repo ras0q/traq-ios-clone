@@ -65,6 +65,9 @@ packages:
   Channel:
     path: ./Views/Channel
     group: ./Views
+  ChannelContent:
+    path: ./Views/ChannelContent
+    group: ./Views
   Clip:
     path: ./Views/Clip
     group: ./Views

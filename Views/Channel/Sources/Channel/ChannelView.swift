@@ -1,3 +1,4 @@
+import ChannelContent
 import ChannelTree
 import SwiftUI
 
@@ -9,10 +10,19 @@ public struct ChannelView: View {
     }
 
     public var body: some View {
-        List(channelTree.children ?? [], id: \.id, children: \.children) {
-            Image(systemName: "number")
-            Text($0.name)
-        }.listStyle(SidebarListStyle())
+        NavigationView {
+            List(channelTree.children ?? [], id: \.id, children: \.children) { channel in
+                NavigationLink(
+                    destination: ChannelContentView(id: channel.id),
+                    label: {
+                        Image(systemName: "number")
+                        Text(channel.name)
+                    }
+                )
+            }
+            .listStyle(SidebarListStyle())
+            .navigationBarTitle("チャンネル")
+        }
     }
 }
 
