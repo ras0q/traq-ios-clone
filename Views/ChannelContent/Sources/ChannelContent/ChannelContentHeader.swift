@@ -34,6 +34,6 @@ struct ChannelContentHeader: View {
 
 struct ChannelContentHeader_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentHeader(channel: ChannelTree.sampleChannelTree.children![0])
+        ChannelContentHeader(channel: .mockChannelTree.children![0])
     }
 }

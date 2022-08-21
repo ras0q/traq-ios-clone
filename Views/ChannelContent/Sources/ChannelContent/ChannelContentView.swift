@@ -21,6 +21,6 @@ public struct ChannelContentView: View {
 
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentView(channel: .sampleChannelTree.children![0])
+        ChannelContentView(channel: .mockChannelTree.children![0])
     }
 }

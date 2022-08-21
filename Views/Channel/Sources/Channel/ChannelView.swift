@@ -28,6 +28,6 @@ public struct ChannelView: View {
 
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView(channelTree: .sampleChannelTree)
+        ChannelView(channelTree: .mockChannelTree)
     }
 }
