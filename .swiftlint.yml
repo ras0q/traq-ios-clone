@@ -1,7 +1,10 @@
 disabled_rules:
-- trailing_comma
-- multiple_closures_with_trailing_closure
+  - trailing_comma
+  - multiple_closures_with_trailing_closure
+
+excluded:
+  - ./**/.build
 
 line_length:
-- 200   # warning
-- 300   # error
+  - 200 # warning
+  - 300 # error
