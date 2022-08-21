@@ -16,6 +16,7 @@ public struct ChannelContentView: View {
                 MessageElementView(message: message)
             }
         }
+        MessageInputView()
     }
 }
 
