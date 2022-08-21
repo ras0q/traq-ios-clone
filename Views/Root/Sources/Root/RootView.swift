@@ -14,7 +14,7 @@ public struct RootView: View {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
-            ChannelView(channelTree: .mockChannelTree)
+            ChannelView()
                 .tabItem {
                     Image(systemName: "number")
                     Text("Channel")

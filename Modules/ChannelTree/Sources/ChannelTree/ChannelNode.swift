@@ -1,16 +1,16 @@
 import OpenAPIClient
 import SwiftUI
 
-public final class ChannelTree: Identifiable {
+public final class ChannelNode: Identifiable {
     public let id: UUID
     public let parentId: UUID?
     public let archived: Bool
     public let force: Bool
     public let topic: String
     public let name: String
-    public var children: [ChannelTree]?
+    public var children: [ChannelNode]?
 
-    public init(id: UUID, parentID: UUID?, archived: Bool = false, force: Bool = false, topic: String = "", name: String, children: [ChannelTree]?) {
+    public init(id: UUID, parentID: UUID?, archived: Bool = false, force: Bool = false, topic: String = "", name: String, children: [ChannelNode]?) {
         self.id = id
         parentId = parentID
         self.archived = archived
@@ -36,13 +36,13 @@ public final class ChannelTree: Identifiable {
             return resultDic
         }
 
-        var getChildrenRecursive: (([UUID]) -> [ChannelTree]?)!
+        var getChildrenRecursive: (([UUID]) -> [ChannelNode]?)!
         getChildrenRecursive = { childIDs in
             childIDs.map { childID in
                 guard let child = channelDictionary[childID] else {
                     fatalError("cannot resolve channnel tree")
                 }
-                return ChannelTree(
+                return ChannelNode(
                     id: child.id,
                     parentID: child.parentId,
                     archived: child.archived,

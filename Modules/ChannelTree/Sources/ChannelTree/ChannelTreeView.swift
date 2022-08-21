@@ -1,17 +1,17 @@
 import SwiftUI
 
 public struct ChannelTreeView<Destination>: View where Destination: View {
-    private let channelTree: ChannelTree
-    private let desctination: (ChannelTree) -> Destination
+    private let topChannels: [ChannelNode]
+    private let desctination: (ChannelNode) -> Destination
 
-    public init(channelTree: ChannelTree, destination: @escaping (ChannelTree) -> Destination) {
-        self.channelTree = channelTree
+    public init(topChannels: [ChannelNode], destination: @escaping (ChannelNode) -> Destination) {
+        self.topChannels = topChannels
         desctination = destination
     }
 
     public var body: some View {
         NavigationView {
-            List(channelTree.children ?? [], id: \.id, children: \.children) { channel in
+            List(topChannels, id: \.id, children: \.children) { channel in
                 NavigationLink(
                     destination: desctination(channel),
                     label: {
@@ -28,7 +28,7 @@ public struct ChannelTreeView<Destination>: View where Destination: View {
 
 struct ChannelTreeView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelTreeView(channelTree: .mockChannelTree) { _ in
+        ChannelTreeView(topChannels: ChannelNode.mockTopChannels) { _ in
             EmptyView()
         }
     }

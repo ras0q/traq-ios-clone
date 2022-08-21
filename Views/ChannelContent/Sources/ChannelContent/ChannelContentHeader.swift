@@ -2,9 +2,9 @@ import ChannelTree
 import SwiftUI
 
 struct ChannelContentHeader: View {
-    private let channel: ChannelTree
+    private let channel: ChannelNode
 
-    init(channel: ChannelTree) {
+    init(channel: ChannelNode) {
         self.channel = channel
     }
 
@@ -34,6 +34,6 @@ struct ChannelContentHeader: View {
 
 struct ChannelContentHeader_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentHeader(channel: .mockChannelTree.children![0])
+        ChannelContentHeader(channel: .mockTopChannels[0])
     }
 }

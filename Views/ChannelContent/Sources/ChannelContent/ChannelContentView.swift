@@ -3,9 +3,9 @@ import Message
 import SwiftUI
 
 public struct ChannelContentView: View {
-    private let channel: ChannelTree
+    private let channel: ChannelNode
 
-    public init(channel: ChannelTree) {
+    public init(channel: ChannelNode) {
         self.channel = channel
     }
 
@@ -21,6 +21,6 @@ public struct ChannelContentView: View {
 
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentView(channel: .mockChannelTree.children![0])
+        ChannelContentView(channel: .mockTopChannels[0])
     }
 }

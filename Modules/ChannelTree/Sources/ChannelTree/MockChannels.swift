@@ -1,7 +1,7 @@
 import Foundation
 import OpenAPIClient
 
-public extension ChannelTree {
+public extension ChannelNode {
     static let mockChannels: [Channel] = {
         let parent1Id = UUID()
         let parent2Id = UUID()
@@ -58,5 +58,5 @@ public extension ChannelTree {
         ]
     }()
 
-    static let mockChannelTree: ChannelTree = .init(channels: mockChannels)
+    static let mockTopChannels: [ChannelNode] = ChannelNode(channels: mockChannels).children!
 }

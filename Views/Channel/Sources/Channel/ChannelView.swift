@@ -3,14 +3,14 @@ import ChannelTree
 import SwiftUI
 
 public struct ChannelView: View {
-    private let channelTree: ChannelTree
+    private let topChannels: [ChannelNode]
 
-    public init(channelTree: ChannelTree) {
-        self.channelTree = channelTree
+    public init(topChannels: [ChannelNode] = ChannelNode.mockTopChannels) {
+        self.topChannels = topChannels
     }
 
     public var body: some View {
-        ChannelTreeView(channelTree: channelTree) { channel in
+        ChannelTreeView(topChannels: topChannels) { channel in
             ChannelContentView(channel: channel)
         }
     }
@@ -18,6 +18,6 @@ public struct ChannelView: View {
 
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView(channelTree: .mockChannelTree)
+        ChannelView()
     }
 }
