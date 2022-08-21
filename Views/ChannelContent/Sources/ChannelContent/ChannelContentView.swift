@@ -1,20 +1,26 @@
+import ChannelTree
+import Message
 import SwiftUI
 
 public struct ChannelContentView: View {
-    private let channelId: UUID
+    private let channel: ChannelTree
 
-    public init(id: UUID) {
-        channelId = id
+    public init(channel: ChannelTree) {
+        self.channel = channel
     }
 
     public var body: some View {
-        Text("Hello ChannelContent!")
-        Text("channelId is \(channelId)")
+        ChannelContentHeader(channel: channel)
+        ScrollView {
+            ForEach(MessageElement.sampleMessages, id: \.id) { message in
+                MessageElement(message: message)
+            }
+        }
     }
 }
 
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentView(id: UUID())
+        ChannelContentView(channel: .sampleChannelTree.children![0])
     }
 }

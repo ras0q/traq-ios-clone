@@ -96,3 +96,6 @@ packages:
   ChannelTree:
     path: ./Modules/ChannelTree
     group: ./Modules
+  Message:
+    path: ./Modules/Message
+    group: ./Modules

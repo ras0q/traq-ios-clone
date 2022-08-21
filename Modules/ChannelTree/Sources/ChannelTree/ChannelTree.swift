@@ -1,5 +1,5 @@
-import Foundation
 import OpenAPIClient
+import SwiftUI
 
 public final class ChannelTree: Identifiable {
     public let id: UUID

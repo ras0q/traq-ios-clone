@@ -13,11 +13,17 @@ let package = Package(
             targets: ["ChannelContent"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(path: "../../Modules/ChannelTree"),
+        .package(path: "../../Modules/Message"),
+    ],
     targets: [
         .target(
             name: "ChannelContent",
-            dependencies: []
+            dependencies: [
+                "ChannelTree",
+                "Message",
+            ]
         ),
     ]
 )

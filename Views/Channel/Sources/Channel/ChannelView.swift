@@ -13,7 +13,7 @@ public struct ChannelView: View {
         NavigationView {
             List(channelTree.children ?? [], id: \.id, children: \.children) { channel in
                 NavigationLink(
-                    destination: ChannelContentView(id: channel.id),
+                    destination: ChannelContentView(channel: channel),
                     label: {
                         Image(systemName: "number")
                         Text(channel.name)
