@@ -10,7 +10,9 @@ let package = Package(
             targets: ["ChannelTree"]
         ),
     ],
-    dependencies: [.package(url: "https://github.com/Ras96/swift-traq.git", branch: "main")],
+    dependencies: [
+        .package(url: "https://github.com/Ras96/swift-traq.git", branch: "main"),
+    ],
     targets: [
         .target(
             name: "ChannelTree",

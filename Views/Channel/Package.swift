@@ -13,8 +13,10 @@ let package = Package(
             targets: ["Channel"]
         ),
     ],
-    dependencies: [.package(path: "../ChannelContent"),
-                   .package(path: "../../Modules/ChannelTree")],
+    dependencies: [
+        .package(path: "../ChannelContent"),
+        .package(path: "../../Modules/ChannelTree"),
+    ],
     targets: [
         .target(
             name: "Channel",

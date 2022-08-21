@@ -13,11 +13,13 @@ let package = Package(
             targets: ["Root"]
         ),
     ],
-    dependencies: [.package(path: "../Activity"),
-                   .package(path: "../Channel"),
-                   .package(path: "../Clip"),
-                   .package(path: "../Home"),
-                   .package(path: "../User")],
+    dependencies: [
+        .package(path: "../Activity"),
+        .package(path: "../Channel"),
+        .package(path: "../Clip"),
+        .package(path: "../Home"),
+        .package(path: "../User"),
+    ],
     targets: [
         .target(
             name: "Root",
