@@ -1,7 +1,7 @@
 import OpenAPIClient
 import SwiftUI
 
-public struct MessageElement: View {
+public struct MessageElementView: View {
     private let df: DateFormatter
     private let message: Message
 
@@ -43,7 +43,7 @@ public struct MessageElement: View {
     }
 }
 
-public extension MessageElement {
+public extension MessageElementView {
     static let sampleMessages: [Message] = {
         var messages: [Message] = []
         for _ in 0 ... 10 {
@@ -63,9 +63,9 @@ public extension MessageElement {
     }()
 }
 
-struct MessageElement_Previews: PreviewProvider {
+struct MessageElementView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageElement(message: Message(
+        MessageElementView(message: Message(
             id: UUID(),
             userId: UUID(),
             channelId: UUID(),
