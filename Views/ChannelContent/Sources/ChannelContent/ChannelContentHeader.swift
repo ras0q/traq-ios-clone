@@ -15,13 +15,15 @@ struct ChannelContentHeader: View {
             Text("#\(channel.name)")
                 .font(.title)
                 .bold()
-            Text("|")
+            Divider().background(Color.gray)
+            Text(channel.topic)
             Spacer()
             Button(action: {}, label: { Image(systemName: "phone") }).foregroundColor(.black)
             Button(action: {}, label: { Image(systemName: "bell") }).foregroundColor(.black)
             Button(action: {}, label: { Image(systemName: "star") }).foregroundColor(.black)
             Button(action: {}, label: { Image(systemName: "ellipsis") }).foregroundColor(.black)
         }
+        .fixedSize()
         .padding()
         .overlay(
             Rectangle().frame(height: 1).foregroundColor(.gray),
