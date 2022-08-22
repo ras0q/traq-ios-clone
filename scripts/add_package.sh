@@ -9,7 +9,7 @@ ROOT=$PWD
 mkdir -p ./$1/$2/Sources/$2
 cat ./scripts/PackageTemplate/.gitignore.tmpl | PACKAGE=$2 envsubst >  ./$1/$2/.gitignore
 cat ./scripts/PackageTemplate/Package.swift.tmpl | PACKAGE=$2 envsubst >  ./$1/$2/Package.swift
-cat ./scripts/PackageTemplate/Sources/PackageTemplate/PackageTemplateView.swift.tmpl | PACKAGE=$2 envsubst >  ./$1/$2/Sources/$2View.swift
+cat ./scripts/PackageTemplate/Sources/PackageTemplate/PackageTemplateView.swift.tmpl | PACKAGE=$2 envsubst >  ./$1/$2/Sources/$2/$2View.swift
 
 # xcodegen setting
 cd $ROOT
