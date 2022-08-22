@@ -3,7 +3,7 @@ import SwiftUI
 public struct ChannelTreeListView<Destination>: View where Destination: View {
     private let topChannels: [ChannelNode]
     private let destination: (ChannelNode) -> Destination
-    @State private var isTapped = false
+    @State private var openChannelContentView = false
     @State private var destChannel: ChannelNode?
 
     public init(topChannels: [ChannelNode], destination: @escaping (ChannelNode) -> Destination) {
@@ -14,7 +14,7 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
     public var body: some View {
         ZStack {
             NavigationLink(
-                isActive: $isTapped,
+                isActive: $openChannelContentView,
                 destination: { destination(destChannel ?? .mockTopChannels[0]) }
             ) {
                 EmptyView()
@@ -40,7 +40,7 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
                 Text(channel.name)
                     .onTapGesture {
                         destChannel = channel
-                        isTapped = true
+                        openChannelContentView = true
                     }
             }
         }
