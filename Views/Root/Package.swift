@@ -18,6 +18,7 @@ let package = Package(
         .package(path: "../Channel"),
         .package(path: "../Clip"),
         .package(path: "../Home"),
+        .package(path: "../Login"),
         .package(path: "../User"),
     ],
     targets: [
@@ -28,6 +29,7 @@ let package = Package(
                 "Channel",
                 "Clip",
                 "Home",
+                "Login",
                 "User",
             ]
         ),

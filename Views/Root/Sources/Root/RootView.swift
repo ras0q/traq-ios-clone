@@ -2,6 +2,7 @@ import Activity
 import Channel
 import Clip
 import Home
+import Login
 import SwiftUI
 import User
 
@@ -36,6 +37,11 @@ public struct RootView: View {
                 .tabItem {
                     Image(systemName: "bookmark.fill")
                     Text("Bookmark")
+                }
+            LoginView()
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Login")
                 }
         }
     }

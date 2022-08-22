@@ -47,9 +47,6 @@ targets:
         DEVELOPMENT_ASSET_PATHS: '"App/Preview Content"'
       groups:
         - commonSettings
-    environmentVariables:
-      base:
-        TRAQ_ACCESS_TOKEN: '${TRAQ_ACCESS_TOKEN}'
 
   TraqCloneTests:
     type: bundle.unit-test
@@ -92,6 +89,9 @@ packages:
   Home:
     path: ./Views/Home
     group: ./Views
+  Login:
+    path: ./Views/Login
+    group: ./Views
   Root:
     path: ./Views/Root
     group: ./Views
@@ -103,4 +103,7 @@ packages:
     group: ./Modules
   Message:
     path: ./Modules/Message
+    group: ./Modules
+  Repositories:
+    path: ./Modules/Repositories
     group: ./Modules

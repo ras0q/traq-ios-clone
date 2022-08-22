@@ -8,15 +8,6 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
     @State private var destChannel: ChannelNode?
 
     public init(destination: @escaping (ChannelNode) -> Destination) {
-        #if DEBUG
-            guard let token = ProcessInfo.processInfo.environment["TRAQ_ACCESS_TOKEN"] else {
-                fatalError("token is empty")
-            }
-
-            OpenAPIClientAPI.customHeaders = ["Authorization": "Bearer \(token)"]
-            OpenAPIClientAPI.basePath = "https://q-dev.trapti.tech/api/v3"
-        #endif
-
         self.destination = destination
 
         ChannelAPI.getChannels(includeDm: false) { [self] response, error in
