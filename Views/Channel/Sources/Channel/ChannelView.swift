@@ -10,8 +10,10 @@ public struct ChannelView: View {
     }
 
     public var body: some View {
-        ChannelTreeView(topChannels: topChannels) { channel in
-            ChannelContentView(channel: channel)
+        NavigationView {
+            ChannelTreeListView(topChannels: topChannels) { channel in
+                ChannelContentView(channel: channel)
+            }
         }
     }
 }
