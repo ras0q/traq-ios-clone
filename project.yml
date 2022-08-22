@@ -35,6 +35,7 @@ targets:
         runOnlyWhenInstalling: true
       - name: Run Xcodegen
         script: |
+          source .env
           xcodegen generate
         runOnlyWhenInstalling: true
       - name: Run Formatter
@@ -46,6 +47,10 @@ targets:
         DEVELOPMENT_ASSET_PATHS: '"App/Preview Content"'
       groups:
         - commonSettings
+    environmentVariables:
+      base:
+        TRAQ_ACCESS_TOKEN: '${TRAQ_ACCESS_TOKEN}'
+
   TraqCloneTests:
     type: bundle.unit-test
     platform: iOS

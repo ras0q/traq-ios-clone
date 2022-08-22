@@ -54,7 +54,15 @@ public final class ChannelNode: Identifiable {
             }
         }
 
-        let topChannelIDs = channels.filter { $0.parentId == nil }.map(\.id)
+        let topChannelIDs = channels.filter { $0.parentId == nil && !$0.archived }.map(\.id)
         children = getChildrenRecursive(topChannelIDs)
+    }
+}
+
+public final class ChannelNodes: ObservableObject {
+    @Published public var channels: [ChannelNode] = .init()
+
+    public init(channels: [ChannelNode]) {
+        self.channels = channels
     }
 }

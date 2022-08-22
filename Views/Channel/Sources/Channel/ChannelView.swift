@@ -3,17 +3,14 @@ import ChannelTree
 import SwiftUI
 
 public struct ChannelView: View {
-    private let topChannels: [ChannelNode]
-
-    public init(topChannels: [ChannelNode] = ChannelNode.mockTopChannels) {
-        self.topChannels = topChannels
-    }
+    public init() {}
 
     public var body: some View {
         NavigationView {
-            ChannelTreeListView(topChannels: topChannels) { channel in
+            ChannelTreeListView { channel in
                 ChannelContentView(channel: channel)
             }
+            .navigationTitle("チャンネル")
         }
     }
 }
