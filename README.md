@@ -7,7 +7,7 @@
 `Views`ディレクトリ下にパッケージ`Hoge`を作成する場合を仮定
 
 ```sh
-./scripts/add_view.sh Hoge
+./scripts/add_package.sh Views Hoge
 ```
 
 手動で設定する場合は
