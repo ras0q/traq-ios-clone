@@ -1,8 +1,8 @@
 import Foundation
-import OpenAPIClient
+import Traq
 
 public extension ChannelNode {
-    static let mockChannels: [Channel] = {
+    static let mockChannels: [TraqAPI.Channel] = {
         let parent1Id = UUID()
         let parent2Id = UUID()
         let child1Id = UUID()

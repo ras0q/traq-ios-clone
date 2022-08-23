@@ -13,11 +13,15 @@ let package = Package(
             targets: ["Models"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/Ras96/swift-traq.git", branch: "main"), // TODO: remove this dependency
+    ],
     targets: [
         .target(
             name: "Models",
-            dependencies: []
+            dependencies: [
+                .product(name: "Traq", package: "swift-traq"),
+            ]
         ),
     ]
 )

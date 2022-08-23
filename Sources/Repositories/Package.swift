@@ -20,7 +20,7 @@ let package = Package(
         .target(
             name: "Repositories",
             dependencies: [
-                .product(name: "OpenAPIClient", package: "swift-traq"),
+                .product(name: "Traq", package: "swift-traq"),
             ]
         ),
     ]

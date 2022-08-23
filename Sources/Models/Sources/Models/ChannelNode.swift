@@ -1,5 +1,5 @@
-import OpenAPIClient
 import SwiftUI
+import Traq
 
 public final class ChannelNode: Identifiable {
     public let id: UUID
@@ -20,7 +20,7 @@ public final class ChannelNode: Identifiable {
         self.children = children
     }
 
-    public init(channels: [Channel]) {
+    public init(channels: [TraqAPI.Channel]) {
         id = UUID()
         parentId = nil
         archived = false
@@ -30,7 +30,7 @@ public final class ChannelNode: Identifiable {
 
         // get-children process
 
-        let channelDictionary = channels.reduce([UUID: Channel]()) { dic, channel in
+        let channelDictionary = channels.reduce([UUID: TraqAPI.Channel]()) { dic, channel in
             var resultDic = dic
             resultDic[channel.id] = channel
             return resultDic

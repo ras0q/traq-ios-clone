@@ -1,11 +1,11 @@
-import OpenAPIClient
 import SwiftUI
+import Traq
 
 public struct MessageElementView: View {
     private let dateFormatter: DateFormatter
-    private let message: Message
+    private let message: TraqAPI.Message
 
-    public init(message: Message) {
+    public init(message: TraqAPI.Message) {
         dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.dateFormat = "HH:mm"
@@ -44,10 +44,10 @@ public struct MessageElementView: View {
 }
 
 public extension MessageElementView {
-    static let sampleMessages: [Message] = {
-        var messages: [Message] = []
+    static let sampleMessages: [TraqAPI.Message] = {
+        var messages: [TraqAPI.Message] = []
         for _ in 0 ... 10 {
-            messages.append(Message(
+            messages.append(TraqAPI.Message(
                 id: UUID(),
                 userId: UUID(),
                 channelId: UUID(),
@@ -65,7 +65,7 @@ public extension MessageElementView {
 
 struct MessageElementView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageElementView(message: Message(
+        MessageElementView(message: TraqAPI.Message(
             id: UUID(),
             userId: UUID(),
             channelId: UUID(),

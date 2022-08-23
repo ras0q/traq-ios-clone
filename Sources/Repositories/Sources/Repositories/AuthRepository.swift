@@ -1,5 +1,5 @@
-import OpenAPIClient
 import SwiftUI
+import Traq
 
 public protocol AuthRepository {
     func login(name: String, password: String)
@@ -10,8 +10,8 @@ public final class AuthRepositoryImpl: AuthRepository {
     public init() {}
 
     public func login(name: String, password: String) {
-        let request = PostLoginRequest(name: name, password: password)
-        AuthenticationAPI.login(postLoginRequest: request) { response, error in
+        let request = TraqAPI.PostLoginRequest(name: name, password: password)
+        TraqAPI.AuthenticationAPI.login(postLoginRequest: request) { response, error in
             guard error == nil else {
                 print(error!)
                 return
@@ -23,7 +23,7 @@ public final class AuthRepositoryImpl: AuthRepository {
     }
 
     public func logout() {
-        AuthenticationAPI.logout { response, error in
+        TraqAPI.AuthenticationAPI.logout { response, error in
             guard error == nil else {
                 print(error!)
                 return

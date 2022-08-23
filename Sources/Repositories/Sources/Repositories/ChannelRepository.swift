@@ -1,17 +1,17 @@
-import OpenAPIClient
 import SwiftUI
+import Traq
 
 public protocol ChannelRepository {
-    func fetchChannels(completion: @escaping ((_ data: ChannelList) -> Void))
+    func fetchChannels(completion: @escaping ((_ data: TraqAPI.ChannelList) -> Void))
 }
 
 public final class ChannelRepositoryImpl: ChannelRepository {
-    public var channels: [Channel] = []
+    public var channels: [TraqAPI.Channel] = []
 
     public init() {}
 
-    public func fetchChannels(completion: @escaping ((_ data: ChannelList) -> Void)) {
-        ChannelAPI.getChannels(includeDm: false) { [self] response, error in
+    public func fetchChannels(completion: @escaping ((_ data: TraqAPI.ChannelList) -> Void)) {
+        TraqAPI.ChannelAPI.getChannels(includeDm: false) { [self] response, error in
             guard error == nil else {
                 print(error!)
                 return
