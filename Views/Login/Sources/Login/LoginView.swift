@@ -4,7 +4,7 @@ import SwiftUI
 public struct LoginView: View {
     @State private var inputTraqId: String = ""
     @State private var inputPassword: String = ""
-    private let authRepository: AuthRepository = .init()
+    private let authRepository: AuthRepository = AuthRepositoryImpl()
 
     public init() {}
     public var body: some View {

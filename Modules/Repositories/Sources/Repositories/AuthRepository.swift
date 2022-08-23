@@ -1,7 +1,12 @@
 import OpenAPIClient
 import SwiftUI
 
-public final class AuthRepository {
+public protocol AuthRepository {
+    func login(name: String, password: String)
+    func logout()
+}
+
+public final class AuthRepositoryImpl: AuthRepository {
     public init() {}
 
     public func login(name: String, password: String) {

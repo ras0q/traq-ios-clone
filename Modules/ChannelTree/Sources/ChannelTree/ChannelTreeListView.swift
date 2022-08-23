@@ -1,4 +1,4 @@
-import OpenAPIClient
+import Repositories
 import SwiftUI
 
 public struct ChannelTreeListView<Destination>: View where Destination: View {
@@ -6,21 +6,12 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
     private let destination: (ChannelNode) -> Destination
     @State private var openChannelContentView: Bool = false
     @State private var destChannel: ChannelNode?
+    private var channelRepository: ChannelRepository = ChannelRepositoryImpl()
 
     public init(destination: @escaping (ChannelNode) -> Destination) {
         self.destination = destination
 
-        ChannelAPI.getChannels(includeDm: false) { [self] response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-
-            guard let response = response else {
-                print("response is nil")
-                return
-            }
-
+        channelRepository.fetchChannels { [self] response in
             guard let topChannels = ChannelNode(channels: response._public).children else {
                 print("topChannels is nil")
                 return

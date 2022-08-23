@@ -15,12 +15,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Ras96/swift-traq.git", branch: "main"),
+        .package(path: "../Repositories"),
     ],
     targets: [
         .target(
             name: "ChannelTree",
             dependencies: [
                 .product(name: "OpenAPIClient", package: "swift-traq"),
+                "Repositories",
             ]
         ),
     ]
