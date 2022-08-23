@@ -1,16 +1,19 @@
+import Repositories
 import SwiftUI
 import Traq
 
 public struct MessageElementView: View {
     private let dateFormatter: DateFormatter
     private let message: TraqAPI.Message
+    private let user: TraqAPI.User
 
-    public init(message: TraqAPI.Message) {
+    public init(message: TraqAPI.Message, user: TraqAPI.User) {
         dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.dateFormat = "HH:mm"
 
         self.message = message
+        self.user = user
     }
 
     public var body: some View {
@@ -22,7 +25,7 @@ public struct MessageElementView: View {
                 .frame(width: 40, height: 40, alignment: .leading)
             VStack {
                 HStack {
-                    Text("ユーザー1")
+                    Text("\(user.displayName)")
                         .bold()
                     Button(
                         action: {},
@@ -31,7 +34,7 @@ public struct MessageElementView: View {
                         }
                     )
                     .foregroundColor(.black)
-                    Text("@user1 \(dateFormatter.string(from: message.updatedAt))")
+                    Text("@\(user.name) \(dateFormatter.string(from: message.updatedAt))")
                         .foregroundColor(.gray)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -65,16 +68,27 @@ public extension MessageElementView {
 
 struct MessageElementView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageElementView(message: TraqAPI.Message(
-            id: UUID(),
-            userId: UUID(),
-            channelId: UUID(),
-            content: "this is a content.",
-            createdAt: Date(),
-            updatedAt: Date(),
-            pinned: false,
-            stamps: [],
-            threadId: nil
-        ))
+        MessageElementView(
+            message: TraqAPI.Message(
+                id: UUID(),
+                userId: UUID(),
+                channelId: UUID(),
+                content: "this is a content.",
+                createdAt: Date(),
+                updatedAt: Date(),
+                pinned: false,
+                stamps: [],
+                threadId: nil
+            ),
+            user: TraqAPI.User(
+                id: UUID(),
+                name: "unknown",
+                displayName: "unknown",
+                iconFileId: UUID(),
+                bot: false,
+                state: .active,
+                updatedAt: Date()
+            )
+        )
     }
 }
