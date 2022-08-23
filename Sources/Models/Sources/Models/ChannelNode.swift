@@ -38,7 +38,7 @@ public final class ChannelNode: Identifiable {
 
         var getChildrenRecursive: (([UUID]) -> [ChannelNode]?)!
         getChildrenRecursive = { childIDs in
-            childIDs.map { childID in
+            childIDs.map { childID -> ChannelNode in
                 guard let child = channelDictionary[childID] else {
                     fatalError("cannot resolve channnel tree")
                 }
@@ -52,6 +52,7 @@ public final class ChannelNode: Identifiable {
                     children: getChildrenRecursive(child.children)
                 )
             }
+            .sorted { $0.name < $1.name }
         }
 
         let topChannelIDs = channels.filter { $0.parentId == nil && !$0.archived }.map(\.id)
