@@ -2,13 +2,13 @@ import OpenAPIClient
 import SwiftUI
 
 public struct MessageElementView: View {
-    private let df: DateFormatter
+    private let dateFormatter: DateFormatter
     private let message: Message
 
     public init(message: Message) {
-        df = DateFormatter()
-        df.locale = Locale(identifier: "ja_JP")
-        df.dateFormat = "HH:mm"
+        dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateFormat = "HH:mm"
 
         self.message = message
     }
@@ -31,7 +31,7 @@ public struct MessageElementView: View {
                         }
                     )
                     .foregroundColor(.black)
-                    Text("@user1 \(df.string(from: message.updatedAt))")
+                    Text("@user1 \(dateFormatter.string(from: message.updatedAt))")
                         .foregroundColor(.gray)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
