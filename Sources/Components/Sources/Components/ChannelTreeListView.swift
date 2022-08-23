@@ -65,6 +65,12 @@ struct ChannelTreeListView_Previews: PreviewProvider {
                 EmptyView()
             }
         }
-        .navigationTitle("チャンネル")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text("チャンネル")
+                    .font(.largeTitle)
+                    .bold()
+            }
+        }
     }
 }

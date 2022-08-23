@@ -9,7 +9,13 @@ public struct ChannelView: View {
             ChannelTreeListView { channel in
                 ChannelContentView(channel: channel)
             }
-            .navigationTitle("チャンネル")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("チャンネル")
+                        .font(.largeTitle)
+                        .bold()
+                }
+            }
         }
     }
 }
