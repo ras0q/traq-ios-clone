@@ -11,11 +11,7 @@ public struct ChannelContentView: View {
 
     public var body: some View {
         ChannelContentHeaderView(channel: channel)
-        ScrollView {
-            ForEach(MessageElementView.sampleMessages, id: \.id) { message in
-                MessageElementView(message: message)
-            }
-        }
+        MessageScrollView(channelId: channel.id)
         MessageInputView()
     }
 }
