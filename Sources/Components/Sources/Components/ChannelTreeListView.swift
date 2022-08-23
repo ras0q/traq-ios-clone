@@ -3,7 +3,15 @@ import Repositories
 import SwiftUI
 
 public struct ChannelTreeListView<Destination>: View where Destination: View {
-    @ObservedObject var topChannels: ChannelNodes = .init(channels: [])
+    private final class ChannelNodes: ObservableObject {
+        @Published fileprivate var data: [ChannelNode] = .init()
+
+        init(_ channels: [ChannelNode]) {
+            data = channels
+        }
+    }
+
+    @ObservedObject private var topChannels: ChannelNodes = .init([])
     private let destination: (ChannelNode) -> Destination
     @State private var openChannelContentView: Bool = false
     @State private var destChannel: ChannelNode?
@@ -18,7 +26,7 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
                 return
             }
 
-            self.topChannels.channels = topChannels
+            self.topChannels.data = topChannels
         }
     }
 
@@ -32,7 +40,7 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
             }
             .hidden()
 
-            List(topChannels.channels, id: \.id, children: \.children) { channel in
+            List(topChannels.data, id: \.id, children: \.children) { channel in
                 let imageView = Image(systemName: "number")
                     .fixedSize()
                     .padding(4)

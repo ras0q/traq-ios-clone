@@ -59,11 +59,3 @@ public final class ChannelNode: Identifiable {
         children = getChildrenRecursive(topChannelIDs)
     }
 }
-
-public final class ChannelNodes: ObservableObject {
-    @Published public var channels: [ChannelNode] = .init()
-
-    public init(channels: [ChannelNode]) {
-        self.channels = channels
-    }
-}

@@ -3,10 +3,10 @@ import SwiftUI
 import Traq
 
 public struct MessageScrollView: View {
-    private class Messages: ObservableObject {
+    private final class Messages: ObservableObject {
         @Published fileprivate var data: [TraqAPI.Message] = .init()
 
-        public init(_ messages: [TraqAPI.Message]) {
+        init(_ messages: [TraqAPI.Message]) {
             data = messages
         }
     }
