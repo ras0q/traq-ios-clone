@@ -52,7 +52,7 @@ public final class ChannelNode: Identifiable {
                     children: getChildrenRecursive(child.children)
                 )
             }
-            .sorted { $0.name < $1.name }
+            .sorted { $0.name.lowercased() < $1.name.lowercased() }
         }
 
         let topChannelIDs = channels.filter { $0.parentId == nil && !$0.archived }.map(\.id)
