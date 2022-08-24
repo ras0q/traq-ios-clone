@@ -1,33 +1,47 @@
 import Models
-import Repositories
 import SwiftUI
+import Traq
 
 public struct ChannelTreeListView<Destination>: View where Destination: View {
+    // input parameters
+    private let destination: (ChannelNode) -> Destination
+
+    // properies managed by SwiftUI
+    @State private var openChannelContentView: Bool = false
+    @State private var destChannel: ChannelNode?
+
+    // objects with publisher on change
+    @ObservedObject private var topChannels: ChannelNodes = .init()
+
     private final class ChannelNodes: ObservableObject {
         @Published fileprivate var data: [ChannelNode] = .init()
 
-        init(_ channels: [ChannelNode]) {
-            data = channels
+        func fetch() {
+            TraqAPI.ChannelAPI.getChannels(includeDm: false) { [self] response, error in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+
+                guard let response = response else {
+                    print("response is nil")
+                    return
+                }
+
+                guard let topChannels = ChannelNode(channels: response._public).children else {
+                    print("topChannels is nil")
+                    return
+                }
+
+                self.data = topChannels
+            }
         }
     }
-
-    @ObservedObject private var topChannels: ChannelNodes = .init([])
-    private let destination: (ChannelNode) -> Destination
-    @State private var openChannelContentView: Bool = false
-    @State private var destChannel: ChannelNode?
-    private var channelRepository: ChannelRepository = ChannelRepositoryImpl()
 
     public init(destination: @escaping (ChannelNode) -> Destination) {
         self.destination = destination
 
-        channelRepository.fetchChannels { [self] response in
-            guard let topChannels = ChannelNode(channels: response._public).children else {
-                print("topChannels is nil")
-                return
-            }
-
-            self.topChannels.data = topChannels
-        }
+        topChannels.fetch()
     }
 
     public var body: some View {
