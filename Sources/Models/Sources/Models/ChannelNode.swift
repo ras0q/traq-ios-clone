@@ -42,6 +42,7 @@ public final class ChannelNode: Identifiable {
                 guard let child = channelDictionary[childID] else {
                     fatalError("cannot resolve channnel tree")
                 }
+
                 return ChannelNode(
                     id: child.id,
                     parentID: child.parentId,
@@ -52,6 +53,7 @@ public final class ChannelNode: Identifiable {
                     children: getChildrenRecursive(child.children)
                 )
             }
+            .filter { !$0.archived }
             .sorted { $0.name.lowercased() < $1.name.lowercased() }
         }
 
