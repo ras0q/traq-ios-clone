@@ -1,4 +1,5 @@
 import Repositories
+import SDWebImageSwiftUI
 import SwiftUI
 import Traq
 
@@ -18,10 +19,14 @@ public struct MessageElementView: View {
 
     public var body: some View {
         HStack {
-            Image(systemName: "person.crop.circle")
+            WebImage(url: URL(string: "\(TraqAPI.basePath)/public/icon/\(user.name)"), isAnimating: .constant(true))
+                .onFailure { error in
+                    print(error.localizedDescription)
+                }
                 .resizable()
+                .placeholder(Image(systemName: "person.crop.circle"))
+                .indicator(.activity) // Activity Indicator
                 .clipShape(Circle())
-                .overlay(Circle().stroke(Color.white, lineWidth: 4))
                 .frame(width: 40, height: 40, alignment: .leading)
             VStack {
                 HStack {
