@@ -86,3 +86,6 @@ packages:
   Views:
     path: ./Sources/Views
     group: ./Sources
+  Stores:
+    path: ./Sources/Stores
+    group: ./Sources

@@ -1,8 +1,16 @@
+import ComposableArchitecture
+import Stores
 import SwiftUI
 
 public struct RootView: View {
+    private let store: AppStore = .defaultAppStore
+    @ObservedObject var viewStore: ViewStore<ViewState, AppAction>
+
     public init() {
         UITabBar.appearance().backgroundColor = UIColor.white
+
+        viewStore = ViewStore(store.scope(state: ViewState.init(state:)))
+        viewStore.send(.fetchChannels)
     }
 
     public var body: some View {
@@ -12,7 +20,7 @@ public struct RootView: View {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
-            ChannelView()
+            ChannelView(store: store)
                 .tabItem {
                     Image(systemName: "number")
                     Text("Channel")

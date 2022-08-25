@@ -1,19 +1,27 @@
 import Components
+import ComposableArchitecture
+import Stores
 import SwiftUI
 
 public struct ChannelView: View {
-    public init() {}
+    private let store: AppStore
+
+    public init(store: AppStore) {
+        self.store = store
+    }
 
     public var body: some View {
-        NavigationView {
-            ChannelTreeListView { channel in
-                ChannelContentView(channel: channel)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text("チャンネル")
-                        .font(.largeTitle)
-                        .bold()
+        WithViewStore(store) { viewStore in
+            NavigationView {
+                ChannelTreeListView(channels: viewStore.channels) { channel in
+                    ChannelContentView(channel: channel)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Text("チャンネル")
+                            .font(.largeTitle)
+                            .bold()
+                    }
                 }
             }
         }
@@ -22,6 +30,6 @@ public struct ChannelView: View {
 
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView()
+        ChannelView(store: .defaultAppStore)
     }
 }
