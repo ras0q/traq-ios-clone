@@ -1,14 +1,13 @@
 import Components
 import ComposableArchitecture
-import Repositories
 import Stores
 import SwiftUI
 
 public struct LoginView: View {
+    private let store: AppStore
+
     @State private var inputTraqId: String = ""
     @State private var inputPassword: String = ""
-    private let authRepository: AuthRepository = AuthRepositoryImpl()
-    private let store: AppStore
 
     public init(store: AppStore) {
         self.store = store
@@ -46,7 +45,7 @@ public struct LoginView: View {
                 }
 
                 Button(action: {
-                    authRepository.logout()
+                    viewStore.send(.postLogout)
                 }) {
                     Text("ログアウト")
                         .fontWeight(.medium)

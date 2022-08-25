@@ -22,8 +22,8 @@ public extension AppStore {
 
 public struct AppState: Equatable {
     public var userMe: TraqAPI.MyUserDetail?
-    public var channels: [TraqAPI.Channel] = .init()
-    public var users: [TraqAPI.User] = .init()
+    public var channels: [TraqAPI.Channel] = []
+    public var users: [TraqAPI.User] = []
 
     public init() {}
 }
@@ -35,6 +35,10 @@ public struct ViewState: Equatable {
 public enum AppAction {
     case postLogin(String, String)
     case postLoginResponse(TaskResult<Void>)
+    case postLogout
+    case postLogoutResponse(TaskResult<Void>)
+    case fetchAll
+    case resetAll
     case fetchMe
     case fetchChannels
     case fetchUsers
@@ -80,9 +84,25 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         }
     case .postLoginResponse(.success):
         return .run { send in
-            await send(.fetchMe)
+            await send(.fetchAll)
         }
     case let .postLoginResponse(.failure(error)):
+        return .run { send in
+            await send(.fetchResponse(.failure(error)))
+        }
+    case .postLogout:
+        return .task {
+            await .postLogoutResponse(
+                TaskResult {
+                    try execute(TraqAPI.AuthenticationAPI.logoutWithRequestBuilder())
+                }
+            )
+        }
+    case .postLogoutResponse(.success):
+        return .run { send in
+            await send(.resetAll)
+        }
+    case let .postLogoutResponse(.failure(error)):
         return .run { send in
             await send(.fetchResponse(.failure(error)))
         }
@@ -110,6 +130,17 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
                 }
             )
         }
+    case .fetchAll:
+        return .run { send in
+            await send(.fetchMe)
+            await send(.fetchChannels)
+            await send(.fetchUsers)
+        }
+    case .resetAll:
+        state.userMe = nil
+        state.channels = []
+        state.users = []
+        return .none
     case let .fetchResponse(.success(response)):
         switch response {
         case let response as TraqAPI.MyUserDetail:

@@ -80,12 +80,13 @@ packages:
   Models:
     path: ./Sources/Models
     group: ./Sources
-  Repositories:
-    path: ./Sources/Repositories
+#  Repositories:
+#    path: ./Sources/Repositories
+#    group: ./Sources
+  Stores:
+    path: ./Sources/Stores
     group: ./Sources
   Views:
     path: ./Sources/Views
     group: ./Sources
-  Stores:
-    path: ./Sources/Stores
-    group: ./Sources
+
