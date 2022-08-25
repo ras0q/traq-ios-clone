@@ -11,11 +11,18 @@ public extension AppStore {
         reducer: appReducer.debug(),
         environment: AppEnvironment()
     )
+
+    func initializeData() {
+        let viewStore = ViewStore(scope(state: ViewState.init(state:)))
+        viewStore.send(.fetchChannels)
+        viewStore.send(.fetchUsers)
+    }
 }
 
 public struct AppState: Equatable {
     public var editMode: EditMode = .inactive
     public var channels: [TraqAPI.Channel] = .init()
+    public var users: [TraqAPI.User] = .init()
 
     public init() {}
 }
@@ -34,6 +41,7 @@ public enum AppAction: Equatable {
     }
 
     case fetchChannels
+    case fetchUsers
     case fetchResponse(TaskResult<Any>)
 }
 
@@ -74,10 +82,20 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
                 }
             )
         }
+    case .fetchUsers:
+        return .task {
+            await .fetchResponse(
+                TaskResult {
+                    try execute(TraqAPI.UserAPI.getUsersWithRequestBuilder(includeSuspended: true))
+                }
+            )
+        }
     case let .fetchResponse(.success(response)):
         switch response {
         case let response as TraqAPI.ChannelList:
             state.channels = response._public
+        case let response as [TraqAPI.User]:
+            state.users = response
         default:
             fatalError("unknown response type")
         }

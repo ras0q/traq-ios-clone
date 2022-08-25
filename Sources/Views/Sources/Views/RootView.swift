@@ -1,16 +1,14 @@
-import ComposableArchitecture
 import Stores
 import SwiftUI
 
 public struct RootView: View {
-    private let store: AppStore = .defaultAppStore
-    @ObservedObject var viewStore: ViewStore<ViewState, AppAction>
+    private let store: AppStore
 
-    public init() {
+    public init(appStore: AppStore = .defaultAppStore) {
         UITabBar.appearance().backgroundColor = UIColor.white
 
-        viewStore = ViewStore(store.scope(state: ViewState.init(state:)))
-        viewStore.send(.fetchChannels)
+        store = appStore
+        store.initializeData()
     }
 
     public var body: some View {

@@ -4,10 +4,11 @@ import Traq
 public struct MessageScrollView: View {
     // input parameters
     private let channelId: UUID
+    private let users: [TraqAPI.User]
+    private let userDictionary: [UUID: TraqAPI.User]
 
     // objects with publisher on change
     @ObservedObject private var messages: Messages = .init()
-    @ObservedObject private var userDictionary: UserDictionary = .init()
 
     private final class Messages: ObservableObject {
         @Published fileprivate var data: [TraqAPI.Message] = .init()
@@ -29,40 +30,17 @@ public struct MessageScrollView: View {
         }
     }
 
-    private final class UserDictionary: ObservableObject {
-        @Published fileprivate var data: [UUID: TraqAPI.User] = .init()
-
-        func fetch() {
-            TraqAPI.UserAPI.getUsers(includeSuspended: true) { [self] response, error in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-
-                guard let response = response else {
-                    print("response is nil")
-                    return
-                }
-
-                var dictionary: [UUID: TraqAPI.User] = [:]
-                response.forEach { user in
-                    dictionary[user.id] = user
-                }
-
-                self.data = dictionary
-            }
-        }
-
-        func getById(_ userId: UUID) -> TraqAPI.User? {
-            data[userId]
-        }
-    }
-
-    public init(channelId: UUID) {
+    public init(channelId: UUID, users: [TraqAPI.User]) {
         self.channelId = channelId
+        self.users = users
+
+        var dictionary: [UUID: TraqAPI.User] = [:]
+        users.forEach { user in
+            dictionary[user.id] = user
+        }
+        userDictionary = dictionary
 
         messages.fetch(channelId: channelId)
-        userDictionary.fetch()
     }
 
     public var body: some View {
@@ -70,7 +48,7 @@ public struct MessageScrollView: View {
             ForEach(messages.data, id: \.id) { message in
                 MessageElementView(
                     message: message,
-                    user: userDictionary.getById(message.userId) ?? TraqAPI.User(
+                    user: userDictionary[message.userId] ?? TraqAPI.User(
                         id: message.userId,
                         name: "unknown",
                         displayName: "unknown",
@@ -87,6 +65,9 @@ public struct MessageScrollView: View {
 
 struct MessageScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageScrollView(channelId: UUID())
+        MessageScrollView(channelId: UUID(), users: [
+            .init(id: UUID(), name: "user1", displayName: "ユーザー1", iconFileId: UUID(), bot: false, state: .active, updatedAt: Date()),
+            .init(id: UUID(), name: "user2", displayName: "ユーザー2", iconFileId: UUID(), bot: false, state: .active, updatedAt: Date()),
+        ])
     }
 }

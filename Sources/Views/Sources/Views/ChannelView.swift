@@ -14,7 +14,7 @@ public struct ChannelView: View {
         WithViewStore(store) { viewStore in
             NavigationView {
                 ChannelTreeListView(channels: viewStore.channels) { channel in
-                    ChannelContentView(channel: channel)
+                    ChannelContentView(store: store, channel: channel)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {

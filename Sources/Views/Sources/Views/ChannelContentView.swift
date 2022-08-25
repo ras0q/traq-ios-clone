@@ -1,23 +1,29 @@
 import Components
+import ComposableArchitecture
 import Models
+import Stores
 import SwiftUI
 
 public struct ChannelContentView: View {
+    private let store: AppStore
     private let channel: ChannelNode
 
-    public init(channel: ChannelNode) {
+    public init(store: AppStore, channel: ChannelNode) {
+        self.store = store
         self.channel = channel
     }
 
     public var body: some View {
-        ChannelContentHeaderView(channel: channel)
-        MessageScrollView(channelId: channel.id)
-        MessageInputView()
+        WithViewStore(store) { viewStore in
+            ChannelContentHeaderView(channel: channel)
+            MessageScrollView(channelId: channel.id, users: viewStore.users)
+            MessageInputView()
+        }
     }
 }
 
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentView(channel: .mockTopChannels[0])
+        ChannelContentView(store: .defaultAppStore, channel: .mockTopChannels[0])
     }
 }
