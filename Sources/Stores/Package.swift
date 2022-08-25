@@ -14,15 +14,17 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.39.0"),
         .package(url: "https://github.com/Ras96/swift-traq.git", branch: "main"),
-        .package(path: "../Components"),
+        .package(path: "../Models"),
     ],
     targets: [
         .target(
             name: "Stores",
             dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Traq", package: "swift-traq"),
-                "Components",
+                "Models",
             ]
         ),
     ]

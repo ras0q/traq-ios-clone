@@ -38,7 +38,7 @@ public struct RootView: View {
                     Image(systemName: "bookmark.fill")
                     Text("Bookmark")
                 }
-            LoginView()
+            LoginView(store: store)
                 .tabItem {
                     Image(systemName: "person")
                     Text("Login")

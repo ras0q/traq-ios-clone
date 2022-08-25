@@ -13,6 +13,7 @@ public extension AppStore {
     )
 
     func initializeData() {
+        // TODO: ログインしてなかったらLoginViewに遷移させる
         let viewStore = ViewStore(scope(state: ViewState.init(state:)))
         viewStore.send(.fetchChannels)
         viewStore.send(.fetchUsers)
@@ -20,6 +21,7 @@ public extension AppStore {
 }
 
 public struct AppState: Equatable {
+    public var userMe: TraqAPI.MyUserDetail?
     public var channels: [TraqAPI.Channel] = .init()
     public var users: [TraqAPI.User] = .init()
 
@@ -31,6 +33,9 @@ public struct ViewState: Equatable {
 }
 
 public enum AppAction {
+    case postLogin(String, String)
+    case postLoginResponse(TaskResult<Void>)
+    case fetchMe
     case fetchChannels
     case fetchUsers
     case fetchResponse(TaskResult<Any>)
@@ -65,6 +70,30 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
     }
 
     switch action {
+    case let .postLogin(traqId, password):
+        return .task {
+            await .postLoginResponse(
+                TaskResult {
+                    try execute(TraqAPI.AuthenticationAPI.loginWithRequestBuilder(postLoginRequest: .init(name: traqId, password: password)))
+                }
+            )
+        }
+    case .postLoginResponse(.success):
+        return .run { send in
+            await send(.fetchMe)
+        }
+    case let .postLoginResponse(.failure(error)):
+        return .run { send in
+            await send(.fetchResponse(.failure(error)))
+        }
+    case .fetchMe:
+        return .task {
+            await .fetchResponse(
+                TaskResult {
+                    try execute(TraqAPI.MeAPI.getMeWithRequestBuilder())
+                }
+            )
+        }
     case .fetchChannels:
         return .task {
             await .fetchResponse(
@@ -83,6 +112,8 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         }
     case let .fetchResponse(.success(response)):
         switch response {
+        case let response as TraqAPI.MyUserDetail:
+            state.userMe = response
         case let response as TraqAPI.ChannelList:
             state.channels = response._public
         case let response as [TraqAPI.User]:
