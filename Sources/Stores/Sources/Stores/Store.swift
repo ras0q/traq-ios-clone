@@ -20,7 +20,6 @@ public extension AppStore {
 }
 
 public struct AppState: Equatable {
-    public var editMode: EditMode = .inactive
     public var channels: [TraqAPI.Channel] = .init()
     public var users: [TraqAPI.User] = .init()
 
@@ -28,18 +27,10 @@ public struct AppState: Equatable {
 }
 
 public struct ViewState: Equatable {
-    public let editMode: EditMode
-
-    public init(state: AppState) {
-        editMode = state.editMode
-    }
+    public init(state _: AppState) {}
 }
 
-public enum AppAction: Equatable {
-    public static func == (_: AppAction, _: AppAction) -> Bool {
-        true
-    }
-
+public enum AppAction {
     case fetchChannels
     case fetchUsers
     case fetchResponse(TaskResult<Any>)
