@@ -15,7 +15,7 @@ public struct ChannelContentView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            ChannelContentHeaderView(channel: channel)
+            ChannelContentHeaderView(channel, viewStore.channelDictionary)
             MessageScrollView(channel.id, viewStore.userDictionary)
             MessageInputView()
         }
