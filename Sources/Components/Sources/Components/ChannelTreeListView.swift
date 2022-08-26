@@ -46,12 +46,16 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
                         )
                 }
 
-                // use Text as a Button
-                Text(channel.name)
-                    .onTapGesture {
-                        destChannel = channel
-                        openChannelContentView = true
-                    }
+                // Buttonだと行全体に判定がついてしまうため.onTapGestureを使う
+                HStack {
+                    Text(channel.name)
+                    Spacer()
+                }
+                .contentShape(Rectangle()) // Spacerにも判定をつける
+                .onTapGesture {
+                    destChannel = channel
+                    openChannelContentView = true
+                }
             }
         }
     }
