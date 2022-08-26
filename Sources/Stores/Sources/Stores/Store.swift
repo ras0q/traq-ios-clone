@@ -22,10 +22,27 @@ public extension AppStore {
 
 public struct AppState: Equatable {
     public var userMe: TraqAPI.MyUserDetail?
-    public var channelDictionary: [UUID: TraqAPI.Channel] = [:]
-    public var userDictionary: [UUID: TraqAPI.User] = [:]
+    public var users: [TraqAPI.User] = []
+    public var channels: [TraqAPI.Channel] = []
 
     public init() {}
+
+    // computed properties
+    public var channelDictionary: [UUID: TraqAPI.Channel] {
+        arr2dict(channels, id: \.id)
+    }
+
+    public var userDictionary: [UUID: TraqAPI.User] {
+        arr2dict(users, id: \.id)
+    }
+
+    private func arr2dict<K, V>(_ array: [V], id: KeyPath<V, K>) -> [K: V] {
+        array.reduce([K: V]()) { dic, value in
+            var newDic = dic
+            newDic[value[keyPath: id]] = value
+            return newDic
+        }
+    }
 }
 
 public struct ViewState: Equatable {
@@ -138,27 +155,17 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         }
     case .resetAll:
         state.userMe = nil
-        state.channelDictionary = [:]
-        state.userDictionary = [:]
+        state.channels = []
+        state.users = []
         return .none
     case let .fetchResponse(.success(response)):
         switch response {
         case let response as TraqAPI.MyUserDetail:
             state.userMe = response
         case let response as TraqAPI.ChannelList:
-            state.channelDictionary = response._public
-                .reduce([UUID: TraqAPI.Channel]()) { dic, channel in
-                    var newDic = dic
-                    newDic[channel.id] = channel
-                    return newDic
-                }
+            state.channels = response._public
         case let response as [TraqAPI.User]:
-            state.userDictionary = response
-                .reduce([UUID: TraqAPI.User]()) { dic, user in
-                    var newDic = dic
-                    newDic[user.id] = user
-                    return newDic
-                }
+            state.users = response
         default:
             fatalError("unknown response type")
         }
