@@ -68,34 +68,15 @@ public struct AppEnvironment {
     public init() {}
 }
 
-public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, environment in
-    @Sendable func execute<T>(_ requestBuilder: RequestBuilder<T>, _ queue: DispatchQueue = environment.mainQueue) throws -> T {
-        // NOTE: 生成されるコードがメソッド内で非同期処理を行うためDispatchGroupを使って処理の流れを制御している
-        let group = DispatchGroup()
-        group.enter()
-
-        var result: Result<Response<T>, ErrorResponse> = .failure(.error(500, nil, nil, DownloadException.responseFailed))
-        requestBuilder.execute(queue) { apiResult in
-            result = apiResult
-            group.leave()
-        }
-
-        group.wait()
-
-        switch result {
-        case let .success(response):
-            return response.body
-        case let .failure(error):
-            throw error
-        }
-    }
-
+public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
     case let .postLogin(traqId, password):
         return .task {
             await .postLoginResponse(
                 TaskResult {
-                    try execute(TraqAPI.AuthenticationAPI.loginWithRequestBuilder(postLoginRequest: .init(name: traqId, password: password)))
+                    try await TraqAPI.AuthenticationAPI.login(
+                        postLoginRequest: .init(name: traqId, password: password)
+                    )
                 }
             )
         }
@@ -111,7 +92,7 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         return .task {
             await .postLogoutResponse(
                 TaskResult {
-                    try execute(TraqAPI.AuthenticationAPI.logoutWithRequestBuilder())
+                    try await TraqAPI.AuthenticationAPI.logout()
                 }
             )
         }
@@ -127,7 +108,7 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         return .task {
             await .fetchResponse(
                 TaskResult {
-                    try execute(TraqAPI.MeAPI.getMeWithRequestBuilder())
+                    try await TraqAPI.MeAPI.getMe()
                 }
             )
         }
@@ -135,7 +116,7 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         return .task {
             await .fetchResponse(
                 TaskResult {
-                    try execute(TraqAPI.ChannelAPI.getChannelsWithRequestBuilder(includeDm: false))
+                    try await TraqAPI.ChannelAPI.getChannels(includeDm: false)
                 }
             )
         }
@@ -143,7 +124,7 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         return .task {
             await .fetchResponse(
                 TaskResult {
-                    try execute(TraqAPI.UserAPI.getUsersWithRequestBuilder(includeSuspended: true))
+                    try await TraqAPI.UserAPI.getUsers(includeSuspended: true)
                 }
             )
         }

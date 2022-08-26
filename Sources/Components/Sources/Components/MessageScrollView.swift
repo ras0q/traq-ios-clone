@@ -13,18 +13,11 @@ public struct MessageScrollView: View {
         @Published fileprivate var data: [TraqAPI.Message] = .init()
 
         func fetch(channelId: UUID) {
-            TraqAPI.ChannelAPI.getMessages(channelId: channelId) { [self] response, error in
-                guard error == nil else {
-                    print(error!)
-                    return
+            Task {
+                let data = try await TraqAPI.ChannelAPI.getMessages(channelId: channelId)
+                DispatchQueue.main.async {
+                    self.data = data
                 }
-
-                guard let response = response else {
-                    print("response is nil")
-                    return
-                }
-
-                self.data = response
             }
         }
     }
