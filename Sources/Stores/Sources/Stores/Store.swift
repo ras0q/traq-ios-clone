@@ -22,8 +22,8 @@ public extension AppStore {
 
 public struct AppState: Equatable {
     public var userMe: TraqAPI.MyUserDetail?
-    public var channels: [TraqAPI.Channel] = []
-    public var users: [TraqAPI.User] = []
+    public var channelDictionary: [UUID: TraqAPI.Channel] = [:]
+    public var userDictionary: [UUID: TraqAPI.User] = [:]
 
     public init() {}
 }
@@ -138,17 +138,27 @@ public let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, ac
         }
     case .resetAll:
         state.userMe = nil
-        state.channels = []
-        state.users = []
+        state.channelDictionary = [:]
+        state.userDictionary = [:]
         return .none
     case let .fetchResponse(.success(response)):
         switch response {
         case let response as TraqAPI.MyUserDetail:
             state.userMe = response
         case let response as TraqAPI.ChannelList:
-            state.channels = response._public
+            state.channelDictionary = response._public
+                .reduce([UUID: TraqAPI.Channel]()) { dic, channel in
+                    var newDic = dic
+                    newDic[channel.id] = channel
+                    return newDic
+                }
         case let response as [TraqAPI.User]:
-            state.users = response
+            state.userDictionary = response
+                .reduce([UUID: TraqAPI.User]()) { dic, user in
+                    var newDic = dic
+                    newDic[user.id] = user
+                    return newDic
+                }
         default:
             fatalError("unknown response type")
         }

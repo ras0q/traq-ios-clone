@@ -9,10 +9,15 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
 
     // properies managed by SwiftUI
     @State private var openChannelContentView: Bool = false
-    @State private var destChannel: ChannelNode?
+    @State private var destChannel: ChannelNode = .init(
+        id: UUID(),
+        parentID: nil,
+        name: "dummy",
+        children: []
+    )
 
-    public init(channels: [TraqAPI.Channel], destination: @escaping (ChannelNode) -> Destination) {
-        topChannels = ChannelNode(channels: channels).children ?? []
+    public init(_ channelDictionary: [UUID: TraqAPI.Channel], destination: @escaping (ChannelNode) -> Destination) {
+        topChannels = ChannelNode(from: channelDictionary).children ?? []
         self.destination = destination
     }
 
@@ -20,7 +25,7 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
         ZStack {
             NavigationLink(
                 isActive: $openChannelContentView,
-                destination: { destination(destChannel ?? .mockTopChannels[0]) }
+                destination: { destination(destChannel) }
             ) {
                 EmptyView()
             }
@@ -53,9 +58,65 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
 }
 
 struct ChannelTreeListView_Previews: PreviewProvider {
+    private static let mockChannelDictionary: [UUID: TraqAPI.Channel] = {
+        let parent1Id = UUID()
+        let parent2Id = UUID()
+        let child1Id = UUID()
+        let child2Id = UUID()
+        let grandchild1Id = UUID()
+
+        return [
+            parent1Id: .init(
+                id: parent1Id,
+                parentId: nil,
+                archived: false,
+                force: false,
+                topic: "this is parent1",
+                name: "parent1",
+                children: [child1Id, child2Id]
+            ),
+            parent2Id: .init(
+                id: parent2Id,
+                parentId: nil,
+                archived: false,
+                force: false,
+                topic: "this is parent2",
+                name: "parent2",
+                children: []
+            ),
+            child1Id: .init(
+                id: child1Id,
+                parentId: parent1Id,
+                archived: false,
+                force: false,
+                topic: "this is child1",
+                name: "child1",
+                children: [grandchild1Id]
+            ),
+            child2Id: .init(
+                id: child2Id,
+                parentId: parent1Id,
+                archived: false,
+                force: false,
+                topic: "this is child2",
+                name: "child2",
+                children: []
+            ),
+            grandchild1Id: .init(
+                id: grandchild1Id,
+                parentId: child1Id,
+                archived: false,
+                force: false,
+                topic: "this is grandchild1",
+                name: "grandchild1",
+                children: []
+            ),
+        ]
+    }()
+
     static var previews: some View {
         NavigationView {
-            ChannelTreeListView(channels: ChannelNode.mockChannels) { _ in
+            ChannelTreeListView(mockChannelDictionary) { _ in
                 EmptyView()
             }
         }

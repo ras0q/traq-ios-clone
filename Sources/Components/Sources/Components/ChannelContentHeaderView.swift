@@ -36,6 +36,11 @@ public struct ChannelContentHeaderView: View {
 
 struct ChannelContentHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentHeaderView(channel: .mockTopChannels[0])
+        ChannelContentHeaderView(channel: .init(
+            id: UUID(),
+            parentID: nil,
+            name: "preview",
+            children: []
+        ))
     }
 }

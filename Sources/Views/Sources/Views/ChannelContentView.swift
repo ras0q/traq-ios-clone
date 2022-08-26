@@ -16,7 +16,7 @@ public struct ChannelContentView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             ChannelContentHeaderView(channel: channel)
-            MessageScrollView(channelId: channel.id, users: viewStore.users)
+            MessageScrollView(channel.id, viewStore.userDictionary)
             MessageInputView()
         }
     }
@@ -24,6 +24,11 @@ public struct ChannelContentView: View {
 
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentView(store: .defaultAppStore, channel: .mockTopChannels[0])
+        ChannelContentView(store: .defaultAppStore, channel: .init(
+            id: UUID(),
+            parentID: nil,
+            name: "preview",
+            children: []
+        ))
     }
 }

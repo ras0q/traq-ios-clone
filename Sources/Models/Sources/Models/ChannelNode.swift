@@ -20,21 +20,13 @@ public final class ChannelNode: Identifiable {
         self.children = children
     }
 
-    public init(channels: [TraqAPI.Channel]) {
+    public init(from channelDictionary: [UUID: TraqAPI.Channel]) {
         id = UUID()
         parentId = nil
         archived = false
         force = false
         topic = ""
         name = "dummy-root"
-
-        // get-children process
-
-        let channelDictionary = channels.reduce([UUID: TraqAPI.Channel]()) { dic, channel in
-            var resultDic = dic
-            resultDic[channel.id] = channel
-            return resultDic
-        }
 
         var getChildrenRecursive: (([UUID]) -> [ChannelNode]?)!
         getChildrenRecursive = { childIDs in
@@ -57,7 +49,10 @@ public final class ChannelNode: Identifiable {
             .sorted { $0.name.lowercased() < $1.name.lowercased() }
         }
 
-        let topChannelIDs = channels.filter { $0.parentId == nil && !$0.archived }.map(\.id)
+        let topChannelIDs = channelDictionary.values
+            .filter { $0.parentId == nil && !$0.archived }
+            .map(\.id)
+
         children = getChildrenRecursive(topChannelIDs)
     }
 }

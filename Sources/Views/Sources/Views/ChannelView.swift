@@ -13,7 +13,7 @@ public struct ChannelView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                ChannelTreeListView(channels: viewStore.channels) { channel in
+                ChannelTreeListView(viewStore.channelDictionary) { channel in
                     ChannelContentView(store: store, channel: channel)
                 }
                 .toolbar {

@@ -4,7 +4,6 @@ import Traq
 public struct MessageScrollView: View {
     // input parameters
     private let channelId: UUID
-    private let users: [TraqAPI.User]
     private let userDictionary: [UUID: TraqAPI.User]
 
     // objects with publisher on change
@@ -30,15 +29,9 @@ public struct MessageScrollView: View {
         }
     }
 
-    public init(channelId: UUID, users: [TraqAPI.User]) {
+    public init(_ channelId: UUID, _ userDictionary: [UUID: TraqAPI.User]) {
         self.channelId = channelId
-        self.users = users
-
-        var dictionary: [UUID: TraqAPI.User] = [:]
-        users.forEach { user in
-            dictionary[user.id] = user
-        }
-        userDictionary = dictionary
+        self.userDictionary = userDictionary
 
         messages.fetch(channelId: channelId)
     }
@@ -64,10 +57,29 @@ public struct MessageScrollView: View {
 }
 
 struct MessageScrollView_Previews: PreviewProvider {
+    private static let user1Id: UUID = .init()
+    private static let user2Id: UUID = .init()
+
     static var previews: some View {
-        MessageScrollView(channelId: UUID(), users: [
-            .init(id: UUID(), name: "user1", displayName: "ユーザー1", iconFileId: UUID(), bot: false, state: .active, updatedAt: Date()),
-            .init(id: UUID(), name: "user2", displayName: "ユーザー2", iconFileId: UUID(), bot: false, state: .active, updatedAt: Date()),
+        MessageScrollView(UUID(), [
+            user1Id: .init(
+                id: UUID(),
+                name: "user1",
+                displayName: "ユーザー1",
+                iconFileId: UUID(),
+                bot: false,
+                state: .active,
+                updatedAt: Date()
+            ),
+            user2Id: .init(
+                id: UUID(),
+                name: "user2",
+                displayName: "ユーザー2",
+                iconFileId: UUID(),
+                bot: false,
+                state: .active,
+                updatedAt: Date()
+            ),
         ])
     }
 }
