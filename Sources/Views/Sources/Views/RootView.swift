@@ -28,7 +28,7 @@ public struct RootView: View {
                     Image(systemName: "bolt.fill")
                     Text("Activity")
                 }
-            UserView()
+            UserView(store: store)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("User")
