@@ -1,5 +1,5 @@
 import SwiftUI
-import Views // NOTE: available by configuring this package as a framework
+import Views
 
 @main
 struct TraqCloneApp: App {
