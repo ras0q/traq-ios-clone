@@ -32,7 +32,9 @@ public struct ChannelContentHeaderView: View {
             .map { $0.prefix(1) }
             .reversed()
             .joined(separator: "/")
-        shortChannelPath = "#\(shortParentPath)/\(channel.name)"
+        shortChannelPath = parentPaths.count > 0
+            ? "#\(shortParentPath)/\(channel.name)"
+            : "#\(channel.name)"
     }
 
     public var body: some View {
