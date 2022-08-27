@@ -17,7 +17,7 @@ public struct MessageElementView: View {
     }
 
     public var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             WebImage(url: URL(string: "\(TraqAPI.basePath)/public/icon/\(user.name)"), isAnimating: .constant(true))
                 .onFailure { error in
                     print(error.localizedDescription)
