@@ -5,10 +5,10 @@ import Stores
 import SwiftUI
 
 public struct ChannelContentView: View {
-    private let store: AppStore
+    private let store: ChannelCore.Store
     private let channel: ChannelNode
 
-    public init(store: AppStore, channel: ChannelNode) {
+    public init(store: ChannelCore.Store, channel: ChannelNode) {
         self.store = store
         self.channel = channel
     }
@@ -16,7 +16,7 @@ public struct ChannelContentView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             ChannelContentHeaderView(channel, viewStore.channelDictionary)
-            MessageScrollView(channel.id, viewStore.userDictionary)
+            MessageScrollView(channel.id, viewStore.user.userDictionary)
             MessageInputView()
         }
     }
@@ -24,11 +24,18 @@ public struct ChannelContentView: View {
 
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelContentView(store: .defaultAppStore, channel: .init(
-            id: UUID(),
-            parentID: nil,
-            name: "preview",
-            children: []
-        ))
+        ChannelContentView(
+            store: AppCore.Store.defaultAppStore
+                .scope(
+                    state: { $0.channel },
+                    action: AppCore.Action.channel
+                ),
+            channel: .init(
+                id: UUID(),
+                parentID: nil,
+                name: "preview",
+                children: []
+            )
+        )
     }
 }

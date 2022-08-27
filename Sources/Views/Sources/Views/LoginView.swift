@@ -4,12 +4,12 @@ import Stores
 import SwiftUI
 
 public struct LoginView: View {
-    private let store: AppStore
+    private let store: AuthCore.Store
 
     @State private var inputTraqId: String = ""
     @State private var inputPassword: String = ""
 
-    public init(store: AppStore) {
+    public init(store: AuthCore.Store) {
         self.store = store
     }
 
@@ -31,7 +31,7 @@ public struct LoginView: View {
                 .frame(height: 200)
 
                 Button(action: {
-                    viewStore.send(.postLogin(inputTraqId, inputPassword))
+                    viewStore.send(.postLogin(name: inputTraqId, password: inputPassword))
                     inputTraqId = ""
                     inputPassword = ""
                 }) {
@@ -62,6 +62,12 @@ public struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(store: .defaultAppStore)
+        LoginView(
+            store: AppCore.Store.defaultAppStore
+                .scope(
+                    state: { $0.auth },
+                    action: AppCore.Action.auth
+                )
+        )
     }
 }

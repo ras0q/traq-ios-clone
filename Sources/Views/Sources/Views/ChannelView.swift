@@ -4,9 +4,9 @@ import Stores
 import SwiftUI
 
 public struct ChannelView: View {
-    private let store: AppStore
+    private let store: ChannelCore.Store
 
-    public init(store: AppStore) {
+    public init(store: ChannelCore.Store) {
         self.store = store
     }
 
@@ -30,6 +30,12 @@ public struct ChannelView: View {
 
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView(store: .defaultAppStore)
+        ChannelView(
+            store: AppCore.Store.defaultAppStore
+                .scope(
+                    state: { $0.channel },
+                    action: AppCore.Action.channel
+                )
+        )
     }
 }

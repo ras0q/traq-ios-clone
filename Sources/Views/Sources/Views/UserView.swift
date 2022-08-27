@@ -4,9 +4,9 @@ import Stores
 import SwiftUI
 
 public struct UserView: View {
-    private let store: AppStore
+    private let store: UserCore.Store
 
-    public init(store: AppStore) {
+    public init(store: UserCore.Store) {
         self.store = store
     }
 
@@ -35,6 +35,12 @@ public struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView(store: .defaultAppStore)
+        UserView(
+            store: AppCore.Store.defaultAppStore
+                .scope(
+                    state: { $0.user },
+                    action: AppCore.Action.user
+                )
+        )
     }
 }
