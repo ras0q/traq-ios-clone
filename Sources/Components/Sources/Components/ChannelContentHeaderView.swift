@@ -4,13 +4,13 @@ import Traq
 
 public struct ChannelContentHeaderView: View {
     private let channel: ChannelNode
-    private let channelPath: String
+    private let shortChannelPath: String
 
     public init(_ channel: ChannelNode, _ dictionary: [UUID: TraqAPI.Channel]) {
         self.channel = channel
 
-        var revPaths: [String] = [channel.name]
-        var tmp: TraqAPI.Channel = .init(
+        var parentPaths: [String] = [] // [parent,grandParent,...]の順
+        var tmpChannel: TraqAPI.Channel = .init(
             id: channel.id,
             parentId: channel.parentId,
             archived: .init(),
@@ -19,21 +19,25 @@ public struct ChannelContentHeaderView: View {
             name: .init(),
             children: .init()
         )
-        while tmp.parentId != nil {
-            guard let parent = dictionary[tmp.parentId!] else {
+        while tmpChannel.parentId != nil {
+            guard let parent = dictionary[tmpChannel.parentId!] else {
                 fatalError("cannot resolve channnel tree")
             }
 
-            revPaths.append(parent.name)
-            tmp = parent
+            parentPaths.append(parent.name)
+            tmpChannel = parent
         }
 
-        channelPath = revPaths.reversed().joined(separator: "/")
+        let shortParentPath = parentPaths
+            .map { $0.prefix(1) }
+            .reversed()
+            .joined(separator: "/")
+        shortChannelPath = "#\(shortParentPath)/\(channel.name)"
     }
 
     public var body: some View {
         HStack {
-            Text("#\(channelPath)")
+            Text(shortChannelPath)
                 .font(.title)
                 .bold()
             Divider().background(Color.gray)
@@ -50,7 +54,7 @@ public struct ChannelContentHeaderView: View {
             Rectangle().frame(height: 1).foregroundColor(.gray),
             alignment: .bottom
         )
-        .navigationTitle("#\(channelPath)")
+        .navigationTitle(shortChannelPath)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
