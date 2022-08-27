@@ -39,18 +39,20 @@ public struct ChannelContentHeaderView: View {
 
     public var body: some View {
         HStack {
-            Text(shortChannelPath)
-                .font(.title)
-                .bold()
-            Divider().background(Color.gray)
-            Text(channel.topic)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(shortChannelPath)
+                    .font(.title)
+                    .bold()
+                Text(channel.topic)
+                    .foregroundColor(.gray)
+            }
             Spacer()
             Button(action: {}, label: { Image(systemName: "phone") }).foregroundColor(.black)
             Button(action: {}, label: { Image(systemName: "bell") }).foregroundColor(.black)
             Button(action: {}, label: { Image(systemName: "star") }).foregroundColor(.black)
             Button(action: {}, label: { Image(systemName: "ellipsis") }).foregroundColor(.black)
         }
-        .fixedSize()
+        .frame(height: 50)
         .padding()
         .overlay(
             Rectangle().frame(height: 1).foregroundColor(.gray),

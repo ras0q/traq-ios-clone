@@ -41,7 +41,7 @@ public struct MessageElementView: View {
                     Text("@\(user.name) \(dateFormatter.string(from: message.updatedAt))")
                         .foregroundColor(.gray)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: 20, alignment: .leading)
                 Text(message.content)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
