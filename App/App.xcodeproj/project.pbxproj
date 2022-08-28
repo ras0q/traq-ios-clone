@@ -92,12 +92,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F58EB0E28BA69D400AF199E /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				4FF0BEE228BA72B7001D75C2 /* Install tools */,
-				4FF0BEE328BA7307001D75C2 /* Run formatter & linter */,
 				4F58EAFC28BA69D000AF199E /* Sources */,
 				4F58EAFD28BA69D000AF199E /* Frameworks */,
 				4F58EAFE28BA69D000AF199E /* Resources */,
 				4F58EB1728BA6B5400AF199E /* Embed Frameworks */,
+				4FF0BEE328BA7307001D75C2 /* Run formatter & linter */,
 			);
 			buildRules = (
 			);
@@ -160,24 +159,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4FF0BEE228BA72B7001D75C2 /* Install tools */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Install tools";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd ../TraqClone\n./scripts/build_tool.sh swiftformat\n./scripts/build_tool.sh swiftlint\n";
-		};
 		4FF0BEE328BA7307001D75C2 /* Run formatter & linter */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -194,7 +175,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../TraqClone\n./scripts/run_tool.sh swiftformat .\n./scripts/run_tool.sh swiftlint --config ../.swiftlint.yml .\n";
+			shellScript = "cd ../\nmake run-tools\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
