@@ -17,7 +17,7 @@ public struct ChannelContentView: View {
         WithViewStore(store) { viewStore in
             ChannelContentHeaderView(channel, viewStore.channelDictionary)
             MessageScrollView(channel.id, viewStore.user.userDictionary)
-            MessageInputView()
+            MessageInputView(needAlert: channel.force)
         }
     }
 }
