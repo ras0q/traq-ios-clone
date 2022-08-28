@@ -36,10 +36,10 @@ public struct UserView: View {
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
         UserView(
-            store: AppCore.Store.defaultAppStore
+            store: ServiceCore.Store.defaultStore
                 .scope(
                     state: { $0.user },
-                    action: AppCore.Action.user
+                    action: ServiceCore.Action.user
                 )
         )
     }

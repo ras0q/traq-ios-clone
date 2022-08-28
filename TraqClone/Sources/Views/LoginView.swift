@@ -62,12 +62,6 @@ public struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(
-            store: AppCore.Store.defaultAppStore
-                .scope(
-                    state: { $0.auth },
-                    action: AppCore.Action.auth
-                )
-        )
+        LoginView(store: .defaultStore)
     }
 }

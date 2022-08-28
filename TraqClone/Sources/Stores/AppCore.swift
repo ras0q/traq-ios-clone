@@ -7,18 +7,20 @@ public enum AppCore {
     public typealias Store = ComposableArchitecture.Store<State, Action>
     public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
 
-    public struct State: Equatable {
-        public var auth: AuthCore.State = .init()
-        public var channel: ChannelCore.State = .init()
-        public var user: UserCore.State = .init()
+    public enum State: Equatable {
+        // auth: 未ログイン時ステート。ログイン画面に遷移
+        // service: ログイン後ステート。サービス画面に遷移
+        case auth(AuthCore.State)
+        case service(ServiceCore.State)
 
-        public init() {}
+        public init() {
+            self = .service(.init())
+        }
     }
 
     public enum Action {
         case auth(AuthCore.Action)
-        case channel(ChannelCore.Action)
-        case user(UserCore.Action)
+        case service(ServiceCore.Action)
     }
 
     public struct Environment {
@@ -28,28 +30,42 @@ public enum AppCore {
     public static let reducer: Reducer = Reducer.combine(
         AuthCore.reducer
             .pullback(
-                state: \AppCore.State.auth,
+                state: /AppCore.State.auth,
                 action: /AppCore.Action.auth,
                 environment: { _ in AuthCore.Environment() }
             ),
-
-        ChannelCore.reducer
+        ServiceCore.reducer
             .pullback(
-                state: \AppCore.State.channel,
-                action: /AppCore.Action.channel,
-                environment: { _ in ChannelCore.Environment() }
+                state: /AppCore.State.service,
+                action: /AppCore.Action.service,
+                environment: { _ in ServiceCore.Environment() }
             ),
-        UserCore.reducer
-            .pullback(
-                state: \AppCore.State.user,
-                action: /AppCore.Action.user,
-                environment: { _ in UserCore.Environment() }
-            )
+        Reducer { state, action, _ in
+            switch action {
+            // ログインに成功したら自分のユーザー情報を取得する
+            case .auth(.postLoginResponse(.success)):
+                state = .service(.init())
+                return .run { send in
+                    await send(.service(.userMe(.fetchMe)))
+                }
+            // 自分のユーザー情報が取得できたら他の情報も取得する
+            case .service(.userMe(.fetchMeResponse(.success))):
+                return .run { send in
+                    await send(.service(.fetchAll))
+                }
+            // 自分のユーザー情報の取得に失敗したらログイン画面に戻す
+            case let .service(.userMe(.fetchMeResponse(.failure(error)))):
+                state = .auth(.init())
+                return .none
+            default:
+                return .none
+            }
+        }
     )
 }
 
 public extension AppCore.Store {
-    static let defaultAppStore: AppCore.Store = .init(
+    static let defaultStore: AppCore.Store = .init(
         initialState: AppCore.State(),
         reducer: AppCore.reducer.debug(),
         environment: AppCore.Environment()

@@ -16,7 +16,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.39.0"),
-        .package(url: "https://github.com/Ras96/swift-traq.git", branch: "main"),
+        .package(url: "https://github.com/Ras96/swift-traq.git", branch: "wip/apply-traq-migration-error"),
         .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", from: "2.0.2"),
     ],
     targets: [

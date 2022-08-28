@@ -31,10 +31,10 @@ public struct ChannelView: View {
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
         ChannelView(
-            store: AppCore.Store.defaultAppStore
+            store: ServiceCore.Store.defaultStore
                 .scope(
                     state: { $0.channel },
-                    action: AppCore.Action.channel
+                    action: ServiceCore.Action.channel
                 )
         )
     }

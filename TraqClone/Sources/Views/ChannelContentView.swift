@@ -25,10 +25,10 @@ public struct ChannelContentView: View {
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
         ChannelContentView(
-            store: AppCore.Store.defaultAppStore
+            store: ServiceCore.Store.defaultStore
                 .scope(
                     state: { $0.channel },
-                    action: AppCore.Action.channel
+                    action: ServiceCore.Action.channel
                 ),
             channel: .init(
                 id: UUID(),
