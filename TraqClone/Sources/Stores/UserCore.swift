@@ -38,7 +38,7 @@ public enum UserCore {
             return .task {
                 await .response(
                     TaskResult {
-                        try await TraqAPI.UserAPI.getUsers()
+                        try await TraqAPI.UserAPI.getUsers(includeSuspended: true)
                     }
                 )
             }
