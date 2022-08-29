@@ -57,7 +57,7 @@ public enum AppCore {
             case let .service(.userMe(.fetchMeResponse(.failure(error)))):
                 state = .auth(.init())
                 return .none
-            default:
+            case .auth, .service:
                 return .none
             }
         }
