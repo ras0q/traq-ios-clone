@@ -23,7 +23,10 @@ public enum ChannelCore {
 
     public enum Action: Equatable {
         case fetchChannels
-        case response(TaskResult<[TraqAPI.Channel]>)
+        case fetchChannelsResponse(TaskResult<[TraqAPI.Channel]>)
+        case fetchChannel(UUID)
+        case fetchChannelResponse(TaskResult<TraqAPI.Channel>)
+
         case user(UserCore.Action)
 
         public static func == (_: ChannelCore.Action, _: ChannelCore.Action) -> Bool {
@@ -45,18 +48,35 @@ public enum ChannelCore {
             switch action {
             case .fetchChannels:
                 return .task {
-                    await .response(
+                    await .fetchChannelsResponse(
                         TaskResult {
                             let channelList = try await TraqAPI.ChannelAPI.getChannels(includeDm: false)
                             return channelList._public
                         }
                     )
                 }
-            case let .response(.success(channels)):
+            case let .fetchChannelsResponse(.success(channels)):
                 state.channels = channels
                 return .none
-            case let .response(.failure(error)):
+            case let .fetchChannelsResponse(.failure(error)):
                 print("failed to fetch channels: \(error)")
+                return .none
+            case let .fetchChannel(channelId):
+                return .task {
+                    await .fetchChannelResponse(
+                        TaskResult {
+                            let channel = try await TraqAPI.ChannelAPI.getChannel(channelId: channelId)
+                            return channel
+                        }
+                    )
+                }
+            case let .fetchChannelResponse(.success(channel)):
+                var channels = state.channels
+                channels.append(channel)
+                state.channels = channels.sorted { $0.id.uuidString < $1.id.uuidString }
+                return .none
+            case let .fetchChannelResponse(.failure(error)):
+                print("failed to fetch channel()")
                 return .none
             case .user:
                 return .none
