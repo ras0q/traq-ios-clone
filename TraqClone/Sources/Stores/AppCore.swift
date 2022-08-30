@@ -66,6 +66,10 @@ public enum AppCore {
 
 public extension AppCore.Store {
     static let defaultStore: AppCore.Store = {
+        #if DEBUG
+            TraqAPI.basePath = "https://q-dev.trapti.tech/api/v3"
+        #endif
+
         let userState: UserCore.State = .init()
         let userMeState: UserMeCore.State = .init()
         let authState: AuthCore.State = .init()

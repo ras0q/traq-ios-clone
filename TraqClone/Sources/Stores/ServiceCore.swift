@@ -7,15 +7,18 @@ public enum ServiceCore {
     public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
 
     public struct State: Equatable {
+        public var websocket: WsCore.State
         public var channel: ChannelCore.State
         public var user: UserCore.State
         public var userMe: UserMeCore.State
 
         public init(
+            websocket: WsCore.State = .init(),
             channel: ChannelCore.State = .init(),
             user: UserCore.State = .init(),
             userMe: UserMeCore.State = .init()
         ) {
+            self.websocket = websocket
             self.channel = channel
             self.user = user
             self.userMe = userMe
@@ -25,6 +28,7 @@ public enum ServiceCore {
     public enum Action: Equatable {
         case fetchAll
 
+        case websocket(WsCore.Action)
         case channel(ChannelCore.Action)
         case user(UserCore.Action)
         case userMe(UserMeCore.Action)
@@ -39,6 +43,11 @@ public enum ServiceCore {
     }
 
     public static let reducer = Reducer.combine(
+        WsCore.reducer.pullback(
+            state: \ServiceCore.State.websocket,
+            action: /ServiceCore.Action.websocket,
+            environment: { _ in WsCore.Environment(websocket: .init()) }
+        ),
         ChannelCore.reducer
             .pullback(
                 state: \ServiceCore.State.channel,

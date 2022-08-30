@@ -17,8 +17,8 @@ public enum WsCore {
     }
 
     public enum Action {
-        case start
-        case received(WsEvent)
+        case waitForNextEvent
+        case receiveEvent(WsEvent)
 
         case channel(ChannelCore.Action)
     }
@@ -34,16 +34,16 @@ public enum WsCore {
     public static let reducer: Reducer = Reducer.combine(
         Reducer { _, action, environment in
             switch action {
-            case .start:
+            case .waitForNextEvent:
                 return .run { send in
-                    environment.websocket.onEvents { event in
-                        Task {
-                            await send(.received(event))
-                        }
-                    }
+                    environment.websocket.webSocketTask.resume()
+                    let event = try await environment.websocket.receiveEvent()
+                    await send(.receiveEvent(event))
                 }
-            case let .received(event):
+            case let .receiveEvent(event):
                 return .run { send in
+                    await send(.waitForNextEvent)
+
                     switch event.body {
                     case let .userJoined(payload):
                         break
