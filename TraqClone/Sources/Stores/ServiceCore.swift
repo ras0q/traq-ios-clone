@@ -62,6 +62,7 @@ public enum ServiceCore {
             case .fetchAll:
                 return .run { send in
                     await send(.channel(.fetchChannels))
+                    await send(.channel(.user(.fetchUsers))) // FIXME: userが同期されない
                     await send(.user(.fetchUsers))
                 }
             default:
