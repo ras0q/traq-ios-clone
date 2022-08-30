@@ -7,12 +7,8 @@ public enum AuthCore {
     public typealias Store = ComposableArchitecture.Store<State, Action>
     public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
 
-    public enum State: Equatable {
-        case login
-
-        public init() {
-            self = .login
-        }
+    public struct State: Equatable {
+        public init() {}
     }
 
     public enum Action {
