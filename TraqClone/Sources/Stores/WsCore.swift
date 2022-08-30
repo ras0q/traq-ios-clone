@@ -9,7 +9,11 @@ public enum WsCore {
     public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
 
     public struct State: Equatable {
-        public var channel: ChannelCore.State = .init()
+        public let channel: ChannelCore.State
+
+        public init(channel: ChannelCore.State = .init()) {
+            self.channel = channel
+        }
     }
 
     public enum Action {

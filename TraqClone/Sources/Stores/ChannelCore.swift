@@ -16,9 +16,11 @@ public enum ChannelCore {
             }
         }
 
-        public var user: UserCore.State = .init()
+        public var user: UserCore.State
 
-        public init() {}
+        public init(user: UserCore.State = .init()) {
+            self.user = user
+        }
     }
 
     public enum Action: Equatable {
@@ -82,5 +84,13 @@ public enum ChannelCore {
                 return .none
             }
         }
+    )
+}
+
+public extension ChannelCore.Store {
+    static let defaultStore: ChannelCore.Store = .init(
+        initialState: ChannelCore.State(),
+        reducer: ChannelCore.reducer.debug(),
+        environment: ChannelCore.Environment()
     )
 }

@@ -7,11 +7,19 @@ public enum ServiceCore {
     public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
 
     public struct State: Equatable {
-        public var channel: ChannelCore.State = .init()
-        public var user: UserCore.State = .init()
-        public var userMe: UserMeCore.State = .init()
+        public var channel: ChannelCore.State
+        public var user: UserCore.State
+        public var userMe: UserMeCore.State
 
-        public init() {}
+        public init(
+            channel: ChannelCore.State = .init(),
+            user: UserCore.State = .init(),
+            userMe: UserMeCore.State = .init()
+        ) {
+            self.channel = channel
+            self.user = user
+            self.userMe = userMe
+        }
     }
 
     public enum Action: Equatable {

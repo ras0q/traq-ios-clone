@@ -13,8 +13,8 @@ public enum AppCore {
         case auth(AuthCore.State)
         case service(ServiceCore.State)
 
-        public init() {
-            self = .service(.init())
+        public init(service: ServiceCore.State = .init()) {
+            self = .service(service)
         }
     }
 
@@ -65,9 +65,19 @@ public enum AppCore {
 }
 
 public extension AppCore.Store {
-    static let defaultStore: AppCore.Store = .init(
-        initialState: AppCore.State(),
-        reducer: AppCore.reducer.debug(),
-        environment: AppCore.Environment()
-    )
+    static let defaultStore: AppCore.Store = {
+        let userState: UserCore.State = .init()
+        let userMeState: UserMeCore.State = .init()
+        let authState: AuthCore.State = .init()
+        let channelState: ChannelCore.State = .init(user: userState)
+        let wsState: WsCore.State = .init(channel: channelState)
+        let serviceState: ServiceCore.State = .init(channel: channelState, user: userState, userMe: userMeState)
+        let appState: AppCore.State = .init(service: serviceState)
+
+        return AppCore.Store(
+            initialState: appState,
+            reducer: AppCore.reducer.debug(),
+            environment: AppCore.Environment()
+        )
+    }()
 }
