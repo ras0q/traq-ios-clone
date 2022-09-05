@@ -8,13 +8,7 @@ public enum UserCore {
 
     public struct State: Equatable {
         public var users: [TraqAPI.User] = .init()
-        public var userDictionary: [UUID: TraqAPI.User] {
-            users.reduce([UUID: TraqAPI.User]()) { dic, user in
-                var newDic = dic
-                newDic[user.id] = user
-                return newDic
-            }
-        }
+        public var userDictionary: [UUID: TraqAPI.User] { users.toDictionary(id: \.id) }
 
         public init() {}
     }

@@ -8,13 +8,7 @@ public enum ChannelCore {
 
     public struct State: Equatable {
         public var channels: [TraqAPI.Channel] = .init()
-        public var channelDictionary: [UUID: TraqAPI.Channel] {
-            channels.reduce([UUID: TraqAPI.Channel]()) { dic, channel in
-                var newDic = dic
-                newDic[channel.id] = channel
-                return newDic
-            }
-        }
+        public var channelDictionary: [UUID: TraqAPI.Channel] { channels.toDictionary(id: \.id) }
 
         public var user: UserCore.State
 
