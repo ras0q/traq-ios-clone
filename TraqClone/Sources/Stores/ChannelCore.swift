@@ -10,11 +10,7 @@ public enum ChannelCore {
         public var channels: [TraqAPI.Channel] = .init()
         public var channelDictionary: [UUID: TraqAPI.Channel] { channels.toDictionary(id: \.id) }
 
-        public var user: UserCore.State
-
-        public init(user: UserCore.State = .init()) {
-            self.user = user
-        }
+        public init() {}
     }
 
     public enum Action: Equatable {
@@ -22,8 +18,6 @@ public enum ChannelCore {
         case fetchChannelsResponse(TaskResult<[TraqAPI.Channel]>)
         case fetchChannel(UUID)
         case fetchChannelResponse(TaskResult<TraqAPI.Channel>)
-
-        case user(UserCore.Action)
 
         public static func == (_: ChannelCore.Action, _: ChannelCore.Action) -> Bool {
             fatalError("not implemented")
@@ -35,11 +29,6 @@ public enum ChannelCore {
     }
 
     public static let reducer = Reducer.combine(
-        UserCore.reducer.pullback(
-            state: \.user,
-            action: /ChannelCore.Action.user,
-            environment: { _ in UserCore.Environment() }
-        ),
         Reducer { state, action, _ in
             switch action {
             case .fetchChannels:
@@ -73,8 +62,6 @@ public enum ChannelCore {
                 return .none
             case let .fetchChannelResponse(.failure(error)):
                 print("failed to fetch channel()")
-                return .none
-            case .user:
                 return .none
             }
         }

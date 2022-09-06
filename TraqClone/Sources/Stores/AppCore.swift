@@ -73,7 +73,7 @@ public extension AppCore.Store {
         let userState: UserCore.State = .init()
         let userMeState: UserMeCore.State = .init()
         let authState: AuthCore.State = .init()
-        let channelState: ChannelCore.State = .init(user: userState)
+        let channelState: ChannelCore.State = .init()
         let wsState: WsCore.State = .init(channel: channelState)
         let serviceState: ServiceCore.State = .init(channel: channelState, user: userState, userMe: userMeState)
         let appState: AppCore.State = .init(service: serviceState)

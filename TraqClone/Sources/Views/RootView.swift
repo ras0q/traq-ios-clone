@@ -29,7 +29,7 @@ public struct RootView: View {
                             Image(systemName: "house.fill")
                             Text("Home")
                         }
-                    ChannelView(store: serviceStore.scope(state: { $0.channel }, action: ServiceCore.Action.channel))
+                    ChannelView(store: serviceStore)
                         .tabItem {
                             Image(systemName: "number")
                             Text("Channel")
@@ -39,7 +39,7 @@ public struct RootView: View {
                             Image(systemName: "bolt.fill")
                             Text("Activity")
                         }
-                    UserView(store: serviceStore.scope(state: { $0.user }, action: ServiceCore.Action.user))
+                    UserView(store: serviceStore)
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("User")

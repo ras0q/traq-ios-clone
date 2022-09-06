@@ -4,9 +4,9 @@ import Stores
 import SwiftUI
 
 public struct UserView: View {
-    private let store: UserCore.Store
+    private let store: ServiceCore.Store
 
-    public init(store: UserCore.Store) {
+    public init(store: ServiceCore.Store) {
         self.store = store
     }
 
@@ -14,7 +14,7 @@ public struct UserView: View {
         WithViewStore(store) { viewStore in
             NavigationView {
                 List(
-                    viewStore.users
+                    viewStore.user.users
                         .filter { !$0.bot && $0.state == .active }
                         .sorted { $0.name.lowercased() < $1.name.lowercased() },
                     id: \.id
@@ -35,12 +35,6 @@ public struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView(
-            store: ServiceCore.Store.defaultStore
-                .scope(
-                    state: { $0.user },
-                    action: ServiceCore.Action.user
-                )
-        )
+        UserView(store: ServiceCore.Store.defaultStore)
     }
 }
