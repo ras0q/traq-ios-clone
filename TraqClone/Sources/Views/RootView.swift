@@ -11,7 +11,7 @@ public struct RootView: View {
         self.store = store
 
         let viewStore = ViewStore(store)
-        viewStore.send(.service(.websocket(.waitForNextEvent)))
+        viewStore.send(.service(.waitForNextWsEvent))
         viewStore.send(.service(.userMe(.fetchMe)))
     }
 

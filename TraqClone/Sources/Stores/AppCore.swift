@@ -2,6 +2,7 @@ import ComposableArchitecture
 import Foundation
 import Models
 import Traq
+import TraqWebsocket
 
 public enum AppCore {
     public typealias Store = ComposableArchitecture.Store<State, Action>
@@ -24,7 +25,11 @@ public enum AppCore {
     }
 
     public struct Environment {
-        public init() {}
+        let websocket: WsClient
+
+        public init(websocket: WsClient) {
+            self.websocket = websocket
+        }
     }
 
     public static let reducer: Reducer = Reducer.combine(
@@ -38,7 +43,7 @@ public enum AppCore {
             .pullback(
                 state: /AppCore.State.service,
                 action: /AppCore.Action.service,
-                environment: { _ in ServiceCore.Environment() }
+                environment: { ServiceCore.Environment(websocket: $0.websocket) }
             ),
         Reducer { state, action, _ in
             switch action {
@@ -66,18 +71,20 @@ public enum AppCore {
 
 public extension AppCore.Store {
     static let defaultStore: AppCore.Store = {
+        let channelState: ChannelCore.State = .init()
         let userState: UserCore.State = .init()
         let userMeState: UserMeCore.State = .init()
-        let authState: AuthCore.State = .init()
-        let channelState: ChannelCore.State = .init()
-        let wsState: WsCore.State = .init(channel: channelState)
-        let serviceState: ServiceCore.State = .init(channel: channelState, user: userState, userMe: userMeState)
+        let serviceState: ServiceCore.State = .init(
+            channel: channelState,
+            user: userState,
+            userMe: userMeState
+        )
         let appState: AppCore.State = .init(service: serviceState)
 
         return AppCore.Store(
             initialState: appState,
             reducer: AppCore.reducer.debug(),
-            environment: AppCore.Environment()
+            environment: AppCore.Environment(websocket: WsClient())
         )
     }()
 }
