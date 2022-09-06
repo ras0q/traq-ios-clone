@@ -2,7 +2,7 @@ import Models
 import SwiftUI
 import Traq
 
-public struct ChannelContentHeaderView: View {
+public struct ChannelContentHeader: View {
     private let channel: ChannelNode
     private let shortChannelPath: String
 
@@ -63,12 +63,12 @@ public struct ChannelContentHeaderView: View {
     }
 }
 
-struct ChannelContentHeaderView_Previews: PreviewProvider {
+struct ChannelContentHeader_Previews: PreviewProvider {
     private static let channelId = UUID()
     private static let parentId = UUID()
 
     static var previews: some View {
-        ChannelContentHeaderView(
+        ChannelContentHeader(
             ChannelNode(
                 id: channelId,
                 parentID: parentId,

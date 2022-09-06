@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct MessageInputView: View {
+public struct MessageInput: View {
     private let needAlert: Bool
 
     @State private var input: String = ""
@@ -59,6 +59,6 @@ public struct MessageInputView: View {
 
 struct MessageInputView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageInputView(needAlert: false)
+        MessageInput(needAlert: false)
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 import Traq
 
-public struct MessageScrollView: View {
+public struct MessageScroll: View {
     // input parameters
     private let channelId: UUID
     private let userDictionary: [UUID: TraqAPI.User]
@@ -32,7 +32,7 @@ public struct MessageScrollView: View {
     public var body: some View {
         ScrollView {
             ForEach(messages.data, id: \.id) { message in
-                MessageElementView(
+                MessageElement(
                     message: message,
                     user: userDictionary[message.userId] ?? TraqAPI.User(
                         id: message.userId,
@@ -49,12 +49,12 @@ public struct MessageScrollView: View {
     }
 }
 
-struct MessageScrollView_Previews: PreviewProvider {
+struct MessageScroll_Previews: PreviewProvider {
     private static let user1Id: UUID = .init()
     private static let user2Id: UUID = .init()
 
     static var previews: some View {
-        MessageScrollView(UUID(), [
+        MessageScroll(UUID(), [
             user1Id: .init(
                 id: UUID(),
                 name: "user1",

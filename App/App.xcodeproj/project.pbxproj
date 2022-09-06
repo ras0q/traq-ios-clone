@@ -10,7 +10,6 @@
 		4F58EB0428BA69D000AF199E /* TraqCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F58EB0328BA69D000AF199E /* TraqCloneApp.swift */; };
 		4F58EB0828BA69D400AF199E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F58EB0728BA69D400AF199E /* Assets.xcassets */; };
 		4F58EB0B28BA69D400AF199E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F58EB0A28BA69D400AF199E /* Preview Assets.xcassets */; };
-		4F58EB1B28BA721200AF199E /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = 4F58EB1A28BA721200AF199E /* Components */; };
 		4F58EB1D28BA721200AF199E /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 4F58EB1C28BA721200AF199E /* Models */; };
 		4F58EB1F28BA721200AF199E /* Stores in Frameworks */ = {isa = PBXBuildFile; productRef = 4F58EB1E28BA721200AF199E /* Stores */; };
 		4F58EB2128BA721200AF199E /* Views in Frameworks */ = {isa = PBXBuildFile; productRef = 4F58EB2028BA721200AF199E /* Views */; };
@@ -42,7 +41,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F58EB1D28BA721200AF199E /* Models in Frameworks */,
-				4F58EB1B28BA721200AF199E /* Components in Frameworks */,
 				4F58EB1F28BA721200AF199E /* Stores in Frameworks */,
 				4F58EB2128BA721200AF199E /* Views in Frameworks */,
 			);
@@ -104,7 +102,6 @@
 			);
 			name = App;
 			packageProductDependencies = (
-				4F58EB1A28BA721200AF199E /* Components */,
 				4F58EB1C28BA721200AF199E /* Models */,
 				4F58EB1E28BA721200AF199E /* Stores */,
 				4F58EB2028BA721200AF199E /* Views */,
@@ -385,10 +382,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4F58EB1A28BA721200AF199E /* Components */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Components;
-		};
 		4F58EB1C28BA721200AF199E /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Models;

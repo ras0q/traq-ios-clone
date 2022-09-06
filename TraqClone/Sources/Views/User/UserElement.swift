@@ -1,9 +1,8 @@
 import SDWebImageSwiftUI
-
 import SwiftUI
 import Traq
 
-public struct UserElementView: View {
+public struct UserElement: View {
     private let user: TraqAPI.User
 
     public init(user: TraqAPI.User) {
@@ -34,9 +33,9 @@ public struct UserElementView: View {
     }
 }
 
-struct UserElementView_Previews: PreviewProvider {
+struct UserElement_Previews: PreviewProvider {
     static var previews: some View {
-        UserElementView(user: .init(
+        UserElement(user: .init(
             id: UUID(),
             name: "user1",
             displayName: "ユーザー1",

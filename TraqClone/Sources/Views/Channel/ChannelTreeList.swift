@@ -2,7 +2,7 @@ import Models
 import SwiftUI
 import Traq
 
-public struct ChannelTreeListView<Destination>: View where Destination: View {
+public struct ChannelTreeList<Destination>: View where Destination: View {
     // input parameters
     private let topChannels: [ChannelNode]
     private let destination: (ChannelNode) -> Destination
@@ -61,7 +61,7 @@ public struct ChannelTreeListView<Destination>: View where Destination: View {
     }
 }
 
-struct ChannelTreeListView_Previews: PreviewProvider {
+struct ChannelTreeList_Previews: PreviewProvider {
     private static let mockChannelDictionary: [UUID: TraqAPI.Channel] = {
         let parent1Id = UUID()
         let parent2Id = UUID()
@@ -120,7 +120,7 @@ struct ChannelTreeListView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            ChannelTreeListView(mockChannelDictionary) { _ in
+            ChannelTreeList(mockChannelDictionary) { _ in
                 EmptyView()
             }
         }

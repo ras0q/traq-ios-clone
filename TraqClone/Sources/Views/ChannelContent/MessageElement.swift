@@ -2,7 +2,7 @@ import SDWebImageSwiftUI
 import SwiftUI
 import Traq
 
-public struct MessageElementView: View {
+public struct MessageElement: View {
     private let dateFormatter: DateFormatter
     private let message: TraqAPI.Message
     private let user: TraqAPI.User
@@ -50,7 +50,7 @@ public struct MessageElementView: View {
     }
 }
 
-public extension MessageElementView {
+public extension MessageElement {
     static let sampleMessages: [TraqAPI.Message] = {
         var messages: [TraqAPI.Message] = []
         for _ in 0 ... 10 {
@@ -70,9 +70,9 @@ public extension MessageElementView {
     }()
 }
 
-struct MessageElementView_Previews: PreviewProvider {
+struct MessageElement_Previews: PreviewProvider {
     static var previews: some View {
-        MessageElementView(
+        MessageElement(
             message: TraqAPI.Message(
                 id: UUID(),
                 userId: UUID(),

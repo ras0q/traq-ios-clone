@@ -1,4 +1,3 @@
-import Components
 import ComposableArchitecture
 import Models
 import Stores
@@ -15,9 +14,9 @@ public struct ChannelContentView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            ChannelContentHeaderView(channel, viewStore.channel.channelDictionary)
-            MessageScrollView(channel.id, viewStore.user.userDictionary)
-            MessageInputView(needAlert: channel.force)
+            ChannelContentHeader(channel, viewStore.channel.channelDictionary)
+            MessageScroll(channel.id, viewStore.user.userDictionary)
+            MessageInput(needAlert: channel.force)
         }
     }
 }

@@ -9,7 +9,6 @@ let package = Package(
         .macOS(.v12),
     ],
     products: [
-        .library(name: "Components", targets: ["Components"]),
         .library(name: "Models", targets: ["Models"]),
         .library(name: "Stores", targets: ["Stores"]),
         .library(name: "Views", targets: ["Views"]),
@@ -21,15 +20,7 @@ let package = Package(
         .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", from: "2.0.2"),
     ],
     targets: [
-        // Views->Components->Stores->Modelsの方向にのみ依存するようにする
-        .target(
-            name: "Components",
-            dependencies: [
-                "Models",
-                .product(name: "Traq", package: "swift-traq"),
-                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI"),
-            ]
-        ),
+        // Views->Stores->Modelsの方向にのみ依存するようにする
         .target(
             name: "Models",
             dependencies: [
@@ -48,10 +39,10 @@ let package = Package(
         .target(
             name: "Views",
             dependencies: [
-                "Components",
                 "Stores",
                 "Models",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI"),
                 .product(name: "Traq", package: "swift-traq"),
             ]
         ),

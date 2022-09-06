@@ -1,9 +1,8 @@
-import Components
 import ComposableArchitecture
 import Stores
 import SwiftUI
 
-public struct ChannelView: View {
+public struct UserView: View {
     private let store: ServiceCore.Store
 
     public init(store: ServiceCore.Store) {
@@ -13,12 +12,17 @@ public struct ChannelView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                ChannelTreeListView(viewStore.channel.channelDictionary) { channel in
-                    ChannelContentView(store: store, channel: channel)
+                List(
+                    viewStore.user.users
+                        .filter { !$0.bot && $0.state == .active }
+                        .sorted { $0.name.lowercased() < $1.name.lowercased() },
+                    id: \.id
+                ) { user in
+                    UserElement(user: user)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        Text("チャンネル")
+                        Text("ユーザー")
                             .font(.largeTitle)
                             .bold()
                     }
@@ -28,8 +32,8 @@ public struct ChannelView: View {
     }
 }
 
-struct ChannelView_Previews: PreviewProvider {
+struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView(store: ServiceCore.Store.defaultStore)
+        UserView(store: ServiceCore.Store.defaultStore)
     }
 }
