@@ -8,33 +8,7 @@ public struct ChannelContentHeader: View {
 
     public init(_ channel: ChannelNode, _ dictionary: [UUID: TraqAPI.Channel]) {
         self.channel = channel
-
-        var parentPaths: [String] = [] // [parent,grandParent,...]の順
-        var tmpChannel: TraqAPI.Channel = .init(
-            id: channel.id,
-            parentId: channel.parentId,
-            archived: .init(),
-            force: .init(),
-            topic: .init(),
-            name: .init(),
-            children: .init()
-        )
-        while tmpChannel.parentId != nil {
-            guard let parent = dictionary[tmpChannel.parentId!] else {
-                fatalError("cannot resolve channnel tree")
-            }
-
-            parentPaths.append(parent.name)
-            tmpChannel = parent
-        }
-
-        let shortParentPath = parentPaths
-            .map { $0.prefix(1) }
-            .reversed()
-            .joined(separator: "/")
-        shortChannelPath = parentPaths.count > 0
-            ? "#\(shortParentPath)/\(channel.name)"
-            : "#\(channel.name)"
+        shortChannelPath = dictionary.getShortPath(from: channel.id)
     }
 
     public var body: some View {
