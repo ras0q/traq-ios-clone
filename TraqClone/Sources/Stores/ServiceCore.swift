@@ -72,6 +72,7 @@ public enum ServiceCore {
                 return .run { send in
                     await send(.channel(.fetchChannels))
                     await send(.user(.fetchUsers))
+                    await send(.userMe(.fetchUnreadChannels))
                 }
             default:
                 return .none

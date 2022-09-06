@@ -24,7 +24,7 @@ public struct RootView: View {
             // ログイン時: サービス画面を表示
             CaseLet(state: /AppCore.State.service, action: AppCore.Action.service) { serviceStore in
                 TabView {
-                    HomeView()
+                    HomeView(store: serviceStore)
                         .tabItem {
                             Image(systemName: "house.fill")
                             Text("Home")

@@ -8,6 +8,7 @@ public enum UserMeCore {
 
     public struct State: Equatable {
         public var userMe: TraqAPI.MyUserDetail?
+        public var unreadChannels: [TraqAPI.UnreadChannel] = .init()
 
         public init() {}
     }
@@ -15,6 +16,8 @@ public enum UserMeCore {
     public enum Action: Equatable {
         case fetchMe
         case fetchMeResponse(TaskResult<TraqAPI.MyUserDetail>)
+        case fetchUnreadChannels
+        case fetchUnreadChannelsResponse(TaskResult<[TraqAPI.UnreadChannel]>)
 
         public static func == (_: UserMeCore.Action, _: UserMeCore.Action) -> Bool {
             fatalError("not implemented")
@@ -40,6 +43,20 @@ public enum UserMeCore {
             return .none
         case let .fetchMeResponse(.failure(error)):
             print("failed to fetch your infomation: \(error)")
+            return .none
+        case .fetchUnreadChannels:
+            return .task {
+                await .fetchUnreadChannelsResponse(
+                    TaskResult {
+                        try await TraqAPI.MeAPI.getMyUnreadChannels()
+                    }
+                )
+            }
+        case let .fetchUnreadChannelsResponse(.success(unreadChannels)):
+            state.unreadChannels = unreadChannels
+            return .none
+        case let .fetchUnreadChannelsResponse(.failure(error)):
+            print("failed to fetch unread channels: \(error)")
             return .none
         }
     }
