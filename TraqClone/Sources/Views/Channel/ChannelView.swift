@@ -29,6 +29,6 @@ public struct ChannelView: View {
 
 struct ChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelView(store: ServiceCore.Store.defaultStore)
+        ChannelView(store: .defaultStore)
     }
 }

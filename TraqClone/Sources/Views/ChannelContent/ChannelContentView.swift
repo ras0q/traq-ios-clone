@@ -25,7 +25,7 @@ public struct ChannelContentView: View {
 struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
         ChannelContentView(
-            store: ServiceCore.Store.defaultStore,
+            store: .defaultStore,
             channel: TraqAPI.Channel(
                 id: UUID(),
                 parentId: nil,

@@ -45,11 +45,3 @@ public enum UserCore {
         }
     }
 }
-
-public extension UserCore.Store {
-    static let defaultStore: UserCore.Store = .init(
-        initialState: UserCore.State(),
-        reducer: UserCore.reducer.debug(),
-        environment: UserCore.Environment()
-    )
-}

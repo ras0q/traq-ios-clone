@@ -127,11 +127,3 @@ public enum WsCore {
         }
     )
 }
-
-public extension WsCore.Store {
-    static let defaultStore: WsCore.Store = .init(
-        initialState: WsCore.State(),
-        reducer: WsCore.reducer.debug(),
-        environment: WsCore.Environment(websocket: WsClient())
-    )
-}

@@ -82,9 +82,11 @@ public enum ServiceCore {
 }
 
 public extension ServiceCore.Store {
-    static let defaultStore: ServiceCore.Store = .init(
-        initialState: ServiceCore.State(),
-        reducer: ServiceCore.reducer.debug(),
-        environment: ServiceCore.Environment()
-    )
+    static let defaultStore: ServiceCore.Store = AppCore
+        .Store
+        .defaultStore
+        .scope(
+            state: { _ in ServiceCore.State() },
+            action: AppCore.Action.service
+        )
 }

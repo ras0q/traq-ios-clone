@@ -67,11 +67,3 @@ public enum ChannelCore {
         }
     )
 }
-
-public extension ChannelCore.Store {
-    static let defaultStore: ChannelCore.Store = .init(
-        initialState: ChannelCore.State(),
-        reducer: ChannelCore.reducer.debug(),
-        environment: ChannelCore.Environment()
-    )
-}

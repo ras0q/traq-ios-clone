@@ -34,6 +34,6 @@ public struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView(store: ServiceCore.Store.defaultStore)
+        UserView(store: .defaultStore)
     }
 }
