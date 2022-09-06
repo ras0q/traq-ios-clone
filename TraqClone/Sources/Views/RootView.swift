@@ -22,14 +22,14 @@ public struct RootView: View {
                 LoginView(store: loginStore)
             }
             // ログイン時: サービス画面を表示
-            CaseLet(state: /AppCore.State.service, action: AppCore.Action.service) { authStore in
+            CaseLet(state: /AppCore.State.service, action: AppCore.Action.service) { serviceStore in
                 TabView {
                     HomeView()
                         .tabItem {
                             Image(systemName: "house.fill")
                             Text("Home")
                         }
-                    ChannelView(store: authStore.scope(state: { $0.channel }, action: ServiceCore.Action.channel))
+                    ChannelView(store: serviceStore.scope(state: { $0.channel }, action: ServiceCore.Action.channel))
                         .tabItem {
                             Image(systemName: "number")
                             Text("Channel")
@@ -39,7 +39,7 @@ public struct RootView: View {
                             Image(systemName: "bolt.fill")
                             Text("Activity")
                         }
-                    UserView(store: authStore.scope(state: { $0.user }, action: ServiceCore.Action.user))
+                    UserView(store: serviceStore.scope(state: { $0.user }, action: ServiceCore.Action.user))
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("User")
