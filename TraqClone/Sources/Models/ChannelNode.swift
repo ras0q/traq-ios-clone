@@ -55,4 +55,16 @@ public final class ChannelNode: Identifiable {
 
         children = getChildrenRecursive(topChannelIDs)
     }
+
+    public func toTraqChannel() -> TraqAPI.Channel {
+        TraqAPI.Channel(
+            id: id,
+            parentId: parentId,
+            archived: archived,
+            force: force,
+            topic: topic,
+            name: name,
+            children: children?.map(\.id) ?? []
+        )
+    }
 }

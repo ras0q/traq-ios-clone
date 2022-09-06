@@ -5,18 +5,21 @@ import Traq
 public struct ChannelTreeList<Destination>: View where Destination: View {
     // input parameters
     private let topChannels: [ChannelNode]
-    private let destination: (ChannelNode) -> Destination
+    private let destination: (TraqAPI.Channel) -> Destination
 
     // properies managed by SwiftUI
     @State private var openChannelContentView: Bool = false
-    @State private var destChannel: ChannelNode = .init(
+    @State private var destChannel: TraqAPI.Channel = .init(
         id: UUID(),
-        parentID: nil,
+        parentId: nil,
+        archived: false,
+        force: false,
+        topic: "dummy topic",
         name: "dummy",
         children: []
     )
 
-    public init(_ channelDictionary: [UUID: TraqAPI.Channel], destination: @escaping (ChannelNode) -> Destination) {
+    public init(_ channelDictionary: [UUID: TraqAPI.Channel], destination: @escaping (TraqAPI.Channel) -> Destination) {
         topChannels = ChannelNode(from: channelDictionary).children ?? []
         self.destination = destination
     }
@@ -53,7 +56,7 @@ public struct ChannelTreeList<Destination>: View where Destination: View {
                 }
                 .contentShape(Rectangle()) // Spacerにも判定をつける
                 .onTapGesture {
-                    destChannel = channel
+                    destChannel = channel.toTraqChannel()
                     openChannelContentView = true
                 }
             }

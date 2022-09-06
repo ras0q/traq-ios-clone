@@ -3,10 +3,10 @@ import SwiftUI
 import Traq
 
 public struct ChannelContentHeader: View {
-    private let channel: ChannelNode
+    private let channel: TraqAPI.Channel
     private let shortChannelPath: String
 
-    public init(_ channel: ChannelNode, _ dictionary: [UUID: TraqAPI.Channel]) {
+    public init(_ channel: TraqAPI.Channel, _ dictionary: [UUID: TraqAPI.Channel]) {
         self.channel = channel
         shortChannelPath = dictionary.getShortPath(from: channel.id)
     }
@@ -43,9 +43,12 @@ struct ChannelContentHeader_Previews: PreviewProvider {
 
     static var previews: some View {
         ChannelContentHeader(
-            ChannelNode(
+            TraqAPI.Channel(
                 id: channelId,
-                parentID: parentId,
+                parentId: parentId,
+                archived: false,
+                force: false,
+                topic: "preview topic",
                 name: "preview",
                 children: []
             ),
