@@ -18,6 +18,7 @@ public enum UserMeCore {
         case fetchMeResponse(TaskResult<TraqAPI.MyUserDetail>)
         case fetchUnreadChannels
         case fetchUnreadChannelsResponse(TaskResult<[TraqAPI.UnreadChannel]>)
+        case readChannel(UUID)
 
         public static func == (_: UserMeCore.Action, _: UserMeCore.Action) -> Bool {
             fatalError("not implemented")
@@ -57,6 +58,9 @@ public enum UserMeCore {
             return .none
         case let .fetchUnreadChannelsResponse(.failure(error)):
             print("failed to fetch unread channels: \(error)")
+            return .none
+        case let .readChannel(channelId):
+            state.unreadChannels = state.unreadChannels.filter { $0.channelId != channelId }
             return .none
         }
     }

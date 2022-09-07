@@ -135,7 +135,7 @@ public enum ServiceCore {
                     case let .messageUnpinned(payload):
                         break
                     case let .messageRead(payload):
-                        break
+                        await send(.userMe(.readChannel(payload.id)))
                     case let .stampCreated(payload):
                         break
                     case let .stampUpdated(payload):
