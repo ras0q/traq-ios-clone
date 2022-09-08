@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import Models
 import Stores
 import SwiftUI
 
@@ -12,7 +13,9 @@ public struct ChannelView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                ChannelTreeList(viewStore.channel.channelDictionary) { channel in
+                ChannelTreeList(
+                    ChannelNode(from: viewStore.channel.channelDictionary).children ?? []
+                ) { channel in
                     ChannelContentView(store: store, channel: channel)
                 }
                 .toolbar {

@@ -19,8 +19,11 @@ public struct ChannelTreeList<Destination>: View where Destination: View {
         children: []
     )
 
-    public init(_ channelDictionary: [UUID: TraqAPI.Channel], destination: @escaping (TraqAPI.Channel) -> Destination) {
-        topChannels = ChannelNode(from: channelDictionary).children ?? []
+    public init(
+        _ topChannels: [ChannelNode],
+        destination: @escaping (TraqAPI.Channel) -> Destination
+    ) {
+        self.topChannels = topChannels
         self.destination = destination
     }
 
@@ -65,7 +68,7 @@ public struct ChannelTreeList<Destination>: View where Destination: View {
 }
 
 struct ChannelTreeList_Previews: PreviewProvider {
-    private static let mockChannelDictionary: [UUID: TraqAPI.Channel] = {
+    private static let mockTopChannels: [ChannelNode] = {
         let parent1Id = UUID()
         let parent2Id = UUID()
         let child1Id = UUID()
@@ -73,16 +76,45 @@ struct ChannelTreeList_Previews: PreviewProvider {
         let grandchild1Id = UUID()
 
         return [
-            parent1Id: .init(
+            .init(
                 id: parent1Id,
                 parentId: nil,
                 archived: false,
                 force: false,
                 topic: "this is parent1",
                 name: "parent1",
-                children: [child1Id, child2Id]
+                children: [
+                    .init(
+                        id: child1Id,
+                        parentId: parent1Id,
+                        archived: false,
+                        force: false,
+                        topic: "this is child1",
+                        name: "child1",
+                        children: [
+                            .init(
+                                id: grandchild1Id,
+                                parentId: child1Id,
+                                archived: false,
+                                force: false,
+                                topic: "this is grandchild1",
+                                name: "grandchild1",
+                                children: []
+                            ),
+                        ]
+                    ),
+                    .init(
+                        id: child2Id,
+                        parentId: parent1Id,
+                        archived: false,
+                        force: false,
+                        topic: "this is child2",
+                        name: "child2",
+                        children: []
+                    ),
+                ]
             ),
-            parent2Id: .init(
+            .init(
                 id: parent2Id,
                 parentId: nil,
                 archived: false,
@@ -91,39 +123,12 @@ struct ChannelTreeList_Previews: PreviewProvider {
                 name: "parent2",
                 children: []
             ),
-            child1Id: .init(
-                id: child1Id,
-                parentId: parent1Id,
-                archived: false,
-                force: false,
-                topic: "this is child1",
-                name: "child1",
-                children: [grandchild1Id]
-            ),
-            child2Id: .init(
-                id: child2Id,
-                parentId: parent1Id,
-                archived: false,
-                force: false,
-                topic: "this is child2",
-                name: "child2",
-                children: []
-            ),
-            grandchild1Id: .init(
-                id: grandchild1Id,
-                parentId: child1Id,
-                archived: false,
-                force: false,
-                topic: "this is grandchild1",
-                name: "grandchild1",
-                children: []
-            ),
         ]
     }()
 
     static var previews: some View {
         NavigationView {
-            ChannelTreeList(mockChannelDictionary) { _ in
+            ChannelTreeList(mockTopChannels) { _ in
                 EmptyView()
             }
         }
