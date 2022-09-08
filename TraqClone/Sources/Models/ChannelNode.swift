@@ -10,9 +10,9 @@ public final class ChannelNode: Identifiable {
     public let name: String
     public var children: [ChannelNode]?
 
-    public init(id: UUID, parentID: UUID?, archived: Bool = false, force: Bool = false, topic: String = "", name: String, children: [ChannelNode]?) {
+    public init(id: UUID, parentId: UUID?, archived: Bool = false, force: Bool = false, topic: String = "", name: String, children: [ChannelNode]?) {
         self.id = id
-        parentId = parentID
+        self.parentId = parentId
         self.archived = archived
         self.force = force
         self.topic = topic
@@ -37,7 +37,7 @@ public final class ChannelNode: Identifiable {
 
                 return ChannelNode(
                     id: child.id,
-                    parentID: child.parentId,
+                    parentId: child.parentId,
                     archived: child.archived,
                     force: child.force,
                     topic: child.topic,
