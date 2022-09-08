@@ -1,7 +1,7 @@
 import SwiftUI
 import Traq
 
-struct HomeUnreadChannelList<Destination>: View where Destination: View {
+struct UnreadChannelList<Destination>: View where Destination: View {
     private let unreadChannels: [TraqAPI.UnreadChannel]
     private let channelDictionary: [UUID: TraqAPI.Channel]
     private let destination: (TraqAPI.Channel) -> Destination
@@ -38,7 +38,7 @@ struct HomeUnreadChannelList<Destination>: View where Destination: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeUnreadChannelList(
+        UnreadChannelList(
             unreadChannels: [],
             channelDictionary: [:],
             destination: { _ in EmptyView() }

@@ -13,7 +13,7 @@ public struct HomeView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                HomeUnreadChannelList(
+                UnreadChannelList(
                     unreadChannels: viewStore.userMe.unreadChannels,
                     channelDictionary: viewStore.channel.channelDictionary
                 ) { channel in
