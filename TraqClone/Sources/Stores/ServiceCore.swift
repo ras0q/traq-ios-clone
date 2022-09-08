@@ -9,15 +9,18 @@ public enum ServiceCore {
 
     public struct State: Equatable {
         public var channel: ChannelCore.State
+        public var message: MessageCore.State
         public var user: UserCore.State
         public var userMe: UserMeCore.State
 
         public init(
             channel: ChannelCore.State = .init(),
+            message: MessageCore.State = .init(),
             user: UserCore.State = .init(),
             userMe: UserMeCore.State = .init()
         ) {
             self.channel = channel
+            self.message = message
             self.user = user
             self.userMe = userMe
         }
@@ -29,6 +32,7 @@ public enum ServiceCore {
         case receiveWsEvent(WsEvent)
 
         case channel(ChannelCore.Action)
+        case message(MessageCore.Action)
         case user(UserCore.Action)
         case userMe(UserMeCore.Action)
 
@@ -51,6 +55,12 @@ public enum ServiceCore {
                 state: \ServiceCore.State.channel,
                 action: /ServiceCore.Action.channel,
                 environment: { _ in ChannelCore.Environment() }
+            ),
+        MessageCore.reducer
+            .pullback(
+                state: \ServiceCore.State.message,
+                action: /ServiceCore.Action.message,
+                environment: { _ in MessageCore.Environment() }
             ),
         UserCore.reducer
             .pullback(
@@ -121,7 +131,7 @@ public enum ServiceCore {
                     case let .channelSubscribersChanged(payload):
                         break
                     case let .messageCreated(payload):
-                        break
+                        await send(.message(.fetchMessage(payload.id, isCiting: payload.isCiting)))
                     case let .messageUpdated(payload):
                         break
                     case let .messageDeleted(payload):
@@ -160,7 +170,11 @@ public enum ServiceCore {
                         break
                     }
                 }
-            case .channel, .user, .userMe:
+            case let .message(.fetchMessageResponse(.success((message, isCiting)))):
+                return .run { send in
+                    await send(.userMe(.addMessage(message, isCiting)))
+                }
+            case .channel, .message, .user, .userMe:
                 return .none
             }
         }
