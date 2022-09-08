@@ -13,23 +13,11 @@ public struct HomeView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                List(viewStore.userMe.unreadChannels, id: \.channelId) { unreadChannel in
-                    if let channel = viewStore.channel.channelDictionary[unreadChannel.channelId] {
-                        if let channelPath = viewStore.channel.channelDictionary.getLongPath(from: channel.id) {
-                            NavigationLink(
-                                destination: {
-                                    ChannelContentView(store: store, channel: channel)
-                                }, label: {
-                                    if #available(iOS 15.0, *) {
-                                        Text(channelPath)
-                                            .badge(unreadChannel.count)
-                                    } else {
-                                        Text(channelPath)
-                                    }
-                                }
-                            )
-                        }
-                    }
+                HomeUnreadChannelList(
+                    unreadChannels: viewStore.userMe.unreadChannels,
+                    channelDictionary: viewStore.channel.channelDictionary
+                ) { channel in
+                    ChannelContentView(store: store, channel: channel)
                 }
             }
         }
