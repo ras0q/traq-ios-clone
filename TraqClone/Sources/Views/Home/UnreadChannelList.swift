@@ -20,16 +20,12 @@ struct UnreadChannelList<Destination>: View where Destination: View {
         List(unreadChannels, id: \.channelId) { unreadChannel in
             if let channel = channelDictionary[unreadChannel.channelId] {
                 if let channelPath = channelDictionary.getLongPath(from: channel.id) {
-                    NavigationLink(
-                        destination: { destination(channel) }, label: {
-                            if #available(iOS 15.0, *) {
-                                Text(channelPath)
-                                    .badge(unreadChannel.count)
-                            } else {
-                                Text(channelPath)
-                            }
-                        }
-                    )
+                    ChannelNavigationLink(
+                        channelPath: channelPath,
+                        count: unreadChannel.count
+                    ) {
+                        destination(channel)
+                    }
                 }
             }
         }
