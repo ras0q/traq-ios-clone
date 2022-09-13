@@ -15,9 +15,11 @@ public struct ChannelContentView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            ChannelContentHeader(channel, viewStore.channel.channelDictionary)
-            MessageScroll(channel.id, viewStore.user.userDictionary)
-            MessageInput(needAlert: channel.force)
+            VStack {
+                ChannelContentHeader(channel, viewStore.channel.channelDictionary)
+                MessageScroll(channel.id, viewStore.user.userDictionary)
+                MessageInput(needAlert: channel.force)
+            }
         }
     }
 }
@@ -26,15 +28,7 @@ struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
         ChannelContentView(
             store: .defaultStore,
-            channel: TraqAPI.Channel(
-                id: UUID(),
-                parentId: nil,
-                archived: false,
-                force: false,
-                topic: "preview topic",
-                name: "preview",
-                children: []
-            )
+            channel: .mock
         )
     }
 }

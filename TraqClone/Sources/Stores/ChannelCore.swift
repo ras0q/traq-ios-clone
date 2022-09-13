@@ -10,7 +10,11 @@ public enum ChannelCore {
         public var channels: [TraqAPI.Channel] = .init()
         public var channelDictionary: [UUID: TraqAPI.Channel] { channels.toDictionary(id: \.id) }
 
-        public init() {}
+        public init() {
+            #if DEBUG
+            channels = .mock
+            #endif
+        }
     }
 
     public enum Action: Equatable {
