@@ -2,8 +2,8 @@ import Foundation
 import Traq
 
 public extension Array where Element == TraqAPI.Channel {
-    static let mock: [TraqAPI.Channel] =  {
-        let ids: [UUID] = .init(repeating: UUID(), count: 10).map {_ in UUID()}
+    static let mock: [TraqAPI.Channel] = {
+        let ids: [UUID] = .init(repeating: UUID(), count: 10).map { _ in UUID() }
         return [
             .init(id: ids[0], parentId: nil, archived: false, force: false, topic: "トピック", name: "ch1", children: [ids[1], ids[2]]),
             .init(id: ids[1], parentId: ids[0], archived: false, force: false, topic: "子チャンネル", name: "ch1-1", children: [ids[3]]),

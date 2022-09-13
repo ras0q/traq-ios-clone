@@ -11,7 +11,11 @@ public enum UserMeCore {
         public var unreadChannels: [TraqAPI.UnreadChannel] = .init()
         public var unreadChannelDictionary: [UUID: TraqAPI.UnreadChannel] { unreadChannels.toDictionary(id: \.channelId) }
 
-        public init() {}
+        public init() {
+            #if DEBUG
+                unreadChannels = .mock
+            #endif
+        }
     }
 
     public enum Action: Equatable {

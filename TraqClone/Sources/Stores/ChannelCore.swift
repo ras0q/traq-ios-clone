@@ -12,7 +12,7 @@ public enum ChannelCore {
 
         public init() {
             #if DEBUG
-            channels = .mock
+                channels = .mock
             #endif
         }
     }
