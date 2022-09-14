@@ -16,7 +16,7 @@ public struct MessageScroll: View {
             Task {
                 let data = try await TraqAPI.ChannelAPI.getMessages(channelId: channelId)
                 DispatchQueue.main.async {
-                    self.data = data
+                    self.data = data.sorted(by: { $0.createdAt < $1.createdAt })
                 }
             }
         }
