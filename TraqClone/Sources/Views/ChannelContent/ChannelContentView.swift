@@ -17,7 +17,11 @@ public struct ChannelContentView: View {
         WithViewStore(store) { viewStore in
             VStack {
                 ChannelContentHeader(channel, viewStore.channel.channelDictionary)
-                MessageScroll(channel.id, viewStore.user.userDictionary)
+                MessageScroll(
+                    (viewStore.message.channelMesssages[channel.id] ?? [])
+                        .sorted { $0.createdAt < $1.createdAt },
+                    viewStore.user.userDictionary
+                )
                 MessageInput(needAlert: channel.force)
             }
         }

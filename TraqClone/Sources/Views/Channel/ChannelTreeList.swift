@@ -5,6 +5,7 @@ import Traq
 public struct ChannelTreeList<Destination>: View where Destination: View {
     // input parameters
     private let topChannels: [ChannelNode]
+    private let fetchMessagesHandler: (UUID) -> Void
     private let destination: (TraqAPI.Channel) -> Destination
 
     // properies managed by SwiftUI
@@ -21,9 +22,11 @@ public struct ChannelTreeList<Destination>: View where Destination: View {
 
     public init(
         _ topChannels: [ChannelNode],
+        fetchMessagesHandler: @escaping ((UUID) -> Void),
         destination: @escaping (TraqAPI.Channel) -> Destination
     ) {
         self.topChannels = topChannels
+        self.fetchMessagesHandler = fetchMessagesHandler
         self.destination = destination
     }
 
@@ -59,6 +62,7 @@ public struct ChannelTreeList<Destination>: View where Destination: View {
                 }
                 .contentShape(Rectangle()) // Spacerにも判定をつける
                 .onTapGesture {
+                    fetchMessagesHandler(channel.id)
                     destChannel = channel.toTraqChannel()
                     openChannelContentView = true
                 }
@@ -128,9 +132,11 @@ struct ChannelTreeList_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            ChannelTreeList(mockTopChannels) { _ in
-                EmptyView()
-            }
+            ChannelTreeList(
+                mockTopChannels,
+                fetchMessagesHandler: { _ in },
+                destination: { _ in EmptyView() }
+            )
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
