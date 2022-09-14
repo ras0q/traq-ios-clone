@@ -14,13 +14,8 @@ public struct ChannelView: View {
         WithViewStore(store) { viewStore in
             NavigationView {
                 ChannelTreeList(
-                    ChannelNode(from: viewStore.channel.channelDictionary).children ?? [],
-                    fetchMessagesHandler: { channelId in
-                        viewStore.send(.message(.fetchMessages(channelId: channelId)))
-                    },
-                    destination: { channel in
-                        ChannelContentView(store: store, channel: channel)
-                    }
+                    store: store,
+                    topChannels: ChannelNode(from: viewStore.channel.channelDictionary).children ?? []
                 )
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {

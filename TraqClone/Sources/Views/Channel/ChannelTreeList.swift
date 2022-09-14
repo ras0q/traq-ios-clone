@@ -1,12 +1,13 @@
+import ComposableArchitecture
 import Models
+import Stores
 import SwiftUI
 import Traq
 
-public struct ChannelTreeList<Destination>: View where Destination: View {
+public struct ChannelTreeList: View {
     // input parameters
+    private let store: ServiceCore.Store
     private let topChannels: [ChannelNode]
-    private let fetchMessagesHandler: (UUID) -> Void
-    private let destination: (TraqAPI.Channel) -> Destination
 
     // properies managed by SwiftUI
     @State private var openChannelContentView: Bool = false
@@ -20,51 +21,51 @@ public struct ChannelTreeList<Destination>: View where Destination: View {
         children: []
     )
 
-    public init(
-        _ topChannels: [ChannelNode],
-        fetchMessagesHandler: @escaping ((UUID) -> Void),
-        destination: @escaping (TraqAPI.Channel) -> Destination
-    ) {
+    public init(store: ServiceCore.Store, topChannels: [ChannelNode]) {
+        self.store = store
         self.topChannels = topChannels
-        self.fetchMessagesHandler = fetchMessagesHandler
-        self.destination = destination
     }
 
     public var body: some View {
-        ZStack {
-            NavigationLink(
-                isActive: $openChannelContentView,
-                destination: { destination(destChannel) }
-            ) {
-                EmptyView()
-            }
-            .hidden()
-
-            List(topChannels, id: \.id, children: \.children) { channel in
-                let imageView = Image(systemName: "number")
-                    .fixedSize()
-                    .padding(4)
-
-                if (channel.children ?? []).isEmpty {
-                    imageView
-                } else {
-                    imageView
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.black, lineWidth: 2)
-                        )
+        WithViewStore(store) { viewStore in
+            ZStack {
+                NavigationLink(
+                    isActive: $openChannelContentView,
+                    destination: {
+                        ChannelContentView(store: store, channel: destChannel)
+                    }
+                ) {
+                    EmptyView()
                 }
+                .hidden()
 
-                // Buttonだと行全体に判定がついてしまうため.onTapGestureを使う
-                HStack {
-                    Text(channel.name)
-                    Spacer()
-                }
-                .contentShape(Rectangle()) // Spacerにも判定をつける
-                .onTapGesture {
-                    fetchMessagesHandler(channel.id)
-                    destChannel = channel.toTraqChannel()
-                    openChannelContentView = true
+                List(topChannels, id: \.id, children: \.children) { channel in
+                    let imageView = Image(systemName: "number")
+                        .fixedSize()
+                        .padding(4)
+
+                    if (channel.children ?? []).isEmpty {
+                        imageView
+                    } else {
+                        imageView
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke(Color.black, lineWidth: 2)
+                            )
+                    }
+
+                    // Buttonだと行全体に判定がついてしまうため.onTapGestureを使う
+                    HStack {
+                        Text(channel.name)
+                        Spacer()
+                    }
+                    .contentShape(Rectangle()) // Spacerにも判定をつける
+                    .onTapGesture {
+                        viewStore.send(.message(.fetchMessages(channelId: channel.id)))
+
+                        destChannel = channel.toTraqChannel()
+                        openChannelContentView = true
+                    }
                 }
             }
         }
@@ -133,9 +134,8 @@ struct ChannelTreeList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ChannelTreeList(
-                mockTopChannels,
-                fetchMessagesHandler: { _ in },
-                destination: { _ in EmptyView() }
+                store: .defaultStore,
+                topChannels: mockTopChannels
             )
         }
         .toolbar {
