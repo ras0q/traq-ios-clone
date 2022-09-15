@@ -32,7 +32,7 @@ struct UnreadChannelList<Destination>: View where Destination: View {
     }
 }
 
-struct SwiftUIView_Previews: PreviewProvider {
+struct UnreadChannelList_Previews: PreviewProvider {
     static var previews: some View {
         UnreadChannelList(
             unreadChannels: [],
