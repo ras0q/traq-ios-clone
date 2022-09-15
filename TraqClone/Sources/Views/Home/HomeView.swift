@@ -17,13 +17,20 @@ public struct HomeView: View {
                 WithNavigationLinkToChannelContent(store: store) { openChannelContentView, destChannel in
                     Form {
                         Section {
-                            ChannelTreeList(
-                                store: store,
-                                // TODO: 適切なものに直す
-                                channels: [ChannelNode(from: viewStore.channel.channelDictionary)],
-                                openChannelContentView: openChannelContentView,
-                                destChannel: destChannel
-                            )
+                            if let homeChannel = ChannelNode(
+                                rootId: viewStore.userMe.userMe?.homeChannel ?? UUID(),
+                                dictionary: viewStore.channel.channelDictionary,
+                                includeArchived: false
+                            ) {
+                                ChannelTreeList(
+                                    store: store,
+                                    channels: [homeChannel],
+                                    openChannelContentView: openChannelContentView,
+                                    destChannel: destChannel
+                                )
+                            } else {
+                                ProgressView()
+                            }
                         } header: {
                             Text("ホームチャンネル")
                                 .font(.title2)
