@@ -8,8 +8,6 @@ public enum MessageCore {
 
     public struct State: Equatable {
         public var channelMesssages: [UUID: [TraqAPI.Message]] = .init()
-        public var messages: [TraqAPI.Message] = .init()
-        public var messageDictionary: [UUID: TraqAPI.Message] { messages.toDictionary(id: \.id) }
 
         public init() {}
     }
