@@ -14,7 +14,12 @@ public struct UserView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                List(getUsers(from: viewStore.user), id: \.id) { user in
+                List(
+                    viewStore.user.users
+                        .filter { !$0.bot && $0.state == .active }
+                        .sorted { $0.name.lowercased() < $1.name.lowercased() },
+                    id: \.id
+                ) { user in
                     userElementButton(user)
                 }
                 .toolbar {
@@ -26,12 +31,6 @@ public struct UserView: View {
                 }
             }
         }
-    }
-
-    private func getUsers(from userState: UserCore.State) -> [TraqAPI.User] {
-        userState.users
-            .filter { !$0.bot && $0.state == .active }
-            .sorted { $0.name.lowercased() < $1.name.lowercased() }
     }
 
     private func userElementButton(_ user: TraqAPI.User) -> some View {
