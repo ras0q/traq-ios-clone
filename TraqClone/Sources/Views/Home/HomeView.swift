@@ -38,11 +38,12 @@ public struct HomeView: View {
 
                         Section {
                             UnreadChannelList(
+                                store: store,
                                 unreadChannels: viewStore.userMe.unreadChannels,
-                                channelDictionary: viewStore.channel.channelDictionary
-                            ) { channel in
-                                ChannelContentView(store: store, channel: channel)
-                            }
+                                channelDictionary: viewStore.channel.channelDictionary,
+                                openChannelContentView: openChannelContentView,
+                                destChannel: destChannel
+                            )
                         } header: {
                             Text("未読")
                                 .font(.title2)
