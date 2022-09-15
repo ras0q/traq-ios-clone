@@ -5,7 +5,7 @@ extension Dictionary where Key == UUID, Value == TraqAPI.Channel {
     func getLongPath(from channelId: UUID) -> String {
         let paths = getPathArray(from: channelId)
 
-        return "#" + paths
+        return paths
             .reversed()
             .joined(separator: "/")
     }
@@ -13,7 +13,7 @@ extension Dictionary where Key == UUID, Value == TraqAPI.Channel {
     func getShortPath(from channelId: UUID) -> String {
         let paths = getPathArray(from: channelId)
 
-        return "#" + paths
+        return paths
             .enumerated()
             .map { $0.offset == 0 ? $0.element : String($0.element.prefix(1)) }
             .reversed()

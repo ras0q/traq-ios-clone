@@ -14,9 +14,13 @@ public struct ChannelContentHeader: View {
     public var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(shortChannelPath)
-                    .font(.title)
-                    .bold()
+                HStack {
+                    Image(systemName: "number")
+                        .font(.title2)
+                    Text(shortChannelPath)
+                        .font(.title)
+                        .bold()
+                }
                 Text(channel.topic)
                     .foregroundColor(.gray)
             }
