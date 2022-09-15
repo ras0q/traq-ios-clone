@@ -162,6 +162,8 @@ public enum ServiceCore {
                     case let .clipFolderMessageDeleted(payload):
                         break
                     }
+                } catch: { error, _ in
+                    print(error)
                 }
             case let .message(.fetchMessageResponse(.success((message, isCiting)))):
                 return .run { send in
