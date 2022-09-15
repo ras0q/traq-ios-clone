@@ -13,10 +13,14 @@ public struct ChannelView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                ChannelTreeList(
-                    store: store,
-                    topChannels: ChannelNode(from: viewStore.channel.channelDictionary).children ?? []
-                )
+                WithNavigationLinkToChannelContent(store: store) { openChannelContentView, destChannel in
+                    ChannelTreeList(
+                        store: store,
+                        channels: ChannelNode(from: viewStore.channel.channelDictionary).children ?? [],
+                        openChannelContentView: openChannelContentView,
+                        destChannel: destChannel
+                    )
+                }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text("チャンネル")
