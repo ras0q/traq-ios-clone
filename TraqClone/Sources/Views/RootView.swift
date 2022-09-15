@@ -34,7 +34,7 @@ public struct RootView: View {
                             Image(systemName: "number")
                             Text("Channel")
                         }
-                    ActivityView()
+                    ActivityView(store: serviceStore)
                         .tabItem {
                             Image(systemName: "bolt.fill")
                             Text("Activity")
