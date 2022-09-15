@@ -12,19 +12,21 @@ public struct MessageScroll: View {
 
     public var body: some View {
         ScrollView {
-            ForEach(messages, id: \.id) { message in
-                MessageElement(
-                    message: message,
-                    user: userDictionary[message.userId] ?? TraqAPI.User(
-                        id: message.userId,
-                        name: "unknown",
-                        displayName: "unknown",
-                        iconFileId: UUID(),
-                        bot: false,
-                        state: .active,
-                        updatedAt: Date()
+            LazyVStack {
+                ForEach(messages, id: \.id) { message in
+                    MessageElement(
+                        message: message,
+                        user: userDictionary[message.userId] ?? TraqAPI.User(
+                            id: message.userId,
+                            name: "unknown",
+                            displayName: "unknown",
+                            iconFileId: UUID(),
+                            bot: false,
+                            state: .active,
+                            updatedAt: Date()
+                        )
                     )
-                )
+                }
             }
         }
     }
