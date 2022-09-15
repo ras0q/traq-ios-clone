@@ -81,10 +81,13 @@ public extension AppCore.Store {
         )
         let appState: AppCore.State = .init(service: serviceState)
 
+        let wsClient: WsClient = .init()
+        wsClient.resume()
+
         return AppCore.Store(
             initialState: appState,
             reducer: AppCore.reducer.debug(),
-            environment: AppCore.Environment(websocket: WsClient())
+            environment: AppCore.Environment(websocket: wsClient)
         )
     }()
 }

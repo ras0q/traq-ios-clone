@@ -28,8 +28,7 @@ public enum ServiceCore {
 
     public enum Action: Equatable {
         case fetchAll
-        case waitForNextWsEvent
-        case receiveWsEvent(WsEvent)
+        case receiveWsEvent
 
         case channel(ChannelCore.Action)
         case message(MessageCore.Action)
@@ -82,16 +81,10 @@ public enum ServiceCore {
                     await send(.user(.fetchUsers))
                     await send(.userMe(.fetchUnreadChannels))
                 }
-            case .waitForNextWsEvent:
+            case .receiveWsEvent:
                 return .run { send in
-                    environment.websocket.webSocketTask.resume()
                     let event = try await environment.websocket.receiveEvent()
-                    await send(.receiveWsEvent(event))
-                }
-            case let .receiveWsEvent(event):
-                return .run { send in
-                    // 再度receiveWsEventを非同期実行する
-                    await send(.waitForNextWsEvent)
+                    await send(.receiveWsEvent)
 
                     switch event.body {
                     case let .userJoined(payload):
