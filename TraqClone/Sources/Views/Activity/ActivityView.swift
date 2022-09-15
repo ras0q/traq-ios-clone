@@ -1,5 +1,4 @@
 import ComposableArchitecture
-import SDWebImageSwiftUI
 import Stores
 import SwiftUI
 import Traq
@@ -52,14 +51,7 @@ public struct ActivityView: View {
     private func messagePreviewElement(message: TraqAPI.Message, user: TraqAPI.User, channelPath: String) -> some View {
         VStack(alignment: .leading) {
             HStack(spacing: 1) {
-                WebImage(url: URL(string: "\(TraqAPI.basePath)/public/icon/\(user.name)"), isAnimating: .constant(true))
-                    .onFailure { error in
-                        print(error.localizedDescription)
-                    }
-                    .resizable()
-                    .placeholder(Image(systemName: "person.crop.circle"))
-                    .indicator(.activity) // Activity Indicator
-                    .clipShape(Circle())
+                UserIcon(userName: user.name)
                     .frame(width: 30, height: 30)
                 Text(user.displayName)
             }

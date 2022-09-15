@@ -1,5 +1,4 @@
 import ComposableArchitecture
-import SDWebImageSwiftUI
 import Stores
 import SwiftUI
 import Traq
@@ -36,14 +35,7 @@ public struct UserView: View {
     private func userElementButton(_ user: TraqAPI.User) -> some View {
         Button(action: {}) {
             HStack {
-                WebImage(url: URL(string: "\(TraqAPI.basePath)/public/icon/\(user.name)"), isAnimating: .constant(true))
-                    .onFailure { error in
-                        print(error.localizedDescription)
-                    }
-                    .resizable()
-                    .placeholder(Image(systemName: "person.crop.circle"))
-                    .indicator(.activity) // Activity Indicator
-                    .clipShape(Circle())
+                UserIcon(userName: user.name)
                     .frame(width: 35, height: 35, alignment: .leading)
                 VStack(alignment: .leading) {
                     Text("\(user.displayName)")
