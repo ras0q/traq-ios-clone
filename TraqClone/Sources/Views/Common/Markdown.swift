@@ -38,7 +38,7 @@ public struct Markdown {
 
     private static func render(_ content: String) -> String? {
         guard let renderer = Markdown.renderer else {
-            fatalError("For performance reasons, initialize the renderer first.")
+            fatalError("Initialize the renderer first for performance reasons.")
         }
 
         let result = renderer.call(withArguments: [content])
