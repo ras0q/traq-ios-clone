@@ -44,6 +44,12 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI"),
                 .product(name: "Traq", package: "swift-traq"),
+            ],
+            exclude: [
+                "Resources/web.bundle/node_modules",
+            ],
+            resources: [
+                .process("Resources"),
             ]
         ),
     ]
