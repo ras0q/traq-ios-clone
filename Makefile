@@ -24,3 +24,7 @@ build-tool:
 .PHONY: clean
 clean:
 	@rm -rf ${BIN_DIR}/
+
+.PHONY: bundle
+bundle:
+	@cd ${PACKAGE_DIR}/Sources/Views/Resources/web.bundle && yarn install && yarn build
