@@ -21,7 +21,7 @@ public struct ChannelContentHeader: View {
                         .font(.title)
                         .bold()
                 }
-                Text(channel.topic)
+                Markdown(channel.topic)
                     .foregroundColor(.gray)
             }
             Spacer()
