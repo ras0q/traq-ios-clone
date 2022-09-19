@@ -13,8 +13,6 @@ public struct RootView: View {
         let viewStore = ViewStore(store)
         viewStore.send(.service(.receiveWsEvent))
         viewStore.send(.service(.userMe(.fetchMe)))
-
-        Markdown.inizializeRenderer()
     }
 
     public var body: some View {
