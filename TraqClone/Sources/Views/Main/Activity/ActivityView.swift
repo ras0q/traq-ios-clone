@@ -13,15 +13,7 @@ public struct ActivityView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
-                List(
-                    viewStore.message.channelMesssages.values
-                        .reduce([TraqAPI.Message]()) { result, messages in
-                            var newResult = result
-                            newResult.append(contentsOf: messages)
-                            return newResult
-                        },
-                    id: \.id
-                ) { message in
+                List(viewStore.message.recentMessages, id: \.id) { message in
                     Section {
                         NavigationLink {
                             ChannelContentView(

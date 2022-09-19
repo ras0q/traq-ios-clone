@@ -8,6 +8,19 @@ public enum MessageCore {
 
     public struct State: Equatable {
         public var channelMesssages: [UUID: [TraqAPI.Message]] = .init()
+        public var recentMessages: [TraqAPI.Message] {
+            [TraqAPI.Message](
+                channelMesssages
+                    .values
+                    .reduce([TraqAPI.Message]()) { result, messages in
+                        var newResult = result
+                        newResult.append(contentsOf: messages)
+                        return newResult
+                    }
+                    .sorted { $0.createdAt > $1.createdAt }
+                    .prefix(20)
+            )
+        }
 
         public init() {}
     }
