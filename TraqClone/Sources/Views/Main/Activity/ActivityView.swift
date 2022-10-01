@@ -12,10 +12,10 @@ public struct ActivityView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            let userDictionary = viewStore.user.userDictionary
-            let channelDictionary = viewStore.channel.channelDictionary
-
             NavigationView {
+                let userDictionary = viewStore.user.userDictionary
+                let channelDictionary = viewStore.channel.channelDictionary
+
                 List(viewStore.message.recentMessages, id: \.id) { message in
                     Section {
                         NavigationLink {
