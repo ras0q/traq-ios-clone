@@ -12,19 +12,22 @@ public struct ActivityView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
+            let userDictionary = viewStore.user.userDictionary
+            let channelDictionary = viewStore.channel.channelDictionary
+
             NavigationView {
                 List(viewStore.message.recentMessages, id: \.id) { message in
                     Section {
                         NavigationLink {
                             ChannelContentView(
                                 store: store,
-                                channel: viewStore.channel.channelDictionary[message.channelId]!
+                                channel: channelDictionary[message.channelId]!
                             )
                         } label: {
                             messagePreviewElement(
                                 message: message,
-                                user: viewStore.user.userDictionary[message.userId]!,
-                                channelPath: viewStore.channel.channelDictionary.getLongPath(from: message.channelId)
+                                user: userDictionary[message.userId]!,
+                                channelPath: channelDictionary.getLongPath(from: message.channelId)
                             )
                         }
                     }
