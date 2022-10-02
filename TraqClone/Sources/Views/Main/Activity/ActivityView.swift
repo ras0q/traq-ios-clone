@@ -22,7 +22,6 @@ public struct ActivityView: View {
                     Section {
                         Button {
                             channelPath.append(message.channelId)
-
                         } label: {
                             messagePreviewElement(
                                 message: message,
