@@ -9,9 +9,9 @@ public enum AppCore {
     public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
 
     public enum State: Equatable {
-        // auth: 未ログイン時ステート。ログイン画面に遷移
-        // service: ログイン後ステート。サービス画面に遷移
+        // 未ログイン時ステート。ログイン画面に遷移
         case auth(AuthCore.State)
+        // ログイン後ステート。サービス画面に遷移
         case service(ServiceCore.State)
 
         public init(service: ServiceCore.State = .init()) {
