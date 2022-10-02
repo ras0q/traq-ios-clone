@@ -10,27 +10,34 @@ public struct ActivityView: View {
         self.store = store
     }
 
+    @State private var channelPath: [UUID] = []
+
     public var body: some View {
         WithViewStore(store) { viewStore in
-            NavigationView {
-                let userDictionary = viewStore.user.userDictionary
-                let channelDictionary = viewStore.channel.channelDictionary
+            let userDictionary = viewStore.user.userDictionary
+            let channelDictionary = viewStore.channel.channelDictionary
 
+            NavigationStack(path: $channelPath) {
                 List(viewStore.message.recentMessages, id: \.id) { message in
                     Section {
-                        NavigationLink {
-                            ChannelContentView(
-                                store: store,
-                                channel: channelDictionary[message.channelId]!
-                            )
+                        Button {
+                            channelPath.append(message.channelId)
+
                         } label: {
                             messagePreviewElement(
                                 message: message,
                                 user: userDictionary[message.userId]!,
                                 channelPath: channelDictionary.getLongPath(from: message.channelId)
                             )
+                            .foregroundColor(.black)
                         }
                     }
+                }
+                .navigationDestination(for: UUID.self) { channelId in
+                    ChannelContentView(
+                        store: store,
+                        channel: channelDictionary[channelId]!
+                    )
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
