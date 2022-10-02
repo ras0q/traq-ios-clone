@@ -12,13 +12,12 @@ public struct UserView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            NavigationView {
-                List(
-                    viewStore.user.users
-                        .filter { !$0.bot && $0.state == .active }
-                        .sorted { $0.name.lowercased() < $1.name.lowercased() },
-                    id: \.id
-                ) { user in
+            let users = viewStore.user.users
+                .filter { !$0.bot && $0.state == .active }
+                .sorted { $0.name.lowercased() < $1.name.lowercased() }
+
+            NavigationStack {
+                List(users, id: \.id) { user in
                     userElementButton(user)
                 }
                 .toolbar {
