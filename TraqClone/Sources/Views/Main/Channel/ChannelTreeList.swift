@@ -14,19 +14,16 @@ import Traq
 struct ChannelTreeList: View {
     private let store: ServiceCore.Store
     private let channels: [ChannelNode]
-    @Binding private var openChannelContentView: Bool
-    @Binding private var destChannel: TraqAPI.Channel
+    @Binding private var channelPath: [TraqAPI.Channel]
 
     public init(
         store: ServiceCore.Store,
         channels: [ChannelNode],
-        openChannelContentView: Binding<Bool>,
-        destChannel: Binding<TraqAPI.Channel>
+        channelPath: Binding<[TraqAPI.Channel]>
     ) {
         self.store = store
         self.channels = channels
-        _destChannel = destChannel
-        _openChannelContentView = openChannelContentView
+        _channelPath = channelPath
     }
 
     var body: some View {
@@ -54,9 +51,7 @@ struct ChannelTreeList: View {
                 .contentShape(Rectangle()) // Spacerにも判定をつける
                 .onTapGesture {
                     viewStore.send(.message(.fetchMessages(channelId: channel.id)))
-
-                    destChannel = channel.toTraqChannel()
-                    openChannelContentView = true
+                    channelPath.append(channel.toTraqChannel())
                 }
             }
         }
