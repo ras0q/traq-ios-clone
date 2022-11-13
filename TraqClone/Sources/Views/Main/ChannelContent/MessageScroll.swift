@@ -1,68 +1,56 @@
+import ComposableArchitecture
+import Stores
 import SwiftUI
 import Traq
 
 public struct MessageScroll: View {
-    private let messages: [TraqAPI.Message]
-    private let userDictionary: [UUID: TraqAPI.User]
+    private let store: ServiceCore.Store
+    private let channelId: UUID
 
-    public init(_ messages: [TraqAPI.Message], _ userDictionary: [UUID: TraqAPI.User]) {
-        self.messages = messages
-        self.userDictionary = userDictionary
+    public init(_ store: ServiceCore.Store, channelId: UUID) {
+        self.store = store
+        self.channelId = channelId
     }
 
     public var body: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(messages, id: \.id) { message in
-                    MessageElement(
-                        message: message,
-                        user: userDictionary[message.userId] ?? TraqAPI.User(
-                            id: message.userId,
-                            name: "unknown",
-                            displayName: "unknown",
-                            iconFileId: UUID(),
-                            bot: false,
-                            state: .active,
-                            updatedAt: Date()
+        WithViewStore(store) { viewStore in
+            let messages: [TraqAPI.Message] = (viewStore.message.channelMesssages[channelId] ?? [])
+                .sorted { $0.createdAt < $1.createdAt }
+            let userDictionary: [UUID: TraqAPI.User] = viewStore.user.userDictionary
+
+            ScrollView {
+                LazyVStack {
+                    ForEach(messages, id: \.id) { message in
+                        MessageElement(
+                            message: message,
+                            user: userDictionary[message.userId] ?? TraqAPI.User(
+                                id: message.userId,
+                                name: "unknown",
+                                displayName: "unknown",
+                                iconFileId: UUID(),
+                                bot: false,
+                                state: .active,
+                                updatedAt: Date()
+                            )
                         )
-                    )
+                        .if(message.id == messages[0].id) {
+                            $0.onAppear {
+                                viewStore.send(.message(.fetchMessages(channelId: channelId)))
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-struct MessageScroll_Previews: PreviewProvider {
+ struct MessageScroll_Previews: PreviewProvider {
     private static let user1Id: UUID = .init()
     private static let user2Id: UUID = .init()
     private static let channelId: UUID = .init()
 
     static var previews: some View {
-        MessageScroll(
-            [
-                .init(id: UUID(), userId: user1Id, channelId: channelId, content: "これはメッセージです", createdAt: Date(), updatedAt: Date(), pinned: false, stamps: [], threadId: nil),
-                .init(id: UUID(), userId: user1Id, channelId: channelId, content: "ピン留めされたメッセージ", createdAt: Date(), updatedAt: Date(), pinned: true, stamps: [], threadId: nil),
-            ],
-            [
-                user1Id: .init(
-                    id: UUID(),
-                    name: "user1",
-                    displayName: "ユーザー1",
-                    iconFileId: UUID(),
-                    bot: false,
-                    state: .active,
-                    updatedAt: Date()
-                ),
-                user2Id: .init(
-                    id: UUID(),
-                    name: "user2",
-                    displayName: "ユーザー2",
-                    iconFileId: UUID(),
-                    bot: false,
-                    state: .active,
-                    updatedAt: Date()
-                ),
-            ]
-        )
+        MessageScroll(.defaultStore, channelId: UUID())
     }
-}
+ }
