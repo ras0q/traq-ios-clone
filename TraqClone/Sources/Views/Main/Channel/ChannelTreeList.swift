@@ -29,19 +29,7 @@ struct ChannelTreeList: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             List(channels, id: \.id, children: \.children) { channel in
-                let imageView = Image(systemName: "number")
-                    .fixedSize()
-                    .padding(4)
-
-                if (channel.children ?? []).isEmpty {
-                    imageView
-                } else {
-                    imageView
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.black, lineWidth: 2)
-                        )
-                }
+                hashImageView(haveChildren: !(channel.children ?? []).isEmpty)
 
                 // Buttonだと行全体に判定がついてしまうため.onTapGestureを使う
                 HStack {
@@ -53,6 +41,24 @@ struct ChannelTreeList: View {
                     viewStore.send(.message(.fetchMessages(channelId: channel.id)))
                     channelPath.append(channel.toTraqChannel())
                 }
+            }
+        }
+    }
+
+    private func hashImageView(haveChildren: Bool) -> some View {
+        HStack {
+            let imageView = Image(systemName: "number")
+                .fixedSize()
+                .padding(4)
+
+            if haveChildren {
+                imageView
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(Color.black, lineWidth: 2)
+                    )
+            } else {
+                imageView
             }
         }
     }
