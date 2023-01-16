@@ -57,7 +57,7 @@ public struct ChannelCore: ReducerProtocol {
             state.channels = channels.sorted { $0.id.uuidString < $1.id.uuidString }
             return .none
         case let .fetchChannelResponse(.failure(error)):
-            print("failed to fetch channel()")
+            print("failed to fetch channel(): \(error)")
             return .none
         }
     }

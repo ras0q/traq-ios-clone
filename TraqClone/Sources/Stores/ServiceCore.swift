@@ -79,79 +79,79 @@ public struct ServiceCore: ReducerProtocol {
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     private func handleWsEvent(_ send: Send<ServiceCore.Action>, _ event: WsEvent) async {
         switch event.body {
-        case let .userJoined(payload):
+        case .userJoined:
             break
-        case let .userUpdated(payload):
+        case .userUpdated:
             break
-        case let .userTagsUpdated(payload):
+        case .userTagsUpdated:
             break
-        case let .userIconUpdated(payload):
+        case .userIconUpdated:
             break
-        case let .userWebrtcStateChanged(payload):
+        case .userWebrtcStateChanged:
             break
-        case let .userViewstateChanged(payload):
+        case .userViewstateChanged:
             break
-        case let .userOnline(payload):
+        case .userOnline:
             break
-        case let .userOffline(payload):
+        case .userOffline:
             break
-        case let .userGroupCreated(payload):
+        case .userGroupCreated:
             break
-        case let .userGroupUpdated(payload):
+        case .userGroupUpdated:
             break
-        case let .userGroupDeleted(payload):
+        case .userGroupDeleted:
             break
         case let .channelCreated(payload):
             await send(.channel(.fetchChannel(payload.id)))
         case let .channelUpdated(payload):
             await send(.channel(.fetchChannel(payload.id)))
-        case let .channelDeleted(payload):
+        case .channelDeleted:
             break
-        case let .channelStared(payload):
+        case .channelStared:
             break
-        case let .channelUnstared(payload):
+        case .channelUnstared:
             break
-        case let .channelViewersChanged(payload):
+        case .channelViewersChanged:
             break
-        case let .channelSubscribersChanged(payload):
+        case .channelSubscribersChanged:
             break
         case let .messageCreated(payload):
             await send(.message(.fetchMessage(payload.id, isCiting: payload.isCiting)))
-        case let .messageUpdated(payload):
+        case .messageUpdated:
             break
-        case let .messageDeleted(payload):
+        case .messageDeleted:
             break
-        case let .messageStamped(payload):
+        case .messageStamped:
             break
-        case let .messageUnstamped(payload):
+        case .messageUnstamped:
             break
-        case let .messagePinned(payload):
+        case .messagePinned:
             break
-        case let .messageUnpinned(payload):
+        case .messageUnpinned:
             break
         case let .messageRead(payload):
             await send(.userMe(.readChannel(payload.id)))
-        case let .stampCreated(payload):
+        case .stampCreated:
             break
-        case let .stampUpdated(payload):
+        case .stampUpdated:
             break
-        case let .stampDeleted(payload):
+        case .stampDeleted:
             break
-        case let .stampPaletteCreated(payload):
+        case .stampPaletteCreated:
             break
-        case let .stampPaletteUpdated(payload):
+        case .stampPaletteUpdated:
             break
-        case let .stampPaletteDeleted(payload):
+        case .stampPaletteDeleted:
             break
-        case let .clipFolderCreated(payload):
+        case .clipFolderCreated:
             break
-        case let .clipFolderUpdated(payload):
+        case .clipFolderUpdated:
             break
-        case let .clipFolderDeleted(payload):
+        case .clipFolderDeleted:
             break
-        case let .clipFolderMessageAdded(payload):
+        case .clipFolderMessageAdded:
             break
-        case let .clipFolderMessageDeleted(payload):
+        case .clipFolderMessageDeleted:
             break
         }
     }

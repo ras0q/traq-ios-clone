@@ -47,7 +47,7 @@ public struct AppCore: ReducerProtocol {
                 await send(.service(.fetchAll))
             }
         // 自分のユーザー情報の取得に失敗したらログイン画面に戻す
-        case let .service(.userMe(.fetchMeResponse(.failure(error)))):
+        case .service(.userMe(.fetchMeResponse(.failure))):
             state = .auth(.init())
             return .none
         case .auth, .service:
