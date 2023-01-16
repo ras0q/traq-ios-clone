@@ -12,12 +12,12 @@ import SwiftUI
 import Traq
 
 struct ChannelTreeList: View {
-    private let store: ServiceCore.Store
+    private let store: StoreOf<ServiceCore>
     private let channels: [ChannelNode]
     @Binding private var channelPath: [TraqAPI.Channel]
 
     public init(
-        store: ServiceCore.Store,
+        store: StoreOf<ServiceCore>,
         channels: [ChannelNode],
         channelPath: Binding<[TraqAPI.Channel]>
     ) {

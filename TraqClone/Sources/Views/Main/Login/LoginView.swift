@@ -3,12 +3,12 @@ import Stores
 import SwiftUI
 
 public struct LoginView: View {
-    private let store: AuthCore.Store
+    private let store: StoreOf<AuthCore>
 
     @State private var inputTraqId: String = ""
     @State private var inputPassword: String = ""
 
-    public init(store: AuthCore.Store) {
+    public init(store: StoreOf<AuthCore>) {
         self.store = store
     }
 

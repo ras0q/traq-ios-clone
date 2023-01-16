@@ -3,9 +3,9 @@ import Stores
 import SwiftUI
 
 public struct RootView: View {
-    private let store: AppCore.Store
+    private let store: StoreOf<AppCore>
 
-    public init(store: AppCore.Store = .defaultStore) {
+    public init(store: StoreOf<AppCore> = .defaultStore) {
         UITabBar.appearance().backgroundColor = UIColor.white
 
         self.store = store

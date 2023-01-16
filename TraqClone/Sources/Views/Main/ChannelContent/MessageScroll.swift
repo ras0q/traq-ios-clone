@@ -4,10 +4,10 @@ import SwiftUI
 import Traq
 
 public struct MessageScroll: View {
-    private let store: ServiceCore.Store
+    private let store: StoreOf<ServiceCore>
     private let channelId: UUID
 
-    public init(_ store: ServiceCore.Store, channelId: UUID) {
+    public init(_ store: StoreOf<ServiceCore>, channelId: UUID) {
         self.store = store
         self.channelId = channelId
     }
@@ -45,7 +45,7 @@ public struct MessageScroll: View {
     }
 }
 
- struct MessageScroll_Previews: PreviewProvider {
+struct MessageScroll_Previews: PreviewProvider {
     private static let user1Id: UUID = .init()
     private static let user2Id: UUID = .init()
     private static let channelId: UUID = .init()
@@ -53,4 +53,4 @@ public struct MessageScroll: View {
     static var previews: some View {
         MessageScroll(.defaultStore, channelId: UUID())
     }
- }
+}

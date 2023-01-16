@@ -5,10 +5,10 @@ import SwiftUI
 import Traq
 
 public struct ChannelContentView: View {
-    private let store: ServiceCore.Store
+    private let store: StoreOf<ServiceCore>
     private let channel: TraqAPI.Channel
 
-    public init(store: ServiceCore.Store, channel: TraqAPI.Channel) {
+    public init(store: StoreOf<ServiceCore>, channel: TraqAPI.Channel) {
         self.store = store
         self.channel = channel
     }

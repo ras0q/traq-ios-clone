@@ -4,13 +4,13 @@ import SwiftUI
 import Traq
 
 struct UnreadChannelList: View {
-    private let store: ServiceCore.Store
+    private let store: StoreOf<ServiceCore>
     private let unreadChannels: [TraqAPI.UnreadChannel]
     private let channelDictionary: [UUID: TraqAPI.Channel]
     @Binding private var channelPath: [TraqAPI.Channel]
 
     public init(
-        store: ServiceCore.Store,
+        store: StoreOf<ServiceCore>,
         unreadChannels: [TraqAPI.UnreadChannel],
         channelDictionary: [UUID: TraqAPI.Channel],
         channelPath: Binding<[TraqAPI.Channel]>

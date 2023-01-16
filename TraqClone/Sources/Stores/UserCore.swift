@@ -2,9 +2,8 @@ import ComposableArchitecture
 import Foundation
 import Traq
 
-public enum UserCore {
-    public typealias Store = ComposableArchitecture.Store<UserCore.State, UserCore.Action>
-    public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
+public struct UserCore: ReducerProtocol {
+    public init() {}
 
     public struct State: Equatable {
         public var users: [TraqAPI.User] = .init()
@@ -22,11 +21,7 @@ public enum UserCore {
         }
     }
 
-    public struct Environment {
-        public init() {}
-    }
-
-    public static let reducer = Reducer { state, action, _ in
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .fetchUsers:
             return .task {

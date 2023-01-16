@@ -5,9 +5,9 @@ import SwiftUI
 import Traq
 
 public struct ChannelView: View {
-    private let store: ServiceCore.Store
+    private let store: StoreOf<ServiceCore>
 
-    public init(store: ServiceCore.Store) {
+    public init(store: StoreOf<ServiceCore>) {
         self.store = store
     }
 

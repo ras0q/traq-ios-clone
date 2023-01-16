@@ -2,10 +2,7 @@ import ComposableArchitecture
 import Foundation
 import Traq
 
-public enum MessageCore {
-    public typealias Store = ComposableArchitecture.Store<MessageCore.State, MessageCore.Action>
-    public typealias Reducer = ComposableArchitecture.Reducer<State, Action, Environment>
-
+public struct MessageCore: ReducerProtocol {
     public struct State: Equatable {
         public var channelMesssages: [UUID: [TraqAPI.Message]] = .init()
         public var recentMessages: [TraqAPI.Message] {
@@ -36,11 +33,7 @@ public enum MessageCore {
         }
     }
 
-    public struct Environment {
-        public init() {}
-    }
-
-    public static let reducer = Reducer { state, action, _ in
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case let .fetchMessages(channelId: channelId):
             return .task {
