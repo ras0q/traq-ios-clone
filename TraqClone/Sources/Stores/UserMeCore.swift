@@ -8,11 +8,7 @@ public struct UserMeCore: ReducerProtocol {
         public var unreadChannels: [TraqAPI.UnreadChannel] = .init()
         public var unreadChannelDictionary: [UUID: TraqAPI.UnreadChannel] { unreadChannels.toDictionary(id: \.channelId) }
 
-        public init() {
-            #if DEBUG
-                unreadChannels = .mock
-            #endif
-        }
+        public init() {}
     }
 
     public enum Action: Equatable {

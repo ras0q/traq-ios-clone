@@ -28,7 +28,15 @@ struct ChannelContentView_Previews: PreviewProvider {
     static var previews: some View {
         ChannelContentView(
             store: .defaultStore,
-            channel: .mock
+            channel: .init(
+                id: UUID(),
+                parentId: nil,
+                archived: false,
+                force: false,
+                topic: "トピック",
+                name: "ch1",
+                children: [UUID(), UUID()]
+            )
         )
     }
 }

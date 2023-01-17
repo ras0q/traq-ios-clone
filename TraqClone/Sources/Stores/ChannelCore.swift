@@ -4,14 +4,9 @@ import Traq
 
 public struct ChannelCore: ReducerProtocol {
     public struct State: Equatable {
-        public var channels: [TraqAPI.Channel] = .init()
-        public var channelDictionary: [UUID: TraqAPI.Channel] { channels.toDictionary(id: \.id) }
+        public var channelDictionary: [UUID: TraqAPI.Channel] = [:]
 
-        public init() {
-            #if DEBUG
-                channels = .mock
-            #endif
-        }
+        public init() {}
     }
 
     public enum Action: Equatable {
@@ -37,7 +32,7 @@ public struct ChannelCore: ReducerProtocol {
                 )
             }
         case let .fetchChannelsResponse(.success(channels)):
-            state.channels = channels
+            state.channelDictionary = channels.toDictionary(id: \.id)
             return .none
         case let .fetchChannelsResponse(.failure(error)):
             print("failed to fetch channels: \(error)")
@@ -52,9 +47,9 @@ public struct ChannelCore: ReducerProtocol {
                 )
             }
         case let .fetchChannelResponse(.success(channel)):
-            var channels = state.channels
-            channels.append(channel)
-            state.channels = channels.sorted { $0.id.uuidString < $1.id.uuidString }
+            var channelDictionary = state.channelDictionary
+            channelDictionary[channel.id] = channel
+            state.channelDictionary = channelDictionary
             return .none
         case let .fetchChannelResponse(.failure(error)):
             print("failed to fetch channel(): \(error)")
