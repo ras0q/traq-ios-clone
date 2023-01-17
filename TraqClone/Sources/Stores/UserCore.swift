@@ -6,8 +6,7 @@ public struct UserCore: ReducerProtocol {
     public init() {}
 
     public struct State: Equatable {
-        public var users: [TraqAPI.User] = .init()
-        public var userDictionary: [UUID: TraqAPI.User] { users.toDictionary(id: \.id) }
+        public var userDictionary: [UUID: TraqAPI.User] = [:]
 
         public init() {}
     }
@@ -32,7 +31,7 @@ public struct UserCore: ReducerProtocol {
                 )
             }
         case let .response(.success(users)):
-            state.users = users
+            state.userDictionary = users.toDictionary(id: \.id)
             return .none
         case let .response(.failure(error)):
             print("failed to fetch users: \(error)")
