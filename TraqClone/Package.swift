@@ -17,7 +17,6 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.49.2"),
         .package(url: "https://github.com/traPtitech/swift-traq", branch: "main"),
         .package(url: "https://github.com/ras0q/swift-traq-ws", branch: "main"),
-        .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", from: "2.0.2"),
     ],
     targets: [
         // Views->Stores->Modelsの方向にのみ依存するようにする
@@ -42,7 +41,6 @@ let package = Package(
                 "Stores",
                 "Models",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI"),
                 .product(name: "Traq", package: "swift-traq"),
             ]
         ),

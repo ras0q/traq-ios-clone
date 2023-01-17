@@ -1,27 +1,41 @@
-import SDWebImageSwiftUI
 import SwiftUI
 import Traq
 
 public struct UserIcon: View {
+    private static var iconImageDictionary: [URL?: Image] = [:]
+
     private let iconUrl: URL?
 
-    // FIXME: cannot load image
     public init(iconFileId: UUID) {
         iconUrl = URL(string: "\(TraqAPI.basePath)/files/\(iconFileId.uuidString)")
     }
 
-    public init(userName: String) {
-        iconUrl = URL(string: "\(TraqAPI.basePath)/public/icon/\(userName)")
-    }
-
     public var body: some View {
-        WebImage(url: iconUrl, isAnimating: .constant(true))
-            .onFailure { error in
-                print(error.localizedDescription)
+        if let image = UserIcon.iconImageDictionary[iconUrl] {
+            image
+                .resizable()
+                .clipShape(Circle())
+        } else {
+            AsyncImage(url: iconUrl) { phase in
+                switch phase {
+                case let .success(image):
+                    image
+                        .resizable()
+                        .clipShape(Circle())
+                        .task(id: iconUrl) {
+                            UserIcon.iconImageDictionary[iconUrl] = image
+                        }
+                case .empty:
+                    ProgressView()
+                        .clipShape(Circle())
+                case .failure:
+                    Image(systemName: "person.crop.circle")
+                        .resizable()
+                        .clipShape(Circle())
+                @unknown default:
+                    fatalError("unknown phase")
+                }
             }
-            .resizable()
-            .placeholder(Image(systemName: "person.crop.circle"))
-            .indicator(.activity)
-            .clipShape(Circle())
+        }
     }
 }

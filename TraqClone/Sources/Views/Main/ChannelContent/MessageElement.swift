@@ -17,7 +17,7 @@ public struct MessageElement: View {
 
     public var body: some View {
         HStack(alignment: .top) {
-            UserIcon(userName: user.name)
+            UserIcon(iconFileId: user.iconFileId)
                 .frame(width: 40, height: 40, alignment: .leading)
             VStack {
                 HStack {

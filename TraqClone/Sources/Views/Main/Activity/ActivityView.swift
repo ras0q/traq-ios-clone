@@ -52,7 +52,7 @@ public struct ActivityView: View {
     private func messagePreviewElement(message: TraqAPI.Message, user: TraqAPI.User, channelPath: String) -> some View {
         VStack(alignment: .leading) {
             HStack(spacing: 1) {
-                UserIcon(userName: user.name)
+                UserIcon(iconFileId: user.iconFileId)
                     .frame(width: 30, height: 30)
                 Text(user.displayName)
             }

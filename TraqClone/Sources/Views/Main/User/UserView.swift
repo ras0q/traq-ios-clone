@@ -34,7 +34,7 @@ public struct UserView: View {
     private func userElementButton(_ user: TraqAPI.User) -> some View {
         Button(action: {}) {
             HStack {
-                UserIcon(userName: user.name)
+                UserIcon(iconFileId: user.iconFileId)
                     .frame(width: 35, height: 35, alignment: .leading)
                 VStack(alignment: .leading) {
                     Text("\(user.displayName)")
