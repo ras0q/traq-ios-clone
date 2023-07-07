@@ -158,6 +158,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		4FF0BEE328BA7307001D75C2 /* Run formatter & linter */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
