@@ -20,6 +20,22 @@ public struct MessageScroll: View {
 
             ScrollView {
                 LazyVStack {
+                    EmptyView()
+                        .onAppear {
+                            guard !viewStore.state.message.isFetchingMessages else { return }
+                            viewStore.send(
+                                .message(
+                                    .fetchMessages(
+                                        channelId: channelId,
+                                        limit: nil,
+                                        offset: nil,
+                                        since: nil,
+                                        until: messages.first?.createdAt,
+                                        inclusive: nil
+                                    )
+                                )
+                            )
+                        }
                     ForEach(messages, id: \.id) { message in
                         MessageElement(
                             message: message,
@@ -33,12 +49,23 @@ public struct MessageScroll: View {
                                 updatedAt: Date()
                             )
                         )
-                        .if(message.id == messages[0].id) {
-                            $0.onAppear {
-                                viewStore.send(.message(.fetchMessages(channelId: channelId)))
-                            }
-                        }
                     }
+                    EmptyView()
+                        .onAppear {
+                            guard !viewStore.state.message.isFetchingMessages else { return }
+                            viewStore.send(
+                                .message(
+                                    .fetchMessages(
+                                        channelId: channelId,
+                                        limit: nil,
+                                        offset: nil,
+                                        since: messages.last?.createdAt,
+                                        until: nil,
+                                        inclusive: nil
+                                    )
+                                )
+                            )
+                        }
                 }
             }
         }

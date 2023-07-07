@@ -18,12 +18,20 @@ public struct MessageCore: ReducerProtocol {
                     .prefix(20)
             )
         }
+        public var isFetchingMessages: Bool = false
 
         public init() {}
     }
 
     public enum Action: Equatable {
-        case fetchMessages(channelId: UUID)
+        case fetchMessages(
+            channelId: UUID,
+            limit: Int? = nil,
+            offset: Int? = nil,
+            since: Date? = nil,
+            until: Date? = nil,
+            inclusive: Bool? = nil
+        )
         case fetchMessagesResponse(TaskResult<([TraqAPI.Message], channelId: UUID)>)
         case fetchMessage(UUID, isCiting: Bool)
         case fetchMessageResponse(TaskResult<(TraqAPI.Message, isCiting: Bool)>)
@@ -35,11 +43,26 @@ public struct MessageCore: ReducerProtocol {
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
-        case let .fetchMessages(channelId: channelId):
+        case let .fetchMessages(
+            channelId: channelId,
+            limit: limit,
+            offset: offset,
+            since: since,
+            until: until,
+            inclusive: inclusive
+        ):
+            state.isFetchingMessages = true
             return .task {
-                await .fetchMessagesResponse(
+                return await .fetchMessagesResponse(
                     TaskResult {
-                        let messages = try await TraqAPI.MessageAPI.getMessages(channelId: channelId)
+                        let messages = try await TraqAPI.MessageAPI.getMessages(
+                            channelId: channelId,
+                            limit: limit,
+                            offset: offset,
+                            since: since,
+                            until: until,
+                            inclusive: inclusive
+                        )
                         return (messages, channelId: channelId)
                     }
                 )
@@ -52,9 +75,11 @@ public struct MessageCore: ReducerProtocol {
             } else {
                 state.channelMesssages[channelId] = messages
             }
+            state.isFetchingMessages = false
             return .none
         case let .fetchMessagesResponse(.failure(error)):
             print("failed to fetch messages: \(error)")
+            state.isFetchingMessages = false
             return .none
         case let .fetchMessage(messageId, isCiting: isCiting):
             return .task {

@@ -27,7 +27,7 @@ struct ChannelTreeList: View {
     }
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { _ in
             List(channels, id: \.id, children: \.children) { channel in
                 hashImageView(haveChildren: !(channel.children ?? []).isEmpty)
 
@@ -38,7 +38,6 @@ struct ChannelTreeList: View {
                 }
                 .contentShape(Rectangle()) // Spacerにも判定をつける
                 .onTapGesture {
-                    viewStore.send(.message(.fetchMessages(channelId: channel.id)))
                     channelPath.append(channel.toTraqChannel())
                 }
             }
