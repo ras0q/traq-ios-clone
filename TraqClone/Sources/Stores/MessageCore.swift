@@ -18,6 +18,7 @@ public struct MessageCore: ReducerProtocol {
                     .prefix(20)
             )
         }
+
         public var isFetchingMessages: Bool = false
 
         public init() {}

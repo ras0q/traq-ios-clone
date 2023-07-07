@@ -20,7 +20,7 @@ public struct MessageScroll: View {
 
             ScrollView {
                 LazyVStack {
-                    EmptyView()
+                    Text("")
                         .onAppear {
                             guard !viewStore.state.message.isFetchingMessages else { return }
                             viewStore.send(
@@ -50,7 +50,7 @@ public struct MessageScroll: View {
                             )
                         )
                     }
-                    EmptyView()
+                    Text("")
                         .onAppear {
                             guard !viewStore.state.message.isFetchingMessages else { return }
                             viewStore.send(
