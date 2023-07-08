@@ -51,6 +51,6 @@ let package = Package(
 
 // build tools
 package.dependencies.append(contentsOf: [
-    .package(url: "https://github.com/realm/SwiftLint", from: "0.48.0"),
+    .package(url: "https://github.com/realm/SwiftLint", from: "0.52.4"),
     .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.51.12"),
 ])
