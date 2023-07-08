@@ -14,6 +14,7 @@ let package = Package(
         .library(name: "Views", targets: ["Views"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/gonzalezreal/swift-markdown-ui", from: "2.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.55.0"),
         .package(url: "https://github.com/traPtitech/swift-traq", branch: "main"),
         .package(url: "https://github.com/ras0q/swift-traq-ws", branch: "main"),
@@ -40,6 +41,7 @@ let package = Package(
             dependencies: [
                 "Stores",
                 "Models",
+                .product(name: "MarkdownUI", package: "swift-markdown-ui"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "Traq", package: "swift-traq"),
             ]

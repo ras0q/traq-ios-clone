@@ -65,7 +65,7 @@ public struct ActivityView: View {
             }
             .foregroundColor(.gray)
 
-            Markdown(message.markdownContent)
+            Markdown(message.content)
         }
     }
 }

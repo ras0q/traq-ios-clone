@@ -1,20 +1,15 @@
-import JavaScriptCore
+import MarkdownUI
 import SwiftUI
-import WebKit
 
 public struct Markdown: View {
-    public var attributedString: AttributedString
-
-    public init(_ attributedString: AttributedString) {
-        self.attributedString = attributedString
-    }
+    public var text: String
 
     public init(_ text: String) {
-        attributedString = text.getAttributedString()
+        self.text = text
     }
 
     public var body: some View {
-        Text(attributedString)
+        MarkdownUI.Markdown(text)
     }
 }
 

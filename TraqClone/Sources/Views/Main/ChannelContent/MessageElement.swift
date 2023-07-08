@@ -34,7 +34,7 @@ public struct MessageElement: View {
                         .foregroundColor(.gray)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 20, alignment: .leading)
-                Markdown(message.markdownContent)
+                Markdown(message.content)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
