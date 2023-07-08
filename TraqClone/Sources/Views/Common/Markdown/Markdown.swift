@@ -1,15 +1,54 @@
 import MarkdownUI
+import RegexBuilder
 import SwiftUI
+import Traq
 
 public struct Markdown: View {
-    public var text: String
+    public var raw: String
+    public var markdown: String {
+        let fileID = Reference(Substring.self)
+        return raw.replacing(
+            Regex {
+                TraqAPI.basePath.replacingOccurrences(of: "/api/v3", with: "")
+                "/files/"
+                Capture(as: fileID) { uuidRegex() }
+            }
+        ) { match in
+            "![](\(TraqAPI.basePath)/files/\(match[fileID])/thumbnail)"
+        }
+    }
 
-    public init(_ text: String) {
-        self.text = text
+    public init(_ raw: String) {
+        self.raw = raw
     }
 
     public var body: some View {
-        MarkdownUI.Markdown(text)
+        MarkdownUI.Markdown(markdown)
+    }
+    
+    private func uuidRegex() -> Regex<Substring> {
+        func repeatHex(count: Int) -> Repeat<Substring> {
+            Repeat(count: count) {
+                CharacterClass(
+                    "0" ... "9",
+                    "a" ... "f",
+                    "A" ... "F"
+                )
+            }
+        }
+
+        return Regex<Substring> {
+            repeatHex(count: 8)
+            "-"
+            repeatHex(count: 4)
+            "-"
+            "4"
+            repeatHex(count: 3)
+            "-"
+            repeatHex(count: 4)
+            "-"
+            repeatHex(count: 12)
+        }
     }
 }
 
