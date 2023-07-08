@@ -84,7 +84,7 @@ public struct Markdown: View {
                 }
             }
         ) { match in
-            "[\(match[embedRaw])](\(TraqAPI.basePath)/\(match[embedType])s/\(match[embedID]))"
+            "**[\(match[embedRaw])](\(TraqAPI.basePath)/\(match[embedType])s/\(match[embedID]))**"
         }
 
         return replaced
