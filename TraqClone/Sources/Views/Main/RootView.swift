@@ -10,9 +10,9 @@ public struct RootView: View {
 
         self.store = store
 
-        let viewStore = ViewStore(store)
-        viewStore.send(.service(.receiveWsEvent))
-        viewStore.send(.service(.userMe(.fetchMe)))
+        store.send(.service(.receiveWsEvent))
+        store.send(.service(.userMe(.fetchMe)))
+        store.send(.service(.fetchStamps))
     }
 
     public var body: some View {

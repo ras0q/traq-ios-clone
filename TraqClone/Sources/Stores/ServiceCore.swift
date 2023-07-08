@@ -11,6 +11,8 @@ public struct ServiceCore: ReducerProtocol {
     }
 
     public struct State: Equatable {
+        public var stamps: [TraqAPI.Stamp] = []
+
         public var channel: ChannelCore.State
         public var message: MessageCore.State
         public var user: UserCore.State
@@ -32,6 +34,8 @@ public struct ServiceCore: ReducerProtocol {
     public enum Action: Equatable {
         case fetchAll
         case receiveWsEvent
+        case fetchStamps
+        case fetchStampsResponse(TaskResult<[TraqAPI.Stamp]>)
 
         case channel(ChannelCore.Action)
         case message(MessageCore.Action)
@@ -51,7 +55,7 @@ public struct ServiceCore: ReducerProtocol {
         Reduce(core)
     }
 
-    private func core(state _: inout State, action: Action) -> EffectTask<Action> {
+    private func core(state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .fetchAll:
             return .run { send in
@@ -67,6 +71,20 @@ public struct ServiceCore: ReducerProtocol {
             } catch: { error, _ in
                 print(error)
             }
+        case .fetchStamps:
+            return .task {
+                await .fetchStampsResponse(
+                    TaskResult {
+                        try await TraqAPI.StampAPI.getStamps()
+                    }
+                )
+            }
+        case let .fetchStampsResponse(.success(stamps)):
+            state.stamps = stamps
+            return .none
+        case let .fetchStampsResponse(.failure(error)):
+            print("failed to fetch stamps: \(error)")
+            return .none
         case let .message(.fetchMessageResponse(.success((message, isCiting)))):
             return .run { send in
                 await send(.userMe(.addMessage(message, isCiting)))
