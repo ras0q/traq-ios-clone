@@ -54,7 +54,6 @@ public struct Markdown: View {
                     ":"
                 }
             }) { match in
-                print(match[stampName])
                 guard let stamp = stamps.first(where: { $0.name == match[stampName] }) else {
                     return match[stampRaw]
                 }
@@ -93,6 +92,7 @@ public struct Markdown: View {
 
     public var body: some View {
         MarkdownUI.Markdown(markdown)
+            .markdownTheme(.gitHub)
     }
 
     private func uuidRegex() -> Regex<Substring> {
