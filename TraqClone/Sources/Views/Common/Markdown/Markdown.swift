@@ -16,8 +16,14 @@ public struct Markdown: View {
         let fileID = Reference(Substring.self)
         let stampRaw = Reference(Substring.self)
         let stampName = Reference(Substring.self)
+        let embedJSON = Reference(Substring.self)
+        let embedType = Reference(Substring.self)
+        let embedRaw = Reference(Substring.self)
+        let embedID = Reference(Substring.self)
 
-        var replaced = raw.replacing(
+        var replaced = raw
+        // image files
+        replaced.replace(
             Regex {
                 TraqAPI.basePath.replacingOccurrences(of: "/api/v3", with: "")
                 "/files/"
@@ -26,7 +32,8 @@ public struct Markdown: View {
         ) { match in
             "![](\(TraqAPI.basePath)/files/\(match[fileID])/thumbnail)"
         }
-        replaced = replaced.replacing(
+        // stamps
+        replaced.replace(
             Regex {
                 Capture(as: stampRaw) {
                     ":"
@@ -48,6 +55,34 @@ public struct Markdown: View {
                 }
                 return "![\(match[stampRaw])](\(TraqAPI.basePath)/files/\(stamp.fileId)/thumbnail)"
             }
+        // embeded links
+        replaced.replace(
+            Regex {
+                "!"
+                Capture(as: embedJSON) {
+                    "{\"type\":\""
+                    Capture(as: embedType) {
+                        ChoiceOf {
+                            "channel"
+                            "group"
+                            "user"
+                        }
+                    }
+                    "\",\"raw\":\""
+                    Capture(as: embedRaw) {
+                        OneOrMore(CharacterClass.anyOf("\"").inverted)
+                    }
+                    "\",\"id\":\""
+                    Capture(as: embedID) {
+                        uuidRegex()
+                    }
+                    "\"}"
+                }
+            }
+        ) { match in
+            "[\(match[embedRaw])](\(TraqAPI.basePath)/\(match[embedType])s/\(match[embedID]))"
+        }
+
         return replaced
     }
 
