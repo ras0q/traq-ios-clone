@@ -47,9 +47,14 @@ public struct Markdown: View {
                             )
                         }
                     }
+                    ZeroOrMore {
+                        "."
+                        OneOrMore(CharacterClass.anyOf(".:").inverted)
+                    }
                     ":"
                 }
             }) { match in
+                print(match[stampName])
                 guard let stamp = stamps.first(where: { $0.name == match[stampName] }) else {
                     return match[stampRaw]
                 }
