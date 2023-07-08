@@ -54,7 +54,7 @@ public struct MessageCore: ReducerProtocol {
         ):
             state.isFetchingMessages = true
             return .task {
-                return await .fetchMessagesResponse(
+                await .fetchMessagesResponse(
                     TaskResult {
                         let messages = try await TraqAPI.MessageAPI.getMessages(
                             channelId: channelId,

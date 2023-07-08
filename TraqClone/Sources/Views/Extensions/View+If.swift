@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension View {
-    func `if`<T: View>(_ conditional: Bool, transform: (Self) -> T) -> some View {
+    func `if`(_ conditional: Bool, transform: (Self) -> some View) -> some View {
         Group {
             if conditional {
                 transform(self)

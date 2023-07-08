@@ -25,7 +25,7 @@ public struct Markdown: View {
     public var body: some View {
         MarkdownUI.Markdown(markdown)
     }
-    
+
     private func uuidRegex() -> Regex<Substring> {
         func repeatHex(count: Int) -> Repeat<Substring> {
             Repeat(count: count) {

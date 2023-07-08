@@ -48,7 +48,7 @@ public struct ServiceCore: ReducerProtocol {
         Scope(state: \.message, action: /Action.message) { MessageCore() }
         Scope(state: \.user, action: /Action.user) { UserCore() }
         Scope(state: \.userMe, action: /Action.userMe) { UserMeCore() }
-        Reduce(self.core)
+        Reduce(core)
     }
 
     private func core(state _: inout State, action: Action) -> EffectTask<Action> {

@@ -1,7 +1,7 @@
 import Foundation
 import Traq
 
-extension Dictionary where Key == UUID, Value == TraqAPI.Channel {
+extension [UUID: TraqAPI.Channel] {
     func getLongPath(from channelId: UUID) -> String {
         let paths = getPathArray(from: channelId)
 
