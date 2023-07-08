@@ -5,14 +5,16 @@ public struct MessageElement: View {
     private let dateFormatter: DateFormatter
     private let message: TraqAPI.Message
     private let user: TraqAPI.User
+    private let stamps: [TraqAPI.Stamp]
 
-    public init(message: TraqAPI.Message, user: TraqAPI.User) {
+    public init(message: TraqAPI.Message, user: TraqAPI.User, stamps: [TraqAPI.Stamp]) {
         dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.dateFormat = "HH:mm"
 
         self.message = message
         self.user = user
+        self.stamps = stamps
     }
 
     public var body: some View {
@@ -34,7 +36,7 @@ public struct MessageElement: View {
                         .foregroundColor(.gray)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 20, alignment: .leading)
-                Markdown(message.content)
+                Markdown(message.content, stamps: stamps)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
@@ -84,7 +86,8 @@ struct MessageElement_Previews: PreviewProvider {
                 bot: false,
                 state: .active,
                 updatedAt: Date()
-            )
+            ),
+            stamps: []
         )
     }
 }

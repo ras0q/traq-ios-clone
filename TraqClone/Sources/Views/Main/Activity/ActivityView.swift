@@ -26,7 +26,8 @@ public struct ActivityView: View {
                             messagePreviewElement(
                                 message: message,
                                 user: userDictionary[message.userId]!,
-                                channelPath: channelDictionary.getLongPath(from: message.channelId)
+                                channelPath: channelDictionary.getLongPath(from: message.channelId),
+                                stamps: viewStore.stamps
                             )
                             .foregroundColor(.black)
                         }
@@ -49,7 +50,12 @@ public struct ActivityView: View {
         }
     }
 
-    private func messagePreviewElement(message: TraqAPI.Message, user: TraqAPI.User, channelPath: String) -> some View {
+    private func messagePreviewElement(
+        message: TraqAPI.Message,
+        user: TraqAPI.User,
+        channelPath: String,
+        stamps: [TraqAPI.Stamp]
+    ) -> some View {
         VStack(alignment: .leading) {
             HStack(spacing: 1) {
                 UserIcon(iconFileId: user.iconFileId)
@@ -65,7 +71,7 @@ public struct ActivityView: View {
             }
             .foregroundColor(.gray)
 
-            Markdown(message.content)
+            Markdown(message.content, stamps: stamps)
         }
     }
 }

@@ -4,10 +4,20 @@ import SwiftUI
 import Traq
 
 public struct Markdown: View {
-    public var raw: String
+    public let raw: String
+    public let stamps: [TraqAPI.Stamp]
+
+    public init(_ raw: String, stamps: [TraqAPI.Stamp]) {
+        self.raw = raw
+        self.stamps = stamps
+    }
+
     public var markdown: String {
         let fileID = Reference(Substring.self)
-        return raw.replacing(
+        let stampRaw = Reference(Substring.self)
+        let stampName = Reference(Substring.self)
+
+        var replaced = raw.replacing(
             Regex {
                 TraqAPI.basePath.replacingOccurrences(of: "/api/v3", with: "")
                 "/files/"
@@ -16,10 +26,29 @@ public struct Markdown: View {
         ) { match in
             "![](\(TraqAPI.basePath)/files/\(match[fileID])/thumbnail)"
         }
-    }
-
-    public init(_ raw: String) {
-        self.raw = raw
+        replaced = replaced.replacing(
+            Regex {
+                Capture(as: stampRaw) {
+                    ":"
+                    Capture(as: stampName) {
+                        Repeat(1 ... 32) {
+                            CharacterClass(
+                                .anyOf("_-"),
+                                "0" ... "9",
+                                "a" ... "z",
+                                "A" ... "Z"
+                            )
+                        }
+                    }
+                    ":"
+                }
+            }) { match in
+                guard let stamp = stamps.first(where: { $0.name == match[stampName] }) else {
+                    return match[stampRaw]
+                }
+                return "![\(match[stampRaw])](\(TraqAPI.basePath)/files/\(stamp.fileId)/thumbnail)"
+            }
+        return replaced
     }
 
     public var body: some View {
@@ -155,7 +184,18 @@ struct SwiftUIView_Previews: PreviewProvider {
                 $$
 
                 !!隠れる!!
-                """#
+                """#,
+                stamps: [
+                    .init(
+                        id: UUID(),
+                        name: "buri1",
+                        creatorId: UUID(),
+                        createdAt: Date(),
+                        updatedAt: Date(),
+                        fileId: UUID(),
+                        isUnicode: false
+                    ),
+                ]
             )
             .padding()
         }

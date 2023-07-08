@@ -47,7 +47,8 @@ public struct MessageScroll: View {
                                 bot: false,
                                 state: .active,
                                 updatedAt: Date()
-                            )
+                            ),
+                            stamps: viewStore.stamps
                         )
                     }
                     Text("")
