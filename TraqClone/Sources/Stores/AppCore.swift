@@ -4,7 +4,7 @@ import Models
 import Traq
 import TraqWebsocket
 
-public struct AppCore: ReducerProtocol {
+public struct AppCore: Reducer {
     let websocket: WsClient
 
     public init(websocket: WsClient) {
@@ -27,13 +27,13 @@ public struct AppCore: ReducerProtocol {
         case service(ServiceCore.Action)
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some Reducer<State, Action> {
         Reduce(core)
             .ifCaseLet(/State.auth, action: /Action.auth) { AuthCore() }
             .ifCaseLet(/State.service, action: /Action.service) { ServiceCore(websocket: websocket) }
     }
 
-    private func core(state: inout State, action: Action) -> EffectTask<Action> {
+    private func core(state: inout State, action: Action) -> Effect<Action> {
         switch action {
         // ログインに成功したら自分のユーザー情報を取得する
         case .auth(.postLoginResponse(.success)):
@@ -71,9 +71,8 @@ public extension StoreOf<AppCore> {
         let wsClient: WsClient = .init()
         wsClient.resume()
 
-        return Store(
-            initialState: appState,
-            reducer: AppCore(websocket: wsClient)
-        )
+        return Store(initialState: appState) {
+            AppCore(websocket: wsClient)
+        }
     }()
 }

@@ -22,19 +22,16 @@ struct UnreadChannelList: View {
     }
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             List(unreadChannels, id: \.channelId) { unreadChannel in
-                if
-                    let channel = channelDictionary[unreadChannel.channelId],
-                    let channelPathName = channelDictionary.getLongPath(from: channel.id)
-                {
+                if let channel = channelDictionary[unreadChannel.channelId] {
                     Button {
                         viewStore.send(.message(.fetchMessages(channelId: unreadChannel.channelId)))
                         channelPath.append(channel)
                     } label: {
                         HStack {
                             Image(systemName: "number")
-                            Text(channelPathName)
+                            Text(channelDictionary.getLongPath(from: channel.id))
                             Spacer()
                             Text("\(unreadChannel.count)")
                                 .foregroundColor(.gray)

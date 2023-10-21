@@ -11,7 +11,7 @@ public struct UserView: View {
     }
 
     public var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             let users = viewStore.user.userDictionary.values
                 .filter { !$0.bot && $0.state == .active }
                 .sorted { $0.name.lowercased() < $1.name.lowercased() }

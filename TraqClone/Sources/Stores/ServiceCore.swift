@@ -3,7 +3,7 @@ import Foundation
 import Traq
 import TraqWebsocket
 
-public struct ServiceCore: ReducerProtocol {
+public struct ServiceCore: Reducer {
     let websocket: WsClient
 
     public init(websocket: WsClient) {
@@ -47,7 +47,7 @@ public struct ServiceCore: ReducerProtocol {
         }
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some Reducer<State, Action> {
         Scope(state: \.channel, action: /Action.channel) { ChannelCore() }
         Scope(state: \.message, action: /Action.message) { MessageCore() }
         Scope(state: \.user, action: /Action.user) { UserCore() }
@@ -55,7 +55,7 @@ public struct ServiceCore: ReducerProtocol {
         Reduce(core)
     }
 
-    private func core(state: inout State, action: Action) -> EffectTask<Action> {
+    private func core(state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .fetchAll:
             return .run { send in
@@ -72,12 +72,10 @@ public struct ServiceCore: ReducerProtocol {
                 print(error)
             }
         case .fetchStamps:
-            return .task {
-                await .fetchStampsResponse(
-                    TaskResult {
-                        try await TraqAPI.StampAPI.getStamps()
-                    }
-                )
+            return .run { send in
+                await send(.fetchStampsResponse(TaskResult {
+                    try await TraqAPI.StampAPI.getStamps()
+                }))
             }
         case let .fetchStampsResponse(.success(stamps)):
             state.stamps = stamps

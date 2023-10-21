@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  ChannelTreeList.swift
 //
 //
 //  Created by Kira Kawai on 2022/09/15.
@@ -27,7 +27,7 @@ struct ChannelTreeList: View {
     }
 
     var body: some View {
-        WithViewStore(store) { _ in
+        WithViewStore(store, observe: { $0 }) { _ in
             List(channels, id: \.id, children: \.children) { channel in
                 hashImageView(haveChildren: !(channel.children ?? []).isEmpty)
 

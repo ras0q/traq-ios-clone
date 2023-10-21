@@ -12,12 +12,12 @@ public struct ChannelContentView: View {
     public init(store: StoreOf<ServiceCore>, channel: TraqAPI.Channel) {
         self.store = store
         self.channel = channel
-        channelPath = "# " + ViewStore(store).channel.channelDictionary.getLongPath(from: channel.id)
+        channelPath = "# " + ViewStore(store, observe: { $0 }).channel.channelDictionary.getLongPath(from: channel.id)
     }
 
     @Environment(\.dismiss) var dismiss
     public var body: some View {
-        WithViewStore(store) { _ in
+        WithViewStore(store, observe: { $0 }) { _ in
             VStack {
                 MessageScroll(store, channelId: channel.id)
                 MessageInput(needAlert: channel.force)

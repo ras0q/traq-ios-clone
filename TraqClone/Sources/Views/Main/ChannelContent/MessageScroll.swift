@@ -13,7 +13,7 @@ public struct MessageScroll: View {
     }
 
     public var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             let messages: [TraqAPI.Message] = (viewStore.message.channelMesssages[channelId] ?? [])
                 .sorted { $0.createdAt < $1.createdAt }
             let userDictionary: [UUID: TraqAPI.User] = viewStore.user.userDictionary

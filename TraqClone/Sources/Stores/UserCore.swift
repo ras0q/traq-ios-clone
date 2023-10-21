@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 import Traq
 
-public struct UserCore: ReducerProtocol {
+public struct UserCore: Reducer {
     public init() {}
 
     public struct State: Equatable {
@@ -20,15 +20,13 @@ public struct UserCore: ReducerProtocol {
         }
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .fetchUsers:
-            return .task {
-                await .response(
-                    TaskResult {
-                        try await TraqAPI.UserAPI.getUsers(includeSuspended: true)
-                    }
-                )
+            return .run { send in
+                await send(.response(TaskResult {
+                    try await TraqAPI.UserAPI.getUsers(includeSuspended: true)
+                }))
             }
         case let .response(.success(users)):
             state.userDictionary = users.toDictionary(id: \.id)

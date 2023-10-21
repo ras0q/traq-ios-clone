@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 import Traq
 
-public struct MessageCore: ReducerProtocol {
+public struct MessageCore: Reducer {
     public struct State: Equatable {
         public var channelMesssages: [UUID: [TraqAPI.Message]] = .init()
         public var recentMessages: [TraqAPI.Message] {
@@ -42,7 +42,7 @@ public struct MessageCore: ReducerProtocol {
         }
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case let .fetchMessages(
             channelId: channelId,
@@ -53,20 +53,18 @@ public struct MessageCore: ReducerProtocol {
             inclusive: inclusive
         ):
             state.isFetchingMessages = true
-            return .task {
-                await .fetchMessagesResponse(
-                    TaskResult {
-                        let messages = try await TraqAPI.MessageAPI.getMessages(
-                            channelId: channelId,
-                            limit: limit,
-                            offset: offset,
-                            since: since,
-                            until: until,
-                            inclusive: inclusive
-                        )
-                        return (messages, channelId: channelId)
-                    }
-                )
+            return .run { send in
+                await send(.fetchMessagesResponse(TaskResult {
+                    let messages = try await TraqAPI.MessageAPI.getMessages(
+                        channelId: channelId,
+                        limit: limit,
+                        offset: offset,
+                        since: since,
+                        until: until,
+                        inclusive: inclusive
+                    )
+                    return (messages, channelId: channelId)
+                }))
             }
         case let .fetchMessagesResponse(.success((messages, channelId: channelId))):
             if var channelMessages = state.channelMesssages[channelId] {
@@ -83,13 +81,11 @@ public struct MessageCore: ReducerProtocol {
             state.isFetchingMessages = false
             return .none
         case let .fetchMessage(messageId, isCiting: isCiting):
-            return .task {
-                await .fetchMessageResponse(
-                    TaskResult {
-                        let message = try await TraqAPI.MessageAPI.getMessage(messageId: messageId)
-                        return (message, isCiting: isCiting)
-                    }
-                )
+            return .run { send in
+                await send(.fetchMessageResponse(TaskResult {
+                    let message = try await TraqAPI.MessageAPI.getMessage(messageId: messageId)
+                    return (message, isCiting: isCiting)
+                }))
             }
         case let .fetchMessageResponse(.success((message, isCiting: _))):
             let channelId = message.channelId

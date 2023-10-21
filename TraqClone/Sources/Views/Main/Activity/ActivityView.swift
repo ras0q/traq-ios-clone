@@ -13,7 +13,7 @@ public struct ActivityView: View {
     @State private var channelPath: [UUID] = []
 
     public var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             let userDictionary = viewStore.user.userDictionary
             let channelDictionary = viewStore.channel.channelDictionary
 

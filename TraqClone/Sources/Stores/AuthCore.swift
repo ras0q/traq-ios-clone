@@ -3,7 +3,7 @@ import Foundation
 import Models
 import Traq
 
-public struct AuthCore: ReducerProtocol {
+public struct AuthCore: Reducer {
     public struct State: Equatable {
         public init() {}
     }
@@ -15,20 +15,18 @@ public struct AuthCore: ReducerProtocol {
         case postLogoutResponse(TaskResult<Void>)
     }
 
-    public func reduce(into _: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into _: inout State, action: Action) -> Effect<Action> {
         switch action {
         case let .postLogin(name: name, password: password):
-            return .task {
-                await .postLoginResponse(
-                    TaskResult {
-                        try await TraqAPI.AuthenticationAPI.login(
-                            postLoginRequest: TraqAPI.PostLoginRequest(
-                                name: name,
-                                password: password
-                            )
+            return .run { send in
+                await send(.postLoginResponse(TaskResult {
+                    try await TraqAPI.AuthenticationAPI.login(
+                        postLoginRequest: TraqAPI.PostLoginRequest(
+                            name: name,
+                            password: password
                         )
-                    }
-                )
+                    )
+                }))
             }
         case .postLoginResponse(.success):
             return .none
@@ -36,12 +34,10 @@ public struct AuthCore: ReducerProtocol {
             print("failed to login: \(error)")
             return .none
         case .postLogout:
-            return .task {
-                await .postLogoutResponse(
-                    TaskResult {
-                        try await TraqAPI.AuthenticationAPI.logout()
-                    }
-                )
+            return .run { send in
+                await send(.postLogoutResponse(TaskResult {
+                    try await TraqAPI.AuthenticationAPI.logout()
+                }))
             }
         case .postLogoutResponse(.success):
             return .none

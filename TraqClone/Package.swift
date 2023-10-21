@@ -1,11 +1,11 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 
 import PackageDescription
 
 let package = Package(
     name: "TraqClone",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v12),
     ],
     products: [
@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/gonzalezreal/swift-markdown-ui", from: "2.1.0"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.55.0"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.2.0"),
         .package(url: "https://github.com/traPtitech/swift-traq", branch: "main"),
         .package(url: "https://github.com/ras0q/swift-traq-ws", branch: "main"),
     ],

@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 import Traq
 
-public struct UserMeCore: ReducerProtocol {
+public struct UserMeCore: Reducer {
     public struct State: Equatable {
         public var userMe: TraqAPI.MyUserDetail?
         public var unreadChannels: [TraqAPI.UnreadChannel] = .init()
@@ -24,15 +24,13 @@ public struct UserMeCore: ReducerProtocol {
         }
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .fetchMe:
-            return .task {
-                await .fetchMeResponse(
-                    TaskResult {
-                        try await TraqAPI.MeAPI.getMe()
-                    }
-                )
+            return .run { send in
+                await send(.fetchMeResponse(TaskResult {
+                    try await TraqAPI.MeAPI.getMe()
+                }))
             }
         case let .fetchMeResponse(.success(userMe)):
             state.userMe = userMe
@@ -41,12 +39,10 @@ public struct UserMeCore: ReducerProtocol {
             print("failed to fetch your infomation: \(error)")
             return .none
         case .fetchUnreadChannels:
-            return .task {
-                await .fetchUnreadChannelsResponse(
-                    TaskResult {
-                        try await TraqAPI.MeAPI.getMyUnreadChannels()
-                    }
-                )
+            return .run { send in
+                await send(.fetchUnreadChannelsResponse(TaskResult {
+                    try await TraqAPI.MeAPI.getMyUnreadChannels()
+                }))
             }
         case let .fetchUnreadChannelsResponse(.success(unreadChannels)):
             state.unreadChannels = unreadChannels
@@ -66,7 +62,8 @@ public struct UserMeCore: ReducerProtocol {
                     count: unreadChannel.count + 1,
                     noticeable: unreadChannel.noticeable || noticeable,
                     since: unreadChannel.since,
-                    updatedAt: message.createdAt
+                    updatedAt: message.createdAt,
+                    oldestMessageId: UUID()
                 )
                 state.unreadChannels = state.unreadChannels.map {
                     $0.channelId == newUnreadChannel.channelId
@@ -80,7 +77,8 @@ public struct UserMeCore: ReducerProtocol {
                         count: 1,
                         noticeable: noticeable,
                         since: message.createdAt,
-                        updatedAt: message.createdAt
+                        updatedAt: message.createdAt,
+                        oldestMessageId: UUID()
                     )
                 )
             }

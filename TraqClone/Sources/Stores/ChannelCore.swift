@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 import Traq
 
-public struct ChannelCore: ReducerProtocol {
+public struct ChannelCore: Reducer {
     public struct State: Equatable {
         public var channelDictionary: [UUID: TraqAPI.Channel] = [:]
 
@@ -20,16 +20,14 @@ public struct ChannelCore: ReducerProtocol {
         }
     }
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .fetchChannels:
-            return .task {
-                await .fetchChannelsResponse(
-                    TaskResult {
-                        let channelList = try await TraqAPI.ChannelAPI.getChannels(includeDm: false)
-                        return channelList._public
-                    }
-                )
+            return .run { send in
+                await send(.fetchChannelsResponse(TaskResult {
+                    let channelList = try await TraqAPI.ChannelAPI.getChannels(includeDm: false)
+                    return channelList._public
+                }))
             }
         case let .fetchChannelsResponse(.success(channels)):
             state.channelDictionary = channels.toDictionary(id: \.id)
@@ -38,13 +36,11 @@ public struct ChannelCore: ReducerProtocol {
             print("failed to fetch channels: \(error)")
             return .none
         case let .fetchChannel(channelId):
-            return .task {
-                await .fetchChannelResponse(
-                    TaskResult {
-                        let channel = try await TraqAPI.ChannelAPI.getChannel(channelId: channelId)
-                        return channel
-                    }
-                )
+            return .run { send in
+                await send(.fetchChannelResponse(TaskResult {
+                    let channel = try await TraqAPI.ChannelAPI.getChannel(channelId: channelId)
+                    return channel
+                }))
             }
         case let .fetchChannelResponse(.success(channel)):
             var channelDictionary = state.channelDictionary
