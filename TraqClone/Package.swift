@@ -9,6 +9,8 @@ let package = Package(
         .macOS(.v12),
     ],
     products: [
+        .library(name: "APIClient", targets: ["APIClient"]),
+        .library(name: "ChannelTreeFeature", targets: ["ChannelTreeFeature"]),
         .library(name: "Models", targets: ["Models"]),
         .library(name: "Stores", targets: ["Stores"]),
         .library(name: "Views", targets: ["Views"]),
@@ -16,10 +18,19 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/gonzalezreal/swift-markdown-ui", from: "2.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.2.0"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.0.0"),
         .package(url: "https://github.com/traPtitech/swift-traq", branch: "main"),
         .package(url: "https://github.com/ras0q/swift-traq-ws", branch: "main"),
     ],
     targets: [
+        .target(name: "APIClient", dependencies: [
+            .product(name: "Traq", package: "swift-traq"),
+        ]),
+        .target(name: "ChannelTreeFeature", dependencies: [
+            "APIClient",
+            .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            .product(name: "Dependencies", package: "swift-dependencies"),
+        ]),
         // Views->Stores->Modelsの方向にのみ依存するようにする
         .target(
             name: "Models",
